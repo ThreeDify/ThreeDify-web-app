@@ -25,3 +25,13 @@ $ yarn build
 ```bash
 $ yarn start
 ```
+
+## Lint
+Check lint errors
+```bash
+$ yarn lint
+```
+Fix lint errors
+```bash
+$ yarn lint:fix
+```
