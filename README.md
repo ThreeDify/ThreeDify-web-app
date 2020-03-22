@@ -1,5 +1,7 @@
 # ThreeDfiy-web-app
 A REACT web app for ThreeDfiy.
+[![Build](https://github.com/silwalanish/ThreeDfiy-web-app/workflows/Build/badge.svg)](https://github.com/silwalanish/ThreeDfiy-web-app/actions)
+[![Lint](https://github.com/silwalanish/ThreeDfiy-web-app/workflows/Lint%20Check/badge.svg)](https://github.com/silwalanish/ThreeDfiy-web-app/actions)
 
 # What's ThreeDfiy?
 ThreeDfiy is a online platform where you can upload images and create a 3D reconstruction of the images.
