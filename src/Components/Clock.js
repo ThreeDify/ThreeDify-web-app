@@ -22,7 +22,7 @@ export default class Clock extends React.Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.timer = setInterval(() => this.tick(), 1000);
   }
 
