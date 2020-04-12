@@ -1,7 +1,7 @@
 {
-  "name": "threedfiy-web-app",
+  "name": "threedify-web-app",
   "version": "1.0.0",
-  "description": "A REACT app for ThreeDfiy",
+  "description": "A REACT app for ThreeDify",
   "main": "./src/index.js",
   "scripts": {
     "lint": "eslint src/**/*.js",
@@ -9,7 +9,7 @@
     "start": "webpack-dev-server",
     "build": "webpack"
   },
-  "repository": "git@github.com:silwalanish/ThreeDfiy-web-app.git",
+  "repository": "git@github.com:silwalanish/ThreeDify-web-app.git",
   "author": "silwalanish <silwalanish@gmail.com>",
   "license": "MIT",
   "dependencies": {

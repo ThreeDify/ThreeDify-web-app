@@ -1,11 +1,11 @@
-# ThreeDfiy-web-app
-A REACT web app for ThreeDfiy.
+# ThreeDify-web-app
+A REACT web app for ThreeDify.
 
-[![Build](https://github.com/silwalanish/ThreeDfiy-web-app/workflows/Build/badge.svg)](https://github.com/silwalanish/ThreeDfiy-web-app/actions)
-[![Lint](https://github.com/silwalanish/ThreeDfiy-web-app/workflows/Lint%20Check/badge.svg)](https://github.com/silwalanish/ThreeDfiy-web-app/actions)
+[![Build](https://github.com/silwalanish/ThreeDify-web-app/workflows/Build/badge.svg)](https://github.com/silwalanish/ThreeDify-web-app/actions)
+[![Lint](https://github.com/silwalanish/ThreeDify-web-app/workflows/Lint%20Check/badge.svg)](https://github.com/silwalanish/ThreeDify-web-app/actions)
 
-# What's ThreeDfiy?
-ThreeDfiy is a online platform where you can upload images and create a 3D reconstruction of the images.
+# What's ThreeDify?
+ThreeDify is a online platform where you can upload images and create a 3D reconstruction of the images.
 
 ## Environment Variables
 | Variable | Description |
