@@ -19,6 +19,10 @@ ThreeDify is a online platform where you can upload images and create a 3D recon
 ```
 $ yarn
 ```
+3. Create `.env` file
+```
+$ cp .env.example .env
+```
 
 ## Build
 ```bash
