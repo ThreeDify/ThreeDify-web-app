@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const dotenv = require('dotenv');
 
 module.exports = () => {
-  const env = dotenv.config().parsed;
+  const env = dotenv.config().parsed || { "API_URL": process.env.API_URL };
 
   const envKeys = Object.keys(env).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(env[next]);
