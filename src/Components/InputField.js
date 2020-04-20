@@ -7,9 +7,7 @@ export default class InputField extends React.Component{
     let placeholder = 'Full name';
     let type ='text';
     return (
-      <div>
-        <input placeholder={placeholder} type={type} />
-      </div>
+      <input placeholder={placeholder} type={type} />
     );
   } 
 }
