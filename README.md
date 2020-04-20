@@ -10,6 +10,7 @@ ThreeDify is a online platform where you can upload images and create a 3D recon
 ## Environment Variables
 | Variable | Description |
 |----------|-------------|
+|API_URL|Base API URL e.g. http://127.0.0.1:8000|
 
 
 ## Installation
@@ -17,6 +18,10 @@ ThreeDify is a online platform where you can upload images and create a 3D recon
 2. Install dependencies
 ```
 $ yarn
+```
+3. Create `.env` file
+```
+$ cp .env.example .env
 ```
 
 ## Build
