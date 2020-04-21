@@ -3,9 +3,9 @@ import React from 'react';
 import '../Themes/InputField.css';
 
 export default class InputField extends React.Component{
-  render(props){
+  render(){
     return (
-      <input placeholder={props.placeholder} type={props.type} />
+      <input placeholder={this.props.placeholder} type={this.props.type} />
     );
   } 
 }
