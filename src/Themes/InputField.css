@@ -1,11 +1,11 @@
-input{
+.inputfield{
   width: 300px;
   height: 30px;
   border: 2px solid yellow;
   border-radius: 9px;
   padding-left: 40px;
 }
-i{
+.icon-left{
   position: absolute;
   margin-left: 15px;
   margin-top: 10px;

@@ -7,8 +7,8 @@ export default class InputField extends React.Component{
   render(){
     return (
       <div>
-        <i><Icon name={this.props.iconName} /></i>
-        <input placeholder={this.props.placeholder} type={this.props.type} />
+        <i className="icon-left"><Icon name={this.props.iconName} /></i>
+        <input className="inputfield" placeholder={this.props.placeholder} type={this.props.type} />
       </div>
     );
   } 
