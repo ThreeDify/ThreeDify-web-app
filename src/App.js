@@ -9,7 +9,7 @@ export default class App extends React.Component {
       <div>
         <h1>Hello, World</h1>
         <Clock />
-        <InputField type="text" placeholder="Full name" />
+        <InputField type="text" placeholder="Full name" iconName="user" />
       </div>
     );
   }
