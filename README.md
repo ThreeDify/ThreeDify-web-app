@@ -10,7 +10,8 @@ ThreeDify is a online platform where you can upload images and create a 3D recon
 ## Environment Variables
 | Variable | Description |
 |----------|-------------|
-|API_URL|Base API URL e.g. http://127.0.0.1:8000|
+| PORT | Port to run the web server |
+| API_URL |Base API URL e.g. http://127.0.0.1:8000|
 
 
 ## Installation
@@ -32,6 +33,17 @@ $ yarn build
 ## Run
 ```bash
 $ yarn start
+```
+
+## Watch
+```bash
+$ yarn watch
+```
+
+## Development
+Run `start` and `watch` in single cmd.
+```bash
+$ yarn dev
 ```
 
 ## Lint
