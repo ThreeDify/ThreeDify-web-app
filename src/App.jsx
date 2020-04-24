@@ -1,12 +1,14 @@
 import React from 'react';
 
-import Clock from './Components/Clock.js';
+import './Themes/App.css';
+
+import Clock from './Components/Clock.jsx';
 
 export default class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Hello, World</h1>
+        <h1>ThreeDify</h1>
         <Clock />
       </div>
     );
