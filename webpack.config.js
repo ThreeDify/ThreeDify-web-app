@@ -27,12 +27,7 @@ module.exports = () => {
         {
           test: /\.css$/,
           use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {
-                hmr: process.env.NODE_ENV === 'development'
-              }
-            },
+            MiniCssExtractPlugin.loader,
             'css-loader'
           ]
         }
@@ -43,12 +38,6 @@ module.exports = () => {
       path: path.resolve(__dirname, 'dist/'),
       publicPath: '/dist/',
       filename: 'bundle.js'
-    },
-    devServer: {
-      contentBase: path.join(__dirname, 'public/'),
-      port: 3000,
-      publicPath: 'http://localhost:3000/dist/',
-      hotOnly: true
     },
     optimization: {
       splitChunks: {
@@ -63,7 +52,6 @@ module.exports = () => {
       },
     },
     plugins: [
-      new webpack.HotModuleReplacementPlugin(),
       new webpack.DefinePlugin(envKeys),
       new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
