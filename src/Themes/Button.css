@@ -1,6 +1,16 @@
-.Button{
-    background-color: yellow;
-    width: 60px;
-    height: 30px;
-    border: none;
+.button{
+    background-color: #FEE715;
+    padding: 8px 15px;
+    font-size: 20px;
+    color: #101820;
+    border-radius: 9px;
+    border: 1px solid #FEE715;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.button:hover{
+    padding: 6px 13px;
+}
+.button:active{
+    font-weight: bold;
 }
