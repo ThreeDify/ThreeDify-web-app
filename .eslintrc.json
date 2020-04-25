@@ -1,6 +1,7 @@
 {
   "env": {
     "browser": true,
+    "node": true,
     "es6": true
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
@@ -22,5 +23,10 @@
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "react/prop-types": 0
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

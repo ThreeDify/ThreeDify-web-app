@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 require('dotenv').config();
 
 const path = require('path');
@@ -13,7 +11,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 
 app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
 
-app.get(/.*?/, (req, res, next) => {
+app.get(/.*?/, (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
