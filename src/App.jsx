@@ -8,12 +8,14 @@ import './Themes/App.css';
 import Home from './Pages/Home';
 import Dashboard from './Pages/Dashboard';
 
+import { reducer } from './Store/Reducers/index';
+
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.store = createStore();
+    this.store = createStore(reducer);
   }
 
   render() {
