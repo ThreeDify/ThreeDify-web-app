@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 class Dashboard extends React.Component {
@@ -13,5 +14,9 @@ class Dashboard extends React.Component {
   }
 
 }
+
+Dashboard.propTypes = {
+  'history': PropTypes.object
+};
 
 export default withRouter(Dashboard);

@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
 import LoginForm from '../Forms/LoginForm';
-import { withRouter } from 'react-router-dom';
 
 class Home extends React.Component {
 
@@ -38,5 +39,9 @@ class Home extends React.Component {
     );
   }
 }
+
+Home.propTypes = {
+  'history': PropTypes.object
+};
 
 export default withRouter(Home);
