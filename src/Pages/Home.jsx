@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import LoginForm from '../Forms/LoginForm';
+import { DASHBOARD_URL } from '../Constants/appUrls';
 
 class Home extends React.Component {
-
   constructor(props) {
     super(props);
 
     this.state = {
-      loginError: ''
+      loginError: '',
     };
 
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
@@ -19,13 +19,13 @@ class Home extends React.Component {
 
   onLoginSuccess(user) {
     console.log(user);
-    this.props.history.push('/dashboard');
+    this.props.history.push(DASHBOARD_URL);
   }
 
   onLoginFailed(error) {
     console.log(error);
     this.setState({
-      loginError: error.message
+      loginError: error.message,
     });
   }
 
@@ -33,7 +33,11 @@ class Home extends React.Component {
     return (
       <div>
         <h1>ThreeDify</h1>
-        <LoginForm onLoginSuccess={this.onLoginSuccess} onLoginFailed={this.onLoginFailed}></LoginForm>
+        <LoginForm
+          onLoginSuccess={this.onLoginSuccess}
+          onLoginFailed={this.onLoginFailed}
+          onLoginError={this.onLoginFailed}
+        ></LoginForm>
         {this.state.loginError && <div>{this.state.loginError}</div>}
       </div>
     );
@@ -41,7 +45,7 @@ class Home extends React.Component {
 }
 
 Home.propTypes = {
-  'history': PropTypes.object
+  history: PropTypes.object,
 };
 
 export default withRouter(Home);

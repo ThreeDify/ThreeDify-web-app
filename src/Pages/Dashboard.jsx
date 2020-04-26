@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 class Dashboard extends React.Component {
-
   render() {
     return (
       <div>
@@ -12,11 +11,10 @@ class Dashboard extends React.Component {
       </div>
     );
   }
-
 }
 
 Dashboard.propTypes = {
-  'history': PropTypes.object
+  history: PropTypes.object,
 };
 
 export default withRouter(Dashboard);
