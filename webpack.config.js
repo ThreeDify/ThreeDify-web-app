@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = () => {
-  const env = dotenv.config().parsed || { 'API_URL': process.env.API_URL };
+  const env = dotenv.config().parsed || { API_URL: process.env.API_URL };
 
   const envKeys = Object.keys(env).reduce((prev, next) => {
     prev[`process.env.${next}`] = JSON.stringify(env[next]);
@@ -22,22 +22,19 @@ module.exports = () => {
           test: /\.(js|jsx)$/,
           exclude: /(node_modules|bower_components)/,
           loader: 'babel-loader',
-          options: { presets: ['@babel/env'] }
+          options: { presets: ['@babel/env'] },
         },
         {
           test: /\.css$/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            'css-loader'
-          ]
-        }
-      ]
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+      ],
     },
     resolve: { extensions: ['*', '.js', '.jsx'] },
     output: {
       path: path.resolve(__dirname, 'dist/'),
       publicPath: '/dist/',
-      filename: 'bundle.js'
+      filename: 'bundle.js',
     },
     optimization: {
       splitChunks: {
@@ -56,7 +53,7 @@ module.exports = () => {
       new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].css',
-      })
-    ]
+      }),
+    ],
   };
 };
