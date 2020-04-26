@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
-export default class Dashboard extends React.Component {
-
+class Dashboard extends React.Component {
   render() {
     return (
       <div>
@@ -10,5 +11,10 @@ export default class Dashboard extends React.Component {
       </div>
     );
   }
-
 }
+
+Dashboard.propTypes = {
+  history: PropTypes.object,
+};
+
+export default withRouter(Dashboard);
