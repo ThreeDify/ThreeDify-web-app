@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -53,5 +54,10 @@ class Icon extends Component {
     return <FontAwesomeIcon icon={this.props.name} size={this.props.size} />;
   }
 }
+
+Icon.propTypes = {
+  name: PropTypes.string,
+  size: PropTypes.string,
+};
 
 export default Icon;
