@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import '../Themes/inputfield.css';
@@ -53,5 +54,13 @@ class InputField extends Component {
     );
   }
 }
+
+InputField.propTypes = {
+  name: PropTypes.string,
+  size: PropTypes.string,
+  leftIconName: PropTypes.string,
+  placeholder: PropTypes.string,
+  password: PropTypes.string,
+};
 
 export default InputField;
