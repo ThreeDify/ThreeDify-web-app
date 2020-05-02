@@ -1,8 +1,6 @@
-export function reducer(state, action) {
-  // TODO: Implement reducer
-  if (!action) {
-    return state;
-  }
+import { combineReducers } from 'redux';
 
-  return {};
-}
+import user from './user';
+import auth from './auth';
+
+export default combineReducers({ auth, user });

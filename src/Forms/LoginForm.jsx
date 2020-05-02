@@ -1,14 +1,13 @@
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import { LOGIN_URL } from '../Constants/apiUrls';
-import { STATUS_OK } from '../Constants/httpStatus';
 import {
   LOGIN_ERROR,
   LOGIN_FAILED,
   LOGIN_SUCCESS,
 } from '../Constants/messages';
+import { login } from '../Utils/auth';
+import { STATUS_OK } from '../Constants/httpStatus';
 import CustomButton from '../Components/CustomButton';
 
 class LoginForm extends Component {
@@ -44,7 +43,7 @@ class LoginForm extends Component {
     this.disableBtn();
 
     try {
-      let response = await this.login();
+      let response = await login(this.state.username, this.state.password);
 
       this.enableBtn();
       if (response.status === STATUS_OK) {
@@ -56,13 +55,6 @@ class LoginForm extends Component {
       this.enableBtn();
       this.loginError(e);
     }
-  }
-
-  async login() {
-    return await axios.post(LOGIN_URL, {
-      username: this.state.username,
-      password: this.state.password,
-    });
   }
 
   loginSuccess(response) {

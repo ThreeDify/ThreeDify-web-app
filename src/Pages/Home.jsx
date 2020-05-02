@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import LoginForm from '../Forms/LoginForm';
+import { login } from '../Store/Actions/auth';
 import { DASHBOARD_URL } from '../Constants/appUrls';
 
 class Home extends React.Component {
@@ -17,8 +19,8 @@ class Home extends React.Component {
     this.onLoginFailed = this.onLoginFailed.bind(this);
   }
 
-  onLoginSuccess(user) {
-    console.log(user);
+  onLoginSuccess(success) {
+    this.props.login(success.data);
     this.props.history.push(DASHBOARD_URL);
   }
 
@@ -33,19 +35,41 @@ class Home extends React.Component {
     return (
       <div>
         <h1>ThreeDify</h1>
-        <LoginForm
-          onLoginSuccess={this.onLoginSuccess}
-          onLoginFailed={this.onLoginFailed}
-          onLoginError={this.onLoginFailed}
-        ></LoginForm>
-        {this.state.loginError && <div>{this.state.loginError}</div>}
+        {!this.props.isLoggedIn ? (
+          <div>
+            <LoginForm
+              onLoginSuccess={this.onLoginSuccess}
+              onLoginFailed={this.onLoginFailed}
+              onLoginError={this.onLoginFailed}
+            ></LoginForm>
+            {this.state.loginError && <div>{this.state.loginError}</div>}
+          </div>
+        ) : (
+          <p>Welcome {this.props.user.username}</p>
+        )}
       </div>
     );
   }
 }
 
 Home.propTypes = {
+  login: PropTypes.func,
+  user: PropTypes.object,
   history: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
 };
 
-export default withRouter(Home);
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    login: (token) => dispatch(login(token)),
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

@@ -4,12 +4,11 @@
   "description": "A REACT app for ThreeDify",
   "main": "./src/index.js",
   "scripts": {
-    "lint": "eslint 'src/**/*.js*' && prettier --check src/",
-    "lint:fix": "eslint 'src/**/*.js*' --fix && prettier --write src/",
+    "lint": "eslint src/**/*.js* && prettier --check src/",
+    "lint:fix": "eslint src/**/*.js* --fix && prettier --write src/",
     "start": "node ./src/server.js",
     "watch": "webpack --watch",
-    "build": "webpack",
-    "dev": "yarn watch & yarn start"
+    "build": "webpack"
   },
   "husky": {
     "hooks": {
@@ -29,6 +28,7 @@
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "dotenv": "^8.2.0",
     "redux": "^4.0.5"
   },
   "devDependencies": {
@@ -40,7 +40,6 @@
     "@babel/preset-react": "^7.8.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.4.2",
-    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.19.0",
     "husky": "^4.2.5",
