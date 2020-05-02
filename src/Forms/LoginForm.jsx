@@ -7,8 +7,10 @@ import {
   LOGIN_SUCCESS,
 } from '../Constants/messages';
 import { login } from '../Utils/auth';
+import InputField from '../Components/InputField';
 import { STATUS_OK } from '../Constants/httpStatus';
 import CustomButton from '../Components/CustomButton';
+import PasswordField from '../Components/PasswordField';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -101,25 +103,23 @@ class LoginForm extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          {/* TODO: Extract this into a Component */}
-          <div>
-            <label>Username</label>
-            <input
-              type='text'
-              value={username}
-              onChange={this.handleUsernameChange}
-              required
-            />
-          </div>
-          <div>
-            <label>password</label>
-            <input
-              type='password'
-              value={password}
-              onChange={this.handlePasswordChange}
-              required
-            />
-          </div>
+          <InputField
+            placeholder='Username'
+            name='username'
+            type='text'
+            value={username}
+            leftIconName='user'
+            onChange={this.handleUsernameChange}
+            required
+          ></InputField>
+
+          <PasswordField
+            placeholder='Password'
+            value={password}
+            onChange={this.handlePasswordChange}
+            leftIconName='key'
+            required
+          ></PasswordField>
 
           <CustomButton type='submit' disabled={btnDisabled}>
             Login

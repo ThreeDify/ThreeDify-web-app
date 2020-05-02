@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../Themes/CustomButton.css';
-
 const DEFAULT_BTN_TYPE = 'button';
 
 class CustomButton extends React.Component {
@@ -10,7 +8,7 @@ class CustomButton extends React.Component {
     return (
       <button
         onClick={this.props.onClickHandle}
-        className='button'
+        className='btn btn-outline btn-outline-primary'
         type={this.props.type || DEFAULT_BTN_TYPE}
         disabled={this.props.isDisabled}
       >
