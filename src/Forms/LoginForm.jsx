@@ -59,10 +59,19 @@ class LoginForm extends Component {
   }
 
   async login() {
-    return await axios.post(LOGIN_URL, {
-      username: this.state.username,
-      password: this.state.password,
-    });
+    return await axios.post(
+      LOGIN_URL,
+      {
+        username: this.state.username,
+        password: this.state.password,
+      },
+      {
+        headers: {
+          'X-THREEDIFY-APP-KEY': process.env.API_KEY,
+          'X-THREEDIFY-APP-SECRET': process.env.API_SECRET,
+        },
+      }
+    );
   }
 
   loginSuccess(response) {
