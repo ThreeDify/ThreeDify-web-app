@@ -1,8 +1,7 @@
-export function reducer(state, action) {
-  // TODO: Implement reducer
-  if (!action) {
-    return state;
-  }
+import { isLoggedIn } from './auth';
 
-  return {};
+export default function (state, action) {
+  return {
+    ...isLoggedIn(state, action),
+  };
 }
