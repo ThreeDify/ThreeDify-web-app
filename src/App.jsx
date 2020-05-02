@@ -53,7 +53,7 @@ App.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.isLoggedIn,
+    isLoggedIn: state.auth.isLoggedIn,
   };
 };
 

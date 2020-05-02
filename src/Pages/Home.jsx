@@ -19,8 +19,8 @@ class Home extends React.Component {
     this.onLoginFailed = this.onLoginFailed.bind(this);
   }
 
-  onLoginSuccess(token) {
-    this.props.login(token);
+  onLoginSuccess(success) {
+    this.props.login(success.data);
     this.props.history.push(DASHBOARD_URL);
   }
 
@@ -35,20 +35,35 @@ class Home extends React.Component {
     return (
       <div>
         <h1>ThreeDify</h1>
-        <LoginForm
-          onLoginSuccess={this.onLoginSuccess}
-          onLoginFailed={this.onLoginFailed}
-          onLoginError={this.onLoginFailed}
-        ></LoginForm>
-        {this.state.loginError && <div>{this.state.loginError}</div>}
+        {!this.props.isLoggedIn ? (
+          <div>
+            <LoginForm
+              onLoginSuccess={this.onLoginSuccess}
+              onLoginFailed={this.onLoginFailed}
+              onLoginError={this.onLoginFailed}
+            ></LoginForm>
+            {this.state.loginError && <div>{this.state.loginError}</div>}
+          </div>
+        ) : (
+          <p>Welcome {this.props.user.username}</p>
+        )}
       </div>
     );
   }
 }
 
 Home.propTypes = {
-  history: PropTypes.object,
   login: PropTypes.func,
+  user: PropTypes.object,
+  history: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+    user: state.user,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -57,4 +72,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(Home));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
