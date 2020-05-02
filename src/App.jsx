@@ -1,41 +1,31 @@
 import React from 'react';
-import PropType from 'prop-types';
-import { connect } from 'react-redux';
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
-
-import './Themes/App.css';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './Pages/Home';
+import Toolbar from './Toolbar';
+import Login from './Pages/Login';
+import Navigations from './Navigations';
+import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
-import { logout } from './Store/Actions/auth';
-import { HOME_URL, DASHBOARD_URL } from './Constants/appUrls';
+import { BRAND_URL } from './Constants/misc';
+import { HOME_URL, DASHBOARD_URL, LOGIN_URL } from './Constants/appUrls';
 
 class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <nav>
-          <ul>
-            <li>
-              <Link to={HOME_URL}>Home</Link>
-            </li>
-            {this.props.isLoggedIn && (
-              <React.Fragment>
-                <li>
-                  <Link to={DASHBOARD_URL}>Dashboard</Link>
-                </li>
-                <li>
-                  <Link to={HOME_URL} onClick={this.props.logout}>
-                    LogOut
-                  </Link>
-                </li>
-              </React.Fragment>
-            )}
-          </ul>
-        </nav>
+        <Navbar
+          brand={<img src={BRAND_URL} height='30'></img>}
+          navigation={<Navigations></Navigations>}
+          toolbar={<Toolbar></Toolbar>}
+        ></Navbar>
+
         <Switch>
           <Route path={DASHBOARD_URL}>
             <Dashboard></Dashboard>
+          </Route>
+          <Route path={LOGIN_URL}>
+            <Login></Login>
           </Route>
           <Route path={HOME_URL}>
             <Home></Home>
@@ -46,21 +36,4 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  isLoggedIn: PropType.bool,
-  logout: PropType.func,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.auth.isLoggedIn,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
