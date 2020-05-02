@@ -1,16 +1,21 @@
-.button{
-    background-color: #FEE715;
-    padding: 8px 15px;
-    font-size: 20px;
-    color: #101820;
-    border-radius: 9px;
-    border: 1px solid #FEE715;
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
+.button {
+  outline: 0;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #101820;
+  padding: 10px 18px;
+  border-radius: 9px;
+  transition: 0.3s all;
+  background: transparent;
+  border: 1px solid #ffff00;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2);
 }
-.button:hover{
-    padding: 6px 13px;
+.button:hover,
+.button:focus {
+  border-color: #ffff00;
+  background-color: #ffff00;
 }
-.button:active{
-    font-weight: bold;
+.button:active {
+  box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.2);
 }
