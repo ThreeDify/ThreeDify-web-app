@@ -1,8 +1,6 @@
-import { isLoggedIn, userToken } from './auth';
+import { combineReducers } from 'redux';
 
-export default function (state, action) {
-  return {
-    ...isLoggedIn(state, action),
-    ...userToken(state, action),
-  };
-}
+import user from './user';
+import auth from './auth';
+
+export default combineReducers({ auth, user });

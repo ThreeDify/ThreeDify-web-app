@@ -1,35 +1,27 @@
+import { combineReducers } from 'redux';
+
 import { LOGIN_ACTION, LOGOUT_ACTION } from '../actionTypes';
 
-export function isLoggedIn(state = { isLoggedIn: false }, action) {
+function isLoggedIn(state = false, action) {
   switch (action.type) {
     case LOGIN_ACTION:
-      return {
-        isLoggedIn: true,
-      };
+      return true;
     case LOGOUT_ACTION:
-      return {
-        isLoggedIn: false,
-      };
+      return false;
     default:
-      return {
-        isLoggedIn: state.isLoggedIn,
-      };
+      return state;
   }
 }
 
-export function userToken(state = { userToken: null }, action) {
+function userToken(state = null, action) {
   switch (action.type) {
     case LOGIN_ACTION:
-      return {
-        userToken: action.payload,
-      };
+      return action.payload;
     case LOGOUT_ACTION:
-      return {
-        userToken: null,
-      };
+      return null;
     default:
-      return {
-        userToken: state.userToken,
-      };
+      return state;
   }
 }
+
+export default combineReducers({ isLoggedIn, userToken });
