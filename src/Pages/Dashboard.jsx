@@ -20,10 +20,4 @@ Dashboard.propTypes = {
   user: PropTypes.object,
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     user: state.user
-//   };
-// };
-
 export default withRouter(authenticate(Dashboard));
