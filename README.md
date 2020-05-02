@@ -53,10 +53,16 @@ $ yarn watch
 
 ## Development
 
-Run `start` and `watch` in single cmd.
+Watch for files to change.
 
 ```bash
-$ yarn dev
+$ yarn watch
+```
+
+Start webserver to serve the files.
+
+```bash
+$ yarn start
 ```
 
 ## Lint

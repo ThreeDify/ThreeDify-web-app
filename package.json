@@ -8,8 +8,7 @@
     "lint:fix": "eslint 'src/**/*.js*' --fix && prettier --write src/",
     "start": "node ./src/server.js",
     "watch": "webpack --watch",
-    "build": "webpack",
-    "dev": "yarn watch & yarn start"
+    "build": "webpack"
   },
   "husky": {
     "hooks": {
