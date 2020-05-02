@@ -14,7 +14,7 @@ module.exports = () => {
   }, {});
 
   return {
-    entry: './src/index.js',
+    entry: ['./src/index.js', './src/Themes/App.scss'],
     mode: process.env.NODE_ENV || 'development',
     module: {
       rules: [
@@ -25,8 +25,8 @@ module.exports = () => {
           options: { presets: ['@babel/env'] },
         },
         {
-          test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+          test: /\.s?css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
         },
       ],
     },
@@ -41,7 +41,7 @@ module.exports = () => {
         cacheGroups: {
           styles: {
             name: 'styles',
-            test: /\.css$/,
+            test: /\.s?css$/,
             chunks: 'all',
             enforce: true,
           },
