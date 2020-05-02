@@ -9,6 +9,7 @@ import {
   LOGIN_FAILED,
   LOGIN_SUCCESS,
 } from '../Constants/messages';
+import CustomButton from '../Components/CustomButton';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -128,9 +129,9 @@ class LoginForm extends Component {
             />
           </div>
 
-          <button type='submit' disabled={btnDisabled}>
+          <CustomButton type='submit' disabled={btnDisabled}>
             Login
-          </button>
+          </CustomButton>
         </form>
       </div>
     );
