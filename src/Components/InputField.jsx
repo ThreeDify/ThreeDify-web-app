@@ -1,66 +1,76 @@
+import React from 'react';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 
-import '../Themes/inputfield.css';
 import Icon from './Icon';
 
-class InputField extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hidePassword: true,
-      password: '',
-      changeIcon: true,
-    };
-
-    this.togglePasswordVisiblity = this.togglePasswordVisiblity.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-  }
-
-  handlePasswordChange(e) {
-    this.setState({ password: e.target.value });
-  }
-
-  togglePasswordVisiblity() {
-    this.setState({
-      hidePassword: !this.state.hidePassword,
-      changeIcon: !this.state.changeIcon,
-    });
-  }
-
-  componentDidMount() {
-    if (this.props.password) {
-      this.setState({ password: this.props.password });
+class InputField extends React.Component {
+  getIconButton(icon, onClickHandle) {
+    if (onClickHandle) {
+      return (
+        <button
+          type='button'
+          onClick={onClickHandle}
+          className='btn btn-outline-secondary'
+        >
+          {this.getIcon(icon)}
+        </button>
+      );
     }
+    return <span className='input-group-text'>{this.getIcon(icon)}</span>;
+  }
+
+  getIcon(iconName) {
+    return (
+      <i>
+        <Icon size='xs' name={iconName} />
+      </i>
+    );
   }
 
   render() {
     return (
-      <div>
-        <i className='icon-left'>
-          <Icon size='xs' name={this.props.leftIconName} />
-        </i>
-        <i className='icon-right' onClick={this.togglePasswordVisiblity}>
-          <Icon size='xs' name={this.state.changeIcon ? 'eye-slash' : 'eye'} />
-        </i>
-        <input
-          className='inputfield'
-          onChange={this.handlePasswordChange}
-          placeholder={this.props.placeholder}
-          type={this.state.hidePassword ? 'password' : 'text'}
-        />
+      <div className='from-group mb-3'>
+        <div className='input-group'>
+          {this.props.leftIconName && (
+            <div className='input-group-prepend'>
+              <span className='input-group-text'>
+                {this.getIcon(this.props.leftIconName)}
+              </span>
+            </div>
+          )}
+          <input
+            className='form-control'
+            type={this.props.type}
+            name={this.props.name}
+            onChange={this.props.onChange}
+            defaultValue={this.props.value}
+            placeholder={this.props.placeholder}
+            required={this.props.required}
+          />
+          {this.props.rightIconName && (
+            <div className='input-group-append'>
+              {this.getIconButton(
+                this.props.rightIconName,
+                this.props.onRightIconClick
+              )}
+            </div>
+          )}
+        </div>
       </div>
     );
   }
 }
 
 InputField.propTypes = {
+  type: PropTypes.string,
   name: PropTypes.string,
-  size: PropTypes.string,
-  leftIconName: PropTypes.string,
+  value: PropTypes.string,
+  required: PropTypes.bool,
+  onChange: PropTypes.func,
   placeholder: PropTypes.string,
-  password: PropTypes.string,
+  leftIconName: PropTypes.string,
+  rightIconName: PropTypes.string,
+  onRightIconClick: PropTypes.func,
 };
 
 export default InputField;
