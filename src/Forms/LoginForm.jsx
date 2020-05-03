@@ -9,7 +9,6 @@ import {
 import { login } from '../Utils/auth';
 import InputField from '../Components/InputField';
 import { STATUS_OK } from '../Constants/httpStatus';
-import CustomButton from '../Components/CustomButton';
 import PasswordField from '../Components/PasswordField';
 
 class LoginForm extends Component {
@@ -44,19 +43,22 @@ class LoginForm extends Component {
 
     this.disableBtn();
 
-    try {
-      let response = await login(this.state.username, this.state.password);
+    login(this.state.username, this.state.password)
+      .then((response) => {
+        this.enableBtn();
+        if (response.status === STATUS_OK) {
+          this.loginSuccess(response);
+        }
+      })
+      .catch((e) => {
+        this.enableBtn();
 
-      this.enableBtn();
-      if (response.status === STATUS_OK) {
-        this.loginSuccess(response);
-      } else {
-        this.loginFailed(response);
-      }
-    } catch (e) {
-      this.enableBtn();
-      this.loginError(e);
-    }
+        if (e.response && e.response.data) {
+          this.loginFailed(e.response);
+        } else {
+          this.loginError(e);
+        }
+      });
   }
 
   loginSuccess(response) {
@@ -101,8 +103,9 @@ class LoginForm extends Component {
     const { username, password, btnDisabled } = this.state;
 
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <div className='p-5'>
+        <h3 className='pb-2 text-center'>Login</h3>
+        <form className='pt-2' onSubmit={this.handleSubmit}>
           <InputField
             placeholder='Username'
             name='username'
@@ -121,9 +124,13 @@ class LoginForm extends Component {
             required
           ></PasswordField>
 
-          <CustomButton type='submit' disabled={btnDisabled}>
+          <button
+            type='submit'
+            disabled={btnDisabled}
+            className='btn btn-primary'
+          >
             Login
-          </CustomButton>
+          </button>
         </form>
       </div>
     );

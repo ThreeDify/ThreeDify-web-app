@@ -19,6 +19,7 @@ import {
   faArrowAltCircleUp,
   faArrowAltCircleDown,
   faHeart,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 
 const ICONS = {
@@ -42,6 +43,7 @@ const ICONS = {
   faArrowAltCircleUp,
   faArrowAltCircleDown,
   faHeart,
+  faBars,
 };
 
 export default ICONS;
