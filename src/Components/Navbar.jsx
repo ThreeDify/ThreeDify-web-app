@@ -8,7 +8,7 @@ import Icon from './Icon';
 class Navbar extends React.Component {
   render() {
     return (
-      <nav className='navbar navbar-expand-lg bg-white px-5 py-3 shadow-sm border-primary border-bottom'>
+      <nav className='navbar navbar-expand-lg sticky-top bg-white px-5 py-3 shadow-sm border-primary border-bottom'>
         <Link to={HOME_URL} className='navbar-brand'>
           {this.props.brand}
         </Link>
