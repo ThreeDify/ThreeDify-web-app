@@ -7,7 +7,7 @@ import { fetchUser } from '../Utils/user';
 import { user } from '../Store/Actions/user';
 import { HOME_URL } from '../Constants/appUrls';
 
-export default function (WrappedComponent) {
+export function authenticate(WrappedComponent) {
   class Authenticate extends React.Component {
     constructor(props) {
       super(props);

@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import LoginForm from '../Forms/LoginForm';
 import { login } from '../Store/Actions/auth';
+import { asPage } from '../Middlewares/asPage';
 import { DASHBOARD_URL } from '../Constants/appUrls';
 
 class Login extends React.Component {
@@ -82,4 +83,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default asPage(connect(mapStateToProps, mapDispatchToProps)(Login));
