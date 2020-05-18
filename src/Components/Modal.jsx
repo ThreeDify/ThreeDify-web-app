@@ -1,5 +1,6 @@
 import React from 'react';
 import jQuery from 'jquery';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
 class Modal extends React.Component {
@@ -111,6 +112,10 @@ class Modal extends React.Component {
     this.updateModal();
   }
 
+  componentWillUnmount() {
+    this.closeModal();
+  }
+
   getModalHeader() {
     if (this.props.header) {
       return <div className='modal-header'>{this.props.header}</div>;
@@ -148,7 +153,7 @@ class Modal extends React.Component {
     return `#${this.state.id}`;
   }
 
-  render() {
+  getModal() {
     return (
       <div className='modal' id={this.state.id} tabIndex='-1' role='dialog'>
         <div className={this.getModalClasses()}>
@@ -163,6 +168,15 @@ class Modal extends React.Component {
       </div>
     );
   }
+
+  render() {
+    const modal = this.getModal();
+    if (this.props.parent) {
+      const el = document.querySelector(this.props.parent);
+      return ReactDOM.createPortal(modal, el);
+    }
+    return modal;
+  }
 }
 
 Modal.propTypes = {
@@ -170,6 +184,7 @@ Modal.propTypes = {
   header: PropTypes.node,
   children: PropTypes.node,
   footer: PropTypes.node,
+  parent: PropTypes.string,
   isCentered: PropTypes.bool,
   isScrollable: PropTypes.bool,
   size: PropTypes.string,
