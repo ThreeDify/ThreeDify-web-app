@@ -11,6 +11,7 @@ class InputField extends React.Component {
           type='button'
           onClick={onClickHandle}
           className='btn btn-outline-secondary'
+          disabled={this.props.disabled}
         >
           {this.getIcon(icon)}
         </button>
@@ -29,8 +30,8 @@ class InputField extends React.Component {
 
   render() {
     return (
-      <div className='from-group mb-3'>
-        <div className='input-group'>
+      <div className='form-group mb-3'>
+        <div className={`input-group ${this.props.disabled ? 'disabled' : ''}`}>
           {this.props.leftIconName && (
             <div className='input-group-prepend'>
               <span className='input-group-text'>
@@ -45,6 +46,7 @@ class InputField extends React.Component {
             onChange={this.props.onChange}
             defaultValue={this.props.value}
             placeholder={this.props.placeholder}
+            disabled={this.props.disabled}
             required={this.props.required}
           />
           {this.props.rightIconName && (
@@ -66,6 +68,7 @@ InputField.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   required: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   leftIconName: PropTypes.string,
