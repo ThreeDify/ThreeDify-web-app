@@ -8,7 +8,7 @@ import { authenticate } from '../Middlewares/authenticate';
 class Dashboard extends React.Component {
   render() {
     return (
-      <div>
+      <div className='col-12'>
         <h1>ThreeDify</h1>
         <h3>Dashboard</h3>
         <p>Welcome {this.props.user && this.props.user.username}</p>

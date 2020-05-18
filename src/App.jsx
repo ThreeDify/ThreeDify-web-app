@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Footer from './Footer';
 import Home from './Pages/Home';
-import Toolbar from './Toolbar';
 import Login from './Pages/Login';
-import Navigations from './Navigations';
+import Footer from './Misc/Footer';
+import Toolbar from './Misc/Toolbar';
 import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
+import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import { HOME_URL, DASHBOARD_URL, LOGIN_URL } from './Constants/appUrls';
 

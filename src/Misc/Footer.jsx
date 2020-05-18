@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HOME_URL } from './Constants/appUrls';
+import { HOME_URL } from '../Constants/appUrls';
 
 export default class Footer extends React.Component {
   render() {
