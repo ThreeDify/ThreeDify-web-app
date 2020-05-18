@@ -18,7 +18,8 @@ class LoginForm extends Component {
     this.state = {
       username: props.username || '',
       password: props.password || '',
-      btnDisabled: false,
+      disabled: false,
+      loginError: '',
     };
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -41,17 +42,17 @@ class LoginForm extends Component {
   async handleSubmit(e) {
     e.preventDefault();
 
-    this.disableBtn();
+    this.disable();
 
     login(this.state.username, this.state.password)
       .then((response) => {
-        this.enableBtn();
+        this.enable();
         if (response.status === STATUS_OK) {
           this.loginSuccess(response);
         }
       })
       .catch((e) => {
-        this.enableBtn();
+        this.enable();
 
         if (e.response && e.response.data) {
           this.loginFailed(e.response);
@@ -77,6 +78,10 @@ class LoginForm extends Component {
         status: response.status,
         message: LOGIN_FAILED,
       });
+
+    this.setState({
+      loginError: LOGIN_FAILED,
+    });
   }
 
   loginError(e) {
@@ -85,26 +90,51 @@ class LoginForm extends Component {
         message: LOGIN_ERROR,
         error: e,
       });
-  }
 
-  disableBtn() {
     this.setState({
-      btnDisabled: true,
+      loginError: LOGIN_ERROR,
     });
   }
 
-  enableBtn() {
+  disable() {
     this.setState({
-      btnDisabled: false,
+      disabled: true,
+    });
+  }
+
+  enable() {
+    this.setState({
+      disabled: false,
     });
   }
 
   render() {
-    const { username, password, btnDisabled } = this.state;
+    const { username, password, disabled } = this.state;
 
     return (
       <div className='p-5'>
-        <h3 className='pb-2 text-center'>Login</h3>
+        <div className='pb-2 text-center'>
+          <h2 className='font-weight-bold'>Welcome Back!</h2>
+          <p>Sigin to access your 3D models.</p>
+        </div>
+
+        {this.state.loginError && (
+          <div
+            className='alert alert-danger alert-dismissible fade show'
+            role='alert'
+          >
+            {this.state.loginError}
+            <button
+              type='button'
+              className='close'
+              data-dismiss='alert'
+              aria-label='Close'
+            >
+              <span aria-hidden='true'>&times;</span>
+            </button>
+          </div>
+        )}
+
         <form className='pt-2' onSubmit={this.handleSubmit}>
           <InputField
             placeholder='Username'
@@ -113,6 +143,7 @@ class LoginForm extends Component {
             value={username}
             leftIconName='user'
             onChange={this.handleUsernameChange}
+            disabled={disabled}
             required
           ></InputField>
 
@@ -121,16 +152,25 @@ class LoginForm extends Component {
             value={password}
             onChange={this.handlePasswordChange}
             leftIconName='key'
+            disabled={disabled}
             required
           ></PasswordField>
 
-          <button
-            type='submit'
-            disabled={btnDisabled}
-            className='btn btn-primary'
-          >
-            Login
-          </button>
+          <div className='text-center'>
+            <button
+              type='submit'
+              disabled={disabled}
+              className='btn btn-primary font-weight-bold'
+            >
+              Login
+            </button>
+          </div>
+
+          <hr className='w-75 mx-auto'></hr>
+
+          <div className='text-center'>
+            <a href='#'>Forgot Password?</a>
+          </div>
         </form>
       </div>
     );
