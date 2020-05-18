@@ -14,3 +14,15 @@
 .navbar-nav .nav-item.active .nav-link {
   color: map-get($map: $theme-colors, $key: 'primary');
 }
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.footer-wrap {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: auto;
+}

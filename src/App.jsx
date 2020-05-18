@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import Footer from './Footer';
 import Home from './Pages/Home';
 import Toolbar from './Toolbar';
 import Login from './Pages/Login';
@@ -14,23 +15,31 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <Navbar
-          brand={<img src={BRAND_URL} height='30'></img>}
-          navigation={<Navigations></Navigations>}
-          toolbar={<Toolbar></Toolbar>}
-        ></Navbar>
+        <div className='page-container'>
+          <header>
+            <Navbar
+              brand={<img src={BRAND_URL} height='30'></img>}
+              navigation={<Navigations></Navigations>}
+              toolbar={<Toolbar></Toolbar>}
+            ></Navbar>
+          </header>
 
-        <Switch>
-          <Route path={DASHBOARD_URL}>
-            <Dashboard></Dashboard>
-          </Route>
-          <Route path={LOGIN_URL}>
-            <Login></Login>
-          </Route>
-          <Route path={HOME_URL}>
-            <Home></Home>
-          </Route>
-        </Switch>
+          <main className='py-5'>
+            <Switch>
+              <Route path={DASHBOARD_URL}>
+                <Dashboard></Dashboard>
+              </Route>
+              <Route path={LOGIN_URL}>
+                <Login></Login>
+              </Route>
+              <Route path={HOME_URL}>
+                <Home></Home>
+              </Route>
+            </Switch>
+          </main>
+
+          <Footer></Footer>
+        </div>
       </BrowserRouter>
     );
   }
