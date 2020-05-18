@@ -8,5 +8,4 @@ export const CALIBRATION_URL = '/calibration';
 export const RECONSTRUCTION_URL = '/reconstruction';
 export const PROFILE_URL = '/profile';
 
-export const LOGIN_URL = '/login';
 export const SIGNUP_URL = '/signup';
