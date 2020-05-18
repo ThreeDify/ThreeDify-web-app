@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 
 import { fetchUser } from '../Utils/user';
 import { user } from '../Store/Actions/user';
+import { logout } from '../Store/Actions/auth';
 import { HOME_URL } from '../Constants/appUrls';
 
 export function authenticate(WrappedComponent) {
@@ -59,6 +60,7 @@ export function authenticate(WrappedComponent) {
       fetchUser: (loggedInUser) => {
         dispatch(user(loggedInUser));
       },
+      logout: () => dispatch(logout()),
     };
   };
 
