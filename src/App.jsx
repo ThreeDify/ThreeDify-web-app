@@ -6,6 +6,7 @@ import Footer from './Misc/Footer';
 import Toolbar from './Misc/Toolbar';
 import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
+import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import { HOME_URL, DASHBOARD_URL } from './Constants/appUrls';
@@ -33,6 +34,8 @@ class App extends React.Component {
               </Route>
             </Switch>
           </main>
+
+          <LoginModal></LoginModal>
 
           <Footer></Footer>
         </div>

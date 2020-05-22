@@ -1,1 +1,1 @@
-export const BRAND_URL = './public/images/logo_full.png';
+export const BRAND_URL = '/public/images/logo_full.png';

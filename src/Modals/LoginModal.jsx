@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../Components/Modal';
 import LoginForm from '../Forms/LoginForm';
-import { login } from '../Store/Actions/auth';
+import { login, cancelAuth } from '../Store/Actions/auth';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -12,31 +12,20 @@ class LoginModal extends React.Component {
 
     this.state = {
       loginError: '',
-      forceClose: false,
     };
 
     this.onClose = this.onClose.bind(this);
-    this.closeModal = this.closeModal.bind(this);
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
     this.onLoginFailed = this.onLoginFailed.bind(this);
   }
 
-  closeModal() {
-    this.setState({
-      forceClose: true,
-    });
-  }
-
   onClose() {
-    this.props.onClose();
-
-    this.setState({
-      forceClose: false,
-    });
+    this.props.closeModal();
   }
 
   onLoginSuccess(success) {
     this.props.login(success.data);
+    this.props.closeModal();
   }
 
   onLoginFailed(error) {
@@ -48,7 +37,7 @@ class LoginModal extends React.Component {
   render() {
     return (
       <Modal
-        show={this.props.showModal && !this.state.forceClose}
+        show={this.props.isAuthRequested}
         onClose={this.onClose}
         parent='#root'
       >
@@ -58,7 +47,7 @@ class LoginModal extends React.Component {
               <button
                 type='button'
                 className='close-modal'
-                onClick={this.closeModal}
+                onClick={this.props.closeModal}
               >
                 <span aria-hidden='true'>&times;</span>
               </button>
@@ -77,19 +66,21 @@ class LoginModal extends React.Component {
 
 LoginModal.propTypes = {
   login: PropTypes.func,
-  showModal: PropTypes.bool,
+  isAuthRequested: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
+  closeModal: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
   return {
+    isAuthRequested: state.auth.isAuthRequested,
     isLoggedIn: state.auth.isLoggedIn,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    closeModal: () => dispatch(cancelAuth()),
     login: (token) => dispatch(login(token)),
   };
 };
