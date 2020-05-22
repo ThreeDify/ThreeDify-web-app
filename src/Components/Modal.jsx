@@ -80,13 +80,13 @@ class Modal extends React.Component {
   }
 
   openModal() {
-    if (!this.isOpening || !this.isOpen) {
+    if (!this.isOpening && !this.isOpen) {
       jQuery(this.modalId).modal('show');
     }
   }
 
   closeModal() {
-    if (!this.isClosing || !this.isClosed) {
+    if (!this.isClosing && !this.isClosed) {
       jQuery(this.modalId).modal('hide');
     }
   }
