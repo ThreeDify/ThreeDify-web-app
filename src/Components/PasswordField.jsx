@@ -46,6 +46,7 @@ PasswordField.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
   required: PropTypes.bool,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   leftIconName: PropTypes.string,

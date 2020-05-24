@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import { login } from '../Store/Actions/auth';
+import { asPage } from '../Middlewares/asPage';
 
 class Home extends React.Component {
   constructor(props) {
@@ -12,18 +13,16 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className='container my-4'>
-        <div className='row justify-content-center'>
-          {this.props.isLoggedIn && (
-            <div className='col-12'>
-              <p>Welcome {this.props.user && this.props.user.username}</p>
-            </div>
-          )}
+      <React.Fragment>
+        {this.props.isLoggedIn && (
           <div className='col-12'>
-            <h3>Explore</h3>
+            <p>Welcome {this.props.user && this.props.user.username}</p>
           </div>
+        )}
+        <div className='col-12'>
+          <h3>Explore</h3>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
@@ -48,4 +47,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));
+export default asPage(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(Home))
+);

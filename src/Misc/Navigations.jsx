@@ -2,13 +2,13 @@ import React from 'react';
 import PropType from 'prop-types';
 import { connect } from 'react-redux';
 
-import NavLink from './Components/NavLink';
+import NavLink from '../Components/NavLink';
 import {
   HOME_URL,
   DASHBOARD_URL,
   CALIBRATION_URL,
   RECONSTRUCTION_URL,
-} from './Constants/appUrls';
+} from '../Constants/appUrls';
 
 class Navigations extends React.Component {
   render() {

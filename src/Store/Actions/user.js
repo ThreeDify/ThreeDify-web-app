@@ -1,6 +1,6 @@
 import { FETCH_USER_ACTION } from '../actionTypes';
 
-export function user(loggedInUser) {
+export function setUser(loggedInUser) {
   return {
     type: FETCH_USER_ACTION,
     payload: loggedInUser,
