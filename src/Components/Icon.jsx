@@ -5,7 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Icon extends Component {
   render() {
-    return <FontAwesomeIcon icon={this.props.name} size={this.props.size} />;
+    return (
+      <FontAwesomeIcon
+        icon={this.props.name}
+        size={this.props.size}
+        {...this.props}
+      />
+    );
   }
 }
 

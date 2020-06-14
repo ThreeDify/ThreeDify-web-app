@@ -20,6 +20,7 @@ import {
   faArrowAltCircleDown,
   faHeart,
   faBars,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
 const ICONS = {
@@ -44,6 +45,7 @@ const ICONS = {
   faArrowAltCircleDown,
   faHeart,
   faBars,
+  faSpinner,
 };
 
 export default ICONS;

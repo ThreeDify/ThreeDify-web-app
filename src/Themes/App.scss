@@ -3,6 +3,11 @@
 
 .user-profile-icon {
   width: 42px;
+  color: map-get($map: $theme-colors, $key: 'secondary');
+}
+
+.user-profile-icon:hover {
+  color: map-get($map: $theme-colors, $key: 'secondary');
 }
 
 .navbar-nav .nav-link {

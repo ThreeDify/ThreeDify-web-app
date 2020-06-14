@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Icon from '../Components/Icon';
 import { fetchUser } from '../Utils/user';
 import { setUser } from '../Store/Actions/user';
 import { logout, requestAuth } from '../Store/Actions/auth';
@@ -41,7 +42,7 @@ export function authenticate(WrappedComponent) {
       } else if (this.state.authenticated) {
         return <WrappedComponent {...this.props}></WrappedComponent>;
       } else {
-        return <h1>Authenticating...</h1>;
+        return <Icon name='spinner' size='lg' spin={true}></Icon>;
       }
     }
   }
