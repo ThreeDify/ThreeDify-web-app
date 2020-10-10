@@ -40,11 +40,13 @@ class InputField extends React.Component {
             </div>
           )}
           <input
-            className='form-control'
+            className={`form-control ${this.props.error && 'is-invalid'} ${
+              this.props.error && !this.props.rightIconName && 'rounded-right'
+            }`}
             type={this.props.type}
             name={this.props.name}
             onChange={this.props.onChange}
-            defaultValue={this.props.value}
+            value={this.props.value}
             placeholder={this.props.placeholder}
             disabled={this.props.disabled}
             required={this.props.required}
@@ -57,6 +59,9 @@ class InputField extends React.Component {
               )}
             </div>
           )}
+          {this.props.error && (
+            <div className='invalid-feedback'>{this.props.error}</div>
+          )}
         </div>
       </div>
     );
@@ -67,6 +72,7 @@ InputField.propTypes = {
   type: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.string,
+  error: PropTypes.string,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,

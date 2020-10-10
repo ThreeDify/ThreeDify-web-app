@@ -45,6 +45,7 @@ class PasswordField extends React.Component {
 PasswordField.propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
+  error: PropTypes.string,
   required: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func,
