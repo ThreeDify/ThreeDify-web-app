@@ -6,6 +6,12 @@
   color: map-get($map: $theme-colors, $key: 'secondary');
 }
 
+.user-profile-icon-bg {
+  width: 100px;
+  height: 100px;
+  font-size: 50px;
+}
+
 .user-profile-icon:hover {
   color: map-get($map: $theme-colors, $key: 'secondary');
 }
@@ -18,49 +24,6 @@
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-item.active .nav-link {
   color: map-get($map: $theme-colors, $key: 'primary');
-}
-
-.input-group {
-  border: 2px solid map-get($map: $theme-colors, $key: 'primary');
-  border-radius: 0.3rem;
-}
-
-.input-group.disabled {
-  border-color: #eeeeee;
-}
-
-.input-group.disabled * {
-  cursor: not-allowed;
-}
-
-.input-group .form-control,
-.input-group .input-group-text,
-.input-group .btn,
-.input-group .btn:hover,
-.input-group .btn:focus,
-.input-group .btn:active {
-  border: 0px !important;
-  box-shadow: none !important;
-  background: #ffffff !important;
-}
-
-.input-group .btn {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.input-group .btn:hover,
-.input-group .btn:focus,
-.input-group .btn:active {
-  color: #000000;
-}
-
-.input-group .btn:focus,
-.input-group .btn:active {
-  outline: 1px solid map-get($map: $theme-colors, $key: 'secondary');
-}
-
-.btn:disabled {
-  cursor: not-allowed;
 }
 
 .modal-content {
