@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { signup } from '../Utils/auth';
 import InputField from '../Components/InputField';
+import AccountCreated from '../Misc/AccountCreated';
 import PasswordField from '../Components/PasswordField';
 import { checkUniqueEmail, checkUniqueUsername } from '../Utils/user';
 
@@ -156,6 +157,10 @@ class SignupForm extends Component {
   }
 
   render() {
+    if (this.state.user.id) {
+      return <AccountCreated {...this.state.user}></AccountCreated>;
+    }
+
     const {
       first_name,
       last_name,
