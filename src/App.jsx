@@ -9,6 +9,7 @@ import Dashboard from './Pages/Dashboard';
 import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
+import SignupModal from './Modals/SignupModal';
 import { HOME_URL, DASHBOARD_URL } from './Constants/appUrls';
 
 class App extends React.Component {
@@ -18,7 +19,9 @@ class App extends React.Component {
         <div className='page-container'>
           <header>
             <Navbar
-              brand={<img src={BRAND_URL} height='30'></img>}
+              brand={
+                <img src={BRAND_URL} height='30' alt='ThreeDify Logo'></img>
+              }
               navigation={<Navigations></Navigations>}
               toolbar={<Toolbar></Toolbar>}
             ></Navbar>
@@ -36,6 +39,7 @@ class App extends React.Component {
           </main>
 
           <LoginModal></LoginModal>
+          <SignupModal></SignupModal>
 
           <Footer></Footer>
         </div>

@@ -1,9 +1,11 @@
 import {
   LOGIN_ACTION,
   LOGOUT_ACTION,
-  REQUEST_AUTH_ACTION,
   CANCEL_AUTH_ACTION,
+  REQUEST_AUTH_ACTION,
   REFRESH_TOKEN_ACTION,
+  CANCEL_SIGNUP_ACTION,
+  REQUEST_SIGNUP_ACTION,
 } from '../actionTypes';
 
 export function requestAuth() {
@@ -12,9 +14,21 @@ export function requestAuth() {
   };
 }
 
+export function requestSignup() {
+  return {
+    type: REQUEST_SIGNUP_ACTION,
+  };
+}
+
 export function cancelAuth() {
   return {
     type: CANCEL_AUTH_ACTION,
+  };
+}
+
+export function cancelSignup() {
+  return {
+    type: CANCEL_SIGNUP_ACTION,
   };
 }
 

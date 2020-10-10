@@ -6,6 +6,8 @@ import {
   REQUEST_AUTH_ACTION,
   CANCEL_AUTH_ACTION,
   REFRESH_TOKEN_ACTION,
+  REQUEST_SIGNUP_ACTION,
+  CANCEL_SIGNUP_ACTION,
 } from '../actionTypes';
 
 function isAuthRequested(state = false, action) {
@@ -15,6 +17,17 @@ function isAuthRequested(state = false, action) {
     case LOGIN_ACTION:
       return false;
     case CANCEL_AUTH_ACTION:
+      return false;
+    default:
+      return state;
+  }
+}
+
+function isSignupRequested(state = false, action) {
+  switch (action.type) {
+    case REQUEST_SIGNUP_ACTION:
+      return true;
+    case CANCEL_SIGNUP_ACTION:
       return false;
     default:
       return state;
@@ -48,4 +61,9 @@ function userToken(state = null, action) {
   }
 }
 
-export default combineReducers({ isAuthRequested, isLoggedIn, userToken });
+export default combineReducers({
+  isAuthRequested,
+  isSignupRequested,
+  isLoggedIn,
+  userToken,
+});

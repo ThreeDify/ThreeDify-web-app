@@ -156,7 +156,9 @@ class Modal extends React.Component {
           <div className='modal-content'>
             {this.getModalHeader()}
 
-            <div className='modal-body'>{this.props.children}</div>
+            <div className='modal-body'>
+              {this.props.show && this.props.children}
+            </div>
 
             {this.getModalFooter()}
           </div>
