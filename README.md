@@ -51,16 +51,10 @@ $ yarn watch
 
 ## Development
 
-Watch for files to change.
+Start webserver to serve the files. And watch for file changes.
 
 ```bash
-$ yarn watch
-```
-
-Start webserver to serve the files.
-
-```bash
-$ yarn start
+$ yarn start:dev
 ```
 
 ## Lint

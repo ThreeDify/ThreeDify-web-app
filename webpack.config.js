@@ -15,9 +15,19 @@ module.exports = () => {
     return prev;
   }, {});
 
+  const isDevMode = process.env.NODE_ENV !== 'production';
+
   return {
+    target: 'web',
     entry: ['./src/index.js', './src/Themes/App.scss'],
     mode: process.env.NODE_ENV || 'development',
+    devServer: {
+      publicPath: '/dist/',
+      port: process.env.PORT,
+      historyApiFallback: true,
+      contentBase: ['./', './public'],
+    },
+    devtool: isDevMode ? 'source-map' : '',
     module: {
       rules: [
         {
@@ -28,7 +38,25 @@ module.exports = () => {
         },
         {
           test: /\.s?css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                hmr: isDevMode,
+              },
+            },
+            { loader: 'css-loader', options: { sourceMap: true } },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                implementation: require('sass'),
+                sassOptions: {
+                  includePaths: ['./node_modules'],
+                },
+              },
+            },
+          ],
         },
       ],
     },
@@ -36,7 +64,7 @@ module.exports = () => {
     output: {
       path: path.resolve(__dirname, 'dist/'),
       publicPath: '/dist/',
-      filename: 'bundle.js',
+      filename: `[name].bundle${!isDevMode ? '.[hash]' : ''}.js`,
     },
     optimization: {
       splitChunks: {
@@ -55,7 +83,7 @@ module.exports = () => {
       new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
-        filename: '[name].css',
+        filename: `[name].bundle${!isDevMode ? '.[hash]' : ''}.css`,
       }),
       new HtmlWebpackPlugin({
         inject: false,
