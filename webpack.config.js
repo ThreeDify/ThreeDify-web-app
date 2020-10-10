@@ -2,6 +2,8 @@ const path = require('path');
 const dotenv = require('dotenv');
 const webpack = require('webpack');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -50,9 +52,17 @@ module.exports = () => {
     },
     plugins: [
       new webpack.DefinePlugin(envKeys),
+      new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
       new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
         filename: '[name].css',
+      }),
+      new HtmlWebpackPlugin({
+        inject: false,
+        title: 'ThreeDify',
+        scriptLoading: 'defer',
+        filename: path.join(__dirname, 'public', 'index.html'),
+        template: path.join(__dirname, 'src', 'index.html'),
       }),
     ],
   };
