@@ -39,7 +39,7 @@ class LoginForm extends Component {
     });
   }
 
-  async handleSubmit(e) {
+  handleSubmit(e) {
     e.preventDefault();
 
     this.disable();
