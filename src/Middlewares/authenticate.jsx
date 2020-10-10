@@ -21,7 +21,7 @@ export function authenticate(WrappedComponent) {
         this.props.requestAuth();
       } else {
         if (!this.props.user) {
-          fetchUser(this.props.userToken).then((response) => {
+          fetchUser().then((response) => {
             this.props.setUser(response.data);
             this.setState({
               authenticated: true,
@@ -51,14 +51,12 @@ export function authenticate(WrappedComponent) {
     setUser: PropTypes.func,
     requestAuth: PropTypes.func,
     isLoggedIn: PropTypes.bool,
-    userToken: PropTypes.object,
     isAuthRequested: PropTypes.bool,
   };
 
   const mapStateToProps = (state) => {
     return {
       user: state.user,
-      userToken: state.auth.userToken,
       isLoggedIn: state.auth.isLoggedIn,
       isAuthRequested: state.auth.isAuthRequested,
     };

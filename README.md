@@ -11,12 +11,10 @@ ThreeDify is a online platform where you can upload images and create a 3D recon
 
 ## Environment Variables
 
-| Variable   | Description                             |
-| ---------- | --------------------------------------- |
-| PORT       | Port to run the web server              |
-| API_URL    | Base API URL e.g. http://127.0.0.1:8000 |
-| API_KEY    | API KEY for ThreeDify API               |
-| API_SECRET | API SECRET for ThreeDify API            |
+| Variable | Description                             |
+| -------- | --------------------------------------- |
+| PORT     | Port to run the web server              |
+| API_URL  | Base API URL e.g. http://127.0.0.1:8000 |
 
 ## Installation
 

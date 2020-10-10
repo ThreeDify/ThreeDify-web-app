@@ -38,8 +38,8 @@ function userToken(state = null, action) {
       return action.payload;
     case REFRESH_TOKEN_ACTION:
       return {
-        refresh: state.refresh,
-        access: action.payload,
+        refreshToken: state.refreshToken,
+        accessToken: action.payload,
       };
     case LOGOUT_ACTION:
       return null;

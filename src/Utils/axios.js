@@ -4,25 +4,22 @@ import store from '../Store/index';
 import { fetchToken } from './auth';
 import { refreshToken } from '../Store/Actions/auth';
 
-const INSTANCE = axios.create({
-  headers: {
-    'X-THREEDIFY-APP-KEY': process.env.API_KEY,
-    'X-THREEDIFY-APP-SECRET': process.env.API_SECRET,
-  },
-});
-
 export function getAxiosInstance() {
-  return INSTANCE;
+  return axios.create();
 }
 
 export async function getAuthenticatedInstance() {
   const auth = store.getState().auth;
   if (!auth || !auth.isLoggedIn) {
-    return INSTANCE;
+    return getAxiosInstance();
   }
 
-  let response = await fetchToken(auth.userToken.refresh);
-  store.dispatch(refreshToken(response.data.access));
+  let response = await fetchToken(auth.userToken.refreshToken);
+  store.dispatch(refreshToken(response.data.accessToken));
 
-  return INSTANCE;
+  return axios.create({
+    headers: {
+      Authorization: `Bearer ${response.data.accessToken}`,
+    },
+  });
 }

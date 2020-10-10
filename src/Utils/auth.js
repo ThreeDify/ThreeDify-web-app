@@ -9,7 +9,13 @@ export function login(username, password) {
 }
 
 export function fetchToken(refreshToken) {
-  return getAxiosInstance().post(REFRESH_TOKEN_URL, {
-    refresh: refreshToken,
-  });
+  return getAxiosInstance().post(
+    REFRESH_TOKEN_URL,
+    {},
+    {
+      headers: {
+        'X-REFRESH-TOKEN': refreshToken,
+      },
+    }
+  );
 }
