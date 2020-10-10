@@ -7,8 +7,8 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
 
+    this.ref = React.createRef();
     this.state = {
-      id: `_modal_${Math.floor(Math.random() * 1000)}`,
       isOpen: false,
       isClosed: true,
       isOpening: false,
@@ -66,28 +66,28 @@ class Modal extends React.Component {
   }
 
   detachEvents() {
-    jQuery(this.modalId).off('show.bs.modal', this.onOpening);
-    jQuery(this.modalId).off('shown.bs.modal', this.onOpen);
-    jQuery(this.modalId).off('hide.bs.modal', this.onClosing);
-    jQuery(this.modalId).off('hidden.bs.modal', this.onClose);
+    jQuery(this.ref.current).off('show.bs.modal', this.onOpening);
+    jQuery(this.ref.current).off('shown.bs.modal', this.onOpen);
+    jQuery(this.ref.current).off('hide.bs.modal', this.onClosing);
+    jQuery(this.ref.current).off('hidden.bs.modal', this.onClose);
   }
 
   attachEvents() {
-    jQuery(this.modalId).on('show.bs.modal', this.onOpening);
-    jQuery(this.modalId).on('shown.bs.modal', this.onOpen);
-    jQuery(this.modalId).on('hide.bs.modal', this.onClosing);
-    jQuery(this.modalId).on('hidden.bs.modal', this.onClose);
+    jQuery(this.ref.current).on('show.bs.modal', this.onOpening);
+    jQuery(this.ref.current).on('shown.bs.modal', this.onOpen);
+    jQuery(this.ref.current).on('hide.bs.modal', this.onClosing);
+    jQuery(this.ref.current).on('hidden.bs.modal', this.onClose);
   }
 
   openModal() {
     if (!this.isOpening && !this.isOpen) {
-      jQuery(this.modalId).modal('show');
+      jQuery(this.ref.current).modal('show');
     }
   }
 
   closeModal() {
     if (!this.isClosing && !this.isClosed) {
-      jQuery(this.modalId).modal('hide');
+      jQuery(this.ref.current).modal('hide');
     }
   }
 
@@ -149,13 +149,9 @@ class Modal extends React.Component {
       ${this.props.size ? ` modal-${this.props.size}` : ''}`;
   }
 
-  get modalId() {
-    return `#${this.state.id}`;
-  }
-
   getModal() {
     return (
-      <div className='modal' id={this.state.id} tabIndex='-1' role='dialog'>
+      <div className='modal' ref={this.ref} tabIndex='-1' role='dialog'>
         <div className={this.getModalClasses()}>
           <div className='modal-content'>
             {this.getModalHeader()}

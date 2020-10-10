@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { HOME_URL } from '../Constants/appUrls';
 import Icon from './Icon';
+import { HOME_URL } from '../Constants/appUrls';
 
 class Navbar extends React.Component {
   render() {

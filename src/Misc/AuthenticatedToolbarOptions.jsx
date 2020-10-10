@@ -19,7 +19,7 @@ class AuthenticatedToolbarOptions extends React.Component {
             aria-haspopup='true'
             aria-expanded='false'
           >
-            {this.props.user && this.props.user.full_name}
+            {this.props.user && this.props.user.first_name}
           </a>
           <div
             className='dropdown-menu dropdown-menu-right'
@@ -32,7 +32,7 @@ class AuthenticatedToolbarOptions extends React.Component {
         </li>
         <NavLink url={PROFILE_URL}>
           <div className='user-profile-icon border border-primary p-2 rounded-circle text-center font-weight-bold'>
-            {this.props.user && this.props.user.full_name[0].toUpperCase()}
+            {this.props.user && this.props.user.first_name[0].toUpperCase()}
           </div>
         </NavLink>
       </ul>
