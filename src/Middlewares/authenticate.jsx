@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Icon from '../Components/Icon';
 import { fetchUser } from '../Utils/user';
 import { setUser } from '../Store/Actions/user';
+import { logout as apiLogout } from '../Utils/auth';
 import { logout, requestAuth } from '../Store/Actions/auth';
 
 export function authenticate(WrappedComponent) {
@@ -15,6 +16,14 @@ export function authenticate(WrappedComponent) {
       this.state = {
         authenticated: false,
       };
+
+      this.logout = this.logout.bind(this);
+    }
+
+    logout() {
+      apiLogout().catch(() => {
+        this.props.logout();
+      });
     }
 
     componentDidMount() {
@@ -40,7 +49,11 @@ export function authenticate(WrappedComponent) {
       if (!this.props.isLoggedIn) {
         return <h1>Please login to continue.</h1>;
       } else if (this.state.authenticated) {
-        return <WrappedComponent {...this.props}></WrappedComponent>;
+        return (
+          <WrappedComponent
+            {...{ ...this.props, logout: this.logout }}
+          ></WrappedComponent>
+        );
       } else {
         return <Icon name='spinner' size='lg' spin={true}></Icon>;
       }
@@ -49,9 +62,10 @@ export function authenticate(WrappedComponent) {
 
   Authenticate.propTypes = {
     user: PropTypes.object,
+    logout: PropTypes.func,
     setUser: PropTypes.func,
-    requestAuth: PropTypes.func,
     isLoggedIn: PropTypes.bool,
+    requestAuth: PropTypes.func,
     isAuthRequested: PropTypes.bool,
   };
 

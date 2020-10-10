@@ -1,6 +1,7 @@
-import { getAxiosInstance } from './axios';
+import { getAuthenticatedInstance, getAxiosInstance } from './axios';
 import {
   LOGIN_URL,
+  LOGOUT_URL,
   REGISTER_URL,
   REFRESH_TOKEN_URL,
 } from '../Constants/apiUrls';
@@ -10,6 +11,10 @@ export function login(username, password) {
     username: username,
     password: password,
   });
+}
+
+export async function logout() {
+  return (await getAuthenticatedInstance()).delete(LOGOUT_URL);
 }
 
 export function fetchToken(refreshToken) {
