@@ -8,7 +8,7 @@ import { HOME_URL } from '../Constants/appUrls';
 class Navbar extends React.Component {
   render() {
     return (
-      <nav className='navbar navbar-expand-lg sticky-top bg-white px-5 py-3 shadow-sm border-primary border-bottom'>
+      <nav className='navbar navbar-expand-lg sticky-top px-5 py-3 shadow-sm'>
         <Link to={HOME_URL} className='navbar-brand'>
           {this.props.brand}
         </Link>
