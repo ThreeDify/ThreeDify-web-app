@@ -10,7 +10,8 @@ import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import SignupModal from './Modals/SignupModal';
-import { HOME_URL, DASHBOARD_URL } from './Constants/appUrls';
+import { HOME_URL, DASHBOARD_URL, EXPLORE_URL } from './Constants/appUrls';
+import Explore from './Pages/Explore';
 
 class App extends React.Component {
   render() {
@@ -29,7 +30,10 @@ class App extends React.Component {
 
           <main className='py-5'>
             <Switch>
-              <Route path={DASHBOARD_URL}>
+              <Route exact path={EXPLORE_URL}>
+                <Explore></Explore>
+              </Route>
+              <Route exact path={DASHBOARD_URL}>
                 <Dashboard></Dashboard>
               </Route>
               <Route path={HOME_URL}>
