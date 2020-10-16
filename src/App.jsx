@@ -6,11 +6,16 @@ import Footer from './Misc/Footer';
 import Toolbar from './Misc/Toolbar';
 import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
+import Reconstruction from './Pages/Reconstruction';
 import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import SignupModal from './Modals/SignupModal';
-import { HOME_URL, DASHBOARD_URL } from './Constants/appUrls';
+import {
+  HOME_URL,
+  DASHBOARD_URL,
+  RECONSTRUCTION_URL,
+} from './Constants/appUrls';
 
 class App extends React.Component {
   render() {
@@ -29,11 +34,16 @@ class App extends React.Component {
 
           <main className='py-5'>
             <Switch>
-              <Route path={DASHBOARD_URL}>
+              <Route exact path={DASHBOARD_URL}>
                 <Dashboard></Dashboard>
               </Route>
-              <Route path={HOME_URL}>
+
+              <Route exact path={HOME_URL}>
                 <Home></Home>
+              </Route>
+
+              <Route strict exact path={RECONSTRUCTION_URL}>
+                <Reconstruction></Reconstruction>
               </Route>
             </Switch>
           </main>
