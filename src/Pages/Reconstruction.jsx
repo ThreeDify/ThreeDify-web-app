@@ -8,6 +8,7 @@ export class Reconstruction extends Component {
 
     this.state = {
       name: '',
+      selectedFiles: [],
       images: [
         {
           img_url:
@@ -43,6 +44,7 @@ export class Reconstruction extends Component {
     };
     this.changeNameHandler = this.changeNameHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
+    this.onFileChange = this.onFileChange.bind(this);
   }
 
   changeNameHandler(e) {
@@ -51,11 +53,19 @@ export class Reconstruction extends Component {
     });
   }
 
+  onFileChange(e) {
+    this.setState({
+      selectedFiles: e.target.files[0],
+    });
+  }
+
   submitHandler(e) {
     e.preventDefault();
     let formData = new FormData();
     formData.append('name', this.state.name);
-    console.log(formData);
+    formData.append('files', this.state.selectedFiles);
+    console.log(this.state.name);
+    console.log(this.state.selectedFiles);
   }
 
   render() {
@@ -74,6 +84,7 @@ export class Reconstruction extends Component {
           <p>Make some you upload images captured from same device.</p>
         </div>
 
+        {/* left-section */}
         <div className='left-section'>
           {/* form  */}
           <form id='form' onSubmit={this.submitHandler}>
@@ -87,16 +98,21 @@ export class Reconstruction extends Component {
               value={this.state.value}
               placeholder='eg: 3D Bottles'
             />
-            <br />
+            <br /> <br />
             <label>Upload Image</label>
-            <br />
             <p>*more images makes better 3D models.</p>
-            <input type='file' multiple />
+            <input
+              type='file'
+              onChange={this.onFileChange}
+              multiple
+              id='upload-images'
+            />
             <br />
             <button type='submit'>Start Reconstruction</button>
           </form>
         </div>
 
+        {/* Right Section */}
         <div className='right-section'>
           <h3>Your Models</h3>
           {imagesList}
