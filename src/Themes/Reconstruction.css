@@ -1,0 +1,27 @@
+/* Right - Section */
+.container .header {
+  margin-bottom: 50px;
+}
+
+.container .header h2,
+.right-section h3 {
+  font-weight: bold;
+}
+.container .left-section {
+  width: 30%;
+  float: left;
+}
+
+.container .right-section {
+  float: right;
+  width: 50%;
+}
+
+.container .right-section img {
+  height: 200px;
+  width: 200px;
+  margin: 15px 10px;
+  float: left;
+  border-radius: 10px;
+  box-shadow: 0px 5px 10px 3px #c4c4c4;
+}
