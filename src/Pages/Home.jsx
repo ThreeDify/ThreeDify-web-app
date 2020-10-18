@@ -1,4 +1,5 @@
 import React from 'react';
+import MainPage from './MainPage.jsx';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -19,8 +20,8 @@ class Home extends React.Component {
             <p>Welcome {this.props.user && this.props.user.username}</p>
           </div>
         )}
-        <div className='col-12'>
-          <h3>Explore</h3>
+        <div className='home-page col-12'>
+          <MainPage />
         </div>
       </React.Fragment>
     );

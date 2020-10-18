@@ -22,7 +22,12 @@ import {
   faBars,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
-
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+} from '@fortawesome/free-brands-svg-icons';
 const ICONS = {
   faUser,
   faEnvelope,
@@ -46,6 +51,10 @@ const ICONS = {
   faHeart,
   faBars,
   faSpinner,
+  faInstagram,
+  faFacebook,
+  faTwitter,
+  faLinkedin,
 };
 
 export default ICONS;
