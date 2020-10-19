@@ -66,6 +66,7 @@ export class Reconstruction extends Component {
     e.preventDefault();
     const myData = document.getElementById('form');
     let formData = new FormData(myData);
+    console.log(formData);
   }
 
   render() {
@@ -89,11 +90,11 @@ export class Reconstruction extends Component {
         {/* left-section */}
         <div className='col-6'>
           {/* form  */}
-          <form id='form' onSubmit={this.submitHandler} class='form-group'>
-            <div class='form-group mb-4'>
+          <form id='form' onSubmit={this.submitHandler} className='form-group'>
+            <div className='form-group mb-4'>
               <label htmlFor='title'>Project Title</label>
               <input
-                class='form-control col-4'
+                className='form-control col-4'
                 id='title'
                 name='reconstruction_image'
                 type='text'
@@ -105,7 +106,7 @@ export class Reconstruction extends Component {
 
             <div className='form-group mb-2'>
               <label htmlFor='image-upload'>Upload Image</label>
-              <small class='form-text text-muted'>
+              <small className='form-text text-muted'>
                 *more images makes 3D model better.
               </small>
               <br />
@@ -117,7 +118,7 @@ export class Reconstruction extends Component {
                 onChange={this.onFileChange}
                 multiple
               />
-              <small class='form-text text-muted'>
+              <small className='form-text text-muted'>
                 Select multiple files at once.
               </small>
             </div>
