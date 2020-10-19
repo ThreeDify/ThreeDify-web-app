@@ -28,6 +28,7 @@ import {
   faInstagram,
   faLinkedin,
 } from '@fortawesome/free-brands-svg-icons';
+
 const ICONS = {
   faUser,
   faEnvelope,
