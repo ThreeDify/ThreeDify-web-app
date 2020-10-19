@@ -1,45 +1,6 @@
-/* Left section */
-.container .left-section input[type='text'] {
-  border-style: none;
-  border-radius: 5px;
-  border: 1px solid #000;
-  padding: 5px;
-}
-
-.container .left-section button {
-  border-style: none;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  background-color: yellow;
-  text-align: center;
-  width: 300px;
-}
-
-/* Right - Section */
-.container .header {
-  margin-bottom: 50px;
-}
-
-.container .header h2,
-.right-section h3 {
-  font-weight: bold;
-}
-.container .left-section {
-  width: 30%;
-  float: left;
-}
-
-.container .right-section {
-  float: right;
-  width: 50%;
-}
-
-.container .right-section img {
-  height: 200px;
-  width: 200px;
-  margin: 15px 10px;
-  float: left;
+.image-holder img {
+  height: 150px;
+  width: 150px;
   border-radius: 10px;
   box-shadow: 0px 5px 10px 3px #c4c4c4;
 }

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+
 import { authenticate } from '../Middlewares/authenticate';
+import { asPage } from '../Middlewares/asPage';
+
 import '../Themes/Reconstruction.css';
 
 export class Reconstruction extends Component {
@@ -37,7 +40,7 @@ export class Reconstruction extends Component {
         },
         {
           img_url:
-            'https://images.unsplash.com/photo-1580907121036-3f1a27994ace?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
+            'https://images.unsplash.com/photo-1503437313881-503a91226402?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1489&q=80',
           id: 6,
         },
       ],
@@ -61,65 +64,78 @@ export class Reconstruction extends Component {
 
   submitHandler(e) {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append('name', this.state.name);
-    formData.append('files', this.state.selectedFiles);
-    console.log(this.state.name);
-    console.log(this.state.selectedFiles);
+    const myData = document.getElementById('form');
+    let formData = new FormData(myData);
   }
 
   render() {
     let imagesList = this.state.images.map((image) => {
       return (
-        <div className='image-holder' key={image.id}>
+        <div className='image-holder my-4' key={image.id}>
           <img src={image.img_url}></img>
         </div>
       );
     });
     return (
-      <div className='container'>
-        {/* header */}
-        <div className='header'>
-          <h2>Start construct your 3D model.</h2>
+      <div className='row'>
+        {/* Title */}
+        <div className='col-12'>
+          <h2 className='h2 font-weight-bold'>
+            Start construct your 3D model.
+          </h2>
           <p>Make some you upload images captured from same device.</p>
         </div>
 
         {/* left-section */}
-        <div className='left-section'>
+        <div className='col-6'>
           {/* form  */}
-          <form id='form' onSubmit={this.submitHandler}>
-            <label>Project Title</label>
-            <br />
-            <input
-              id='reconstruction_image'
-              name='reconstruction_image'
-              type='text'
-              onChange={this.changeNameHandler}
-              value={this.state.value}
-              placeholder='eg: 3D Bottles'
-            />
-            <br /> <br />
-            <label>Upload Image</label>
-            <p>*more images makes better 3D models.</p>
-            <input
-              type='file'
-              onChange={this.onFileChange}
-              multiple
-              id='upload-images'
-            />
-            <br />
-            <button type='submit'>Start Reconstruction</button>
+          <form id='form' onSubmit={this.submitHandler} class='form-group'>
+            <div class='form-group mb-4'>
+              <label htmlFor='title'>Project Title</label>
+              <input
+                class='form-control col-4'
+                id='title'
+                name='reconstruction_image'
+                type='text'
+                onChange={this.changeNameHandler}
+                value={this.state.value}
+                placeholder='eg: 3D Bottles'
+              />
+            </div>
+
+            <div className='form-group mb-2'>
+              <label htmlFor='image-upload'>Upload Image</label>
+              <small class='form-text text-muted'>
+                *more images makes 3D model better.
+              </small>
+              <br />
+              <input
+                className='form-control-file'
+                id='image-upload'
+                name='images'
+                type='file'
+                onChange={this.onFileChange}
+                multiple
+              />
+              <small class='form-text text-muted'>
+                Select multiple files at once.
+              </small>
+            </div>
+
+            <button type='submit' className='btn btn-primary my-2'>
+              Start Reconstruction
+            </button>
           </form>
         </div>
 
         {/* Right Section */}
-        <div className='right-section'>
+        <div className='col-6'>
           <h3>Your Models</h3>
-          {imagesList}
+          <div className='row row-cols-3'>{imagesList}</div>
         </div>
       </div>
     );
   }
 }
 
-export default authenticate(Reconstruction);
+export default asPage(authenticate(Reconstruction));
