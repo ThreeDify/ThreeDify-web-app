@@ -1,5 +1,4 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
 
 import InputField from '../Components/InputField';
 import { asPage } from '../Middlewares/asPage';
@@ -43,4 +42,4 @@ class Explore extends React.Component {
   }
 }
 
-export default asPage(withRouter(Explore));
+export default asPage(Explore);

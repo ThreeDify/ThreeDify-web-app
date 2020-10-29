@@ -16,7 +16,6 @@ class Navigations extends React.Component {
       <React.Fragment>
         <NavLink url={EXPLORE_URL}>Explore</NavLink>
         <NavLink url={DASHBOARD_URL}>Dashboard</NavLink>
-        <NavLink url={CALIBRATION_URL}>Calibration</NavLink>
         {this.props.isLoggedIn && (
           <NavLink url={RECONSTRUCTION_URL}>Re-construction</NavLink>
         )}
