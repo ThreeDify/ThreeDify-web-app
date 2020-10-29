@@ -1,9 +1,12 @@
 @import 'theme';
 @import '~bootstrap/scss/bootstrap';
 @import 'Home';
+@import 'Discover';
+
 body {
-  background-color: #f3f3f3;
+  background-color: map-get($map: $theme-colors, $key: 'bgColor');
 }
+
 .user-profile-icon {
   width: 42px;
   color: map-get($map: $theme-colors, $key: 'primary');
@@ -53,7 +56,6 @@ body {
 }
 
 .footer-wrap {
-  // position: absolute;
   bottom: 0px;
   width: 100%;
   height: auto;

@@ -4,7 +4,7 @@
 
 export const HOME_URL = '/';
 export const DASHBOARD_URL = '/dashboard';
-export const CALIBRATION_URL = '/calibration';
+export const EXPLORE_URL = '/explore';
 export const RECONSTRUCTION_URL = '/reconstruction';
 export const PROFILE_URL = '/profile';
 
