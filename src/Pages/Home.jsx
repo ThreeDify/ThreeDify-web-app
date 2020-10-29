@@ -16,11 +16,6 @@ class Home extends React.Component {
   render() {
     return (
       <React.Fragment>
-        {this.props.isLoggedIn && (
-          <div className='col-12'>
-            <p>Welcome {this.props.user && this.props.user.username}</p>
-          </div>
-        )}
         <div className='home-page col-12'>
           <div className='d-flex align-items-center' height='90vh'>
             <div>
@@ -32,7 +27,7 @@ class Home extends React.Component {
               <button
                 type='button'
                 className='btn btn btn-primary'
-                onClick={this.props.abc}
+                onClick={this.props.signup}
               >
                 Signup
               </button>
@@ -240,7 +235,7 @@ Home.propTypes = {
   user: PropTypes.object,
   history: PropTypes.object,
   isLoggedIn: PropTypes.bool,
-  abc: PropTypes.func,
+  signup: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -253,7 +248,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (token) => dispatch(login(token)),
-    abc: () => dispatch(requestSignup()),
+    signup: () => dispatch(requestSignup()),
   };
 };
 
