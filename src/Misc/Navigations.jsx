@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import NavLink from '../Components/NavLink';
 import {
   DASHBOARD_URL,
-  CALIBRATION_URL,
   RECONSTRUCTION_URL,
   EXPLORE_URL,
 } from '../Constants/appUrls';
