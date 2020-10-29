@@ -1,5 +1,11 @@
 @import 'theme';
 @import '~bootstrap/scss/bootstrap';
+@import 'Home';
+@import 'Discover';
+
+body {
+  background-color: map-get($map: $theme-colors, $key: 'bgColor');
+}
 
 .user-profile-icon {
   width: 42px;
@@ -15,7 +21,6 @@
     color: map-get($map: $theme-colors, $key: 'primary');
   }
 }
-
 .modal-content {
   border: 2px solid map-get($map: $theme-colors, $key: 'primary');
   border-radius: 0.1rem;
@@ -23,7 +28,6 @@
   .modal-body {
     padding: 0px;
   }
-
   .close-modal {
     position: absolute;
     top: 10px;
