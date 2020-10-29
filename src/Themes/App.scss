@@ -1,5 +1,6 @@
 @import 'theme';
 @import '~bootstrap/scss/bootstrap';
+@import 'Home';
 @import 'Discover';
 
 body {
@@ -20,7 +21,6 @@ body {
     color: map-get($map: $theme-colors, $key: 'primary');
   }
 }
-
 .modal-content {
   border: 2px solid map-get($map: $theme-colors, $key: 'primary');
   border-radius: 0.1rem;
@@ -28,7 +28,6 @@ body {
   .modal-body {
     padding: 0px;
   }
-
   .close-modal {
     position: absolute;
     top: 10px;

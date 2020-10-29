@@ -16,7 +16,7 @@ class Icon extends Component {
 }
 
 Icon.propTypes = {
-  name: PropTypes.string,
+  name: PropTypes.any,
   size: PropTypes.string,
 };
 
