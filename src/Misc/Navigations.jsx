@@ -4,25 +4,22 @@ import { connect } from 'react-redux';
 
 import NavLink from '../Components/NavLink';
 import {
-  HOME_URL,
   DASHBOARD_URL,
-  CALIBRATION_URL,
   RECONSTRUCTION_URL,
+  EXPLORE_URL,
 } from '../Constants/appUrls';
 
 class Navigations extends React.Component {
   render() {
-    if (this.props.isLoggedIn) {
-      return (
-        <React.Fragment>
-          <NavLink url={HOME_URL}>Explore</NavLink>
-          <NavLink url={DASHBOARD_URL}>Dashboard</NavLink>
-          <NavLink url={CALIBRATION_URL}>Calibration</NavLink>
+    return (
+      <React.Fragment>
+        <NavLink url={EXPLORE_URL}>Explore</NavLink>
+        <NavLink url={DASHBOARD_URL}>Dashboard</NavLink>
+        {this.props.isLoggedIn && (
           <NavLink url={RECONSTRUCTION_URL}>Re-construction</NavLink>
-        </React.Fragment>
-      );
-    }
-    return '';
+        )}
+      </React.Fragment>
+    );
   }
 }
 
