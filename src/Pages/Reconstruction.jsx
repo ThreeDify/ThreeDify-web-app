@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { authenticate } from '../Middlewares/authenticate';
 import { asPage } from '../Middlewares/asPage';
 
-import '../Themes/Reconstruction.css';
-
 export class Reconstruction extends Component {
   constructor(props) {
     super(props);
