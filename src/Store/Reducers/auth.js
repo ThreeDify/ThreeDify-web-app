@@ -5,9 +5,11 @@ import {
   LOGOUT_ACTION,
   REQUEST_AUTH_ACTION,
   CANCEL_AUTH_ACTION,
-  REFRESH_TOKEN_ACTION,
   REQUEST_SIGNUP_ACTION,
   CANCEL_SIGNUP_ACTION,
+  TOKEN_REFRESH_SUCCESS_ACTION,
+  TOKEN_REFRESH_BEGINS_ACTION,
+  TOKEN_REFRESH_FAILED_ACTION,
 } from '../actionTypes';
 
 function isAuthRequested(state = false, action) {
@@ -48,14 +50,24 @@ function isLoggedIn(state = false, action) {
 function userToken(state = null, action) {
   switch (action.type) {
     case LOGIN_ACTION:
+    case TOKEN_REFRESH_SUCCESS_ACTION:
       return action.payload;
-    case REFRESH_TOKEN_ACTION:
-      return {
-        refreshToken: state.refreshToken,
-        accessToken: action.payload,
-      };
+    case TOKEN_REFRESH_BEGINS_ACTION:
+    case TOKEN_REFRESH_FAILED_ACTION:
     case LOGOUT_ACTION:
       return null;
+    default:
+      return state;
+  }
+}
+
+function isTokenBeingFetched(state = false, action) {
+  switch (action.type) {
+    case TOKEN_REFRESH_BEGINS_ACTION:
+      return true;
+    case TOKEN_REFRESH_FAILED_ACTION:
+    case TOKEN_REFRESH_SUCCESS_ACTION:
+      return false;
     default:
       return state;
   }
@@ -64,6 +76,7 @@ function userToken(state = null, action) {
 export default combineReducers({
   isAuthRequested,
   isSignupRequested,
+  isTokenBeingFetched,
   isLoggedIn,
   userToken,
 });
