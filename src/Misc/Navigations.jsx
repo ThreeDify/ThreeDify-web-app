@@ -14,9 +14,11 @@ class Navigations extends React.Component {
     return (
       <React.Fragment>
         <NavLink url={EXPLORE_URL}>Explore</NavLink>
-        <NavLink url={DASHBOARD_URL}>Dashboard</NavLink>
         {this.props.isLoggedIn && (
-          <NavLink url={RECONSTRUCTION_URL}>Re-construction</NavLink>
+          <React.Fragment>
+            <NavLink url={DASHBOARD_URL}>Dashboard</NavLink>
+            <NavLink url={RECONSTRUCTION_URL}>Re-construction</NavLink>
+          </React.Fragment>
         )}
       </React.Fragment>
     );

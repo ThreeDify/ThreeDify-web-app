@@ -11,8 +11,8 @@ import {
   NOP_ACTION,
 } from '../actionTypes';
 import store from '../index';
-import { fetchToken } from '../../Utils/auth';
 import { STATUS_OK } from '../../Constants/httpStatus';
+import { fetchToken, logout as logoutApi } from '../../Utils/auth';
 
 export function requestAuth() {
   return {
@@ -87,7 +87,13 @@ export function login(token) {
 }
 
 export function logout() {
-  return {
-    type: LOGOUT_ACTION,
+  return async (dispatch) => {
+    try {
+      await logoutApi();
+    } finally {
+      dispatch({
+        type: LOGOUT_ACTION,
+      });
+    }
   };
 }
