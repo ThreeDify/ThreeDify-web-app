@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
 import Icon from '../Components/Icon';
+import { EXPLORE_URL } from '../Constants/appUrls';
 
 class Home extends React.Component {
   constructor(props) {
@@ -24,13 +25,21 @@ class Home extends React.Component {
                 ThreeDify gives a simple user-interface which allows any users
                 with zero knowledge of 3D modeling to build their own 3D model.
               </p>
-              <button
-                type='button'
-                className='btn btn btn-primary'
-                onClick={this.props.signup}
-              >
-                Signup
-              </button>
+              {this.props.isLoggedIn ? (
+                <Link to={EXPLORE_URL}>
+                  <button type='button' className='btn btn-primary'>
+                    Explore
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={this.props.signup}
+                >
+                  Signup
+                </button>
+              )}
             </div>
             <div>
               <img src='/public/images/kg.png' width='434px' height='auto' />
