@@ -28,7 +28,7 @@ class Home extends React.Component {
               {this.props.isLoggedIn ? (
                 <span>
                   <Link to={EXPLORE_URL}>
-                    <button type='button' className='btn btn btn-primary'>
+                    <button type='button' className='btn btn-primary'>
                       Explore
                     </button>
                   </Link>
@@ -36,7 +36,7 @@ class Home extends React.Component {
               ) : (
                 <button
                   type='button'
-                  className='btn btn btn-primary'
+                  className='btn btn-primary'
                   onClick={this.props.signup}
                 >
                   Signup
