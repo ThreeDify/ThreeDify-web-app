@@ -5,7 +5,7 @@ import {
   USER_INFO_URL,
 } from '../Constants/apiUrls';
 
-export async function fetchUser() {
+export async function fetchAuthenticatedUser() {
   let instance = await getAuthenticatedInstance();
   return instance.get(USER_INFO_URL);
 }

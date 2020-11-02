@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { authenticate } from '../Middlewares/authenticate';
 import { asPage } from '../Middlewares/asPage';
+import authenticate from '../Middlewares/authenticate';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -80,9 +80,9 @@ export class Reconstruction extends Component {
         {/* Title */}
         <div className='col-12'>
           <h2 className='h2 font-weight-bold'>
-            Start construct your 3D model.
+            Create a 3D model from images.
           </h2>
-          <p>Make some you upload images captured from same device.</p>
+          <p>Upload images of the object to reconstruct 3D model.</p>
         </div>
 
         {/* left-section */}
