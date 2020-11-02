@@ -9,9 +9,9 @@ const store = createStore(
   loadPersistedState(),
   compose(
     applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-      process.env.NODE_ENV !== 'production' &&
-      window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
+    window.__REDUX_DEVTOOLS_EXTENSION__ && process.env.NODE_ENV !== 'production'
+      ? window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
+      : (x) => x
   )
 );
 
