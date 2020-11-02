@@ -26,13 +26,11 @@ class Home extends React.Component {
                 with no knowledge of 3D modeling to build their own 3D model.
               </p>
               {this.props.isLoggedIn ? (
-                <span>
-                  <Link to={EXPLORE_URL}>
-                    <button type='button' className='btn btn-primary'>
-                      Explore
-                    </button>
-                  </Link>
-                </span>
+                <Link to={EXPLORE_URL}>
+                  <button type='button' className='btn btn-primary'>
+                    Explore
+                  </button>
+                </Link>
               ) : (
                 <button
                   type='button'
