@@ -11,15 +11,15 @@ class Explore extends React.Component {
           <div className='search-section'>
             <div className='search-section-input'>
               <InputField
+                required
                 type='text'
                 name='search'
-                placeholder='Search eg. Bottles, monkey'
-                required='ture'
                 leftIconName='search'
+                placeholder='Search eg. Bottles, monkey'
               />
               <p>
                 You can search for publicly shared models and use for personal
-                and business project for free
+                and business project for free.
               </p>
             </div>
           </div>
