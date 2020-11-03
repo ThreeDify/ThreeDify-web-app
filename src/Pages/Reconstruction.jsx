@@ -3,11 +3,14 @@ import React, { Component } from 'react';
 import { asPage } from '../Middlewares/asPage';
 import authenticate from '../Middlewares/authenticate';
 
+import axios from 'axios';
+
 export class Reconstruction extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: false,
       name: '',
       selectedFiles: [],
       images: [
@@ -63,8 +66,30 @@ export class Reconstruction extends Component {
   submitHandler(e) {
     e.preventDefault();
     const myData = document.getElementById('form');
-    let formData = new FormData(myData);
-    console.log(formData);
+
+    this.setState({
+      loading: true,
+    });
+
+    const url =
+      'https://threedify-api-staging.herokuapp.com/reconstructions/create';
+
+    axios
+      .post(url, myData)
+      .then((resp) => {
+        console.log(resp);
+        this.setState({
+          loading: false,
+          message: resp,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loading: false,
+          message: err,
+        });
+      });
   }
 
   render() {
@@ -122,9 +147,10 @@ export class Reconstruction extends Component {
             </div>
 
             <button type='submit' className='btn btn-primary my-2'>
-              Start Reconstruction
+              Upload
             </button>
           </form>
+          {this.state.loading && <span>Loading...</span>}
         </div>
 
         {/* Right Section */}
