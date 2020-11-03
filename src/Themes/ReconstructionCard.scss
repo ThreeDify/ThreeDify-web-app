@@ -1,0 +1,40 @@
+.color-box-com {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 15px;
+  position: relative;
+  cursor: pointer;
+}
+.recent-model {
+  width: 360px;
+  height: 234px;
+  background-color: lightblue;
+  border-radius: 12px;
+}
+
+.card_details {
+  position: absolute;
+  padding: 160px 30px 0px 30px;
+  width: 100%;
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &h1 {
+    font-size: 20px;
+  }
+}
+.color-box-com:hover .card_details {
+  visibility: visible;
+  opacity: 1;
+}
+.heart_icon_deactive {
+  color: none;
+}
+.heart_icon_active {
+  color: map-get($map: $theme-colors, $key: 'primary');
+}
