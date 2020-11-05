@@ -41,9 +41,6 @@
   opacity: 1;
   background: rgba(0, 0, 0, 0.5);
 }
-.icon-notliked {
-  color: none;
-}
 .icon-liked {
   color: map-get($map: $theme-colors, $key: 'primary');
 }
