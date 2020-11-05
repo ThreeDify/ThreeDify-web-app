@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
 import Icon from '../Components/Icon';
+import { EXPLORE_URL } from '../Constants/appUrls';
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,22 +23,30 @@ class Home extends React.Component {
               <h1>Construct your 3D object</h1>
               <p>
                 ThreeDify gives a simple user-interface which allows any users
-                with no knowledge of 3D modeling to build their own 3D model.
+                with zero knowledge of 3D modeling to build their own 3D model.
               </p>
-              <button
-                type='button'
-                className='btn btn btn-primary'
-                onClick={this.props.signup}
-              >
-                Signup
-              </button>
+              {this.props.isLoggedIn ? (
+                <Link to={EXPLORE_URL}>
+                  <button type='button' className='btn btn-primary'>
+                    Explore
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  type='button'
+                  className='btn btn-primary'
+                  onClick={this.props.signup}
+                >
+                  Signup
+                </button>
+              )}
             </div>
             <div>
               <img src='/public/images/kg.png' width='434px' height='auto' />
             </div>
           </div>
           <div className='mt-5'>
-            <h1>Discover best for ThreeDify</h1>
+            <h1>Discover best from ThreeDify</h1>
             <div className='color-box d-flex justify-content-between mt-5'>
               <div className='bg-danger text-white'></div>
               <div className='bg-warning text-dark'></div>
@@ -62,7 +71,7 @@ class Home extends React.Component {
                 <div className='member_img'>
                   <img src='/public/images/anish.jpg' />
                 </div>
-                <h3>Anish silwal khatri</h3>
+                <h3>Anish Silwal Khatri</h3>
                 <div className='social_media mt-2'>
                   <a
                     target='_blank'
@@ -103,7 +112,7 @@ class Home extends React.Component {
                 <div className='member_img'>
                   <img src='/public/images/daniel.jpg' />
                 </div>
-                <h3>Daniel thapa magar</h3>
+                <h3>Daniel Thapa Magar</h3>
                 <div className='social_media mt-2'>
                   <a
                     target='_blank'
@@ -144,7 +153,7 @@ class Home extends React.Component {
                 <div className='member_img'>
                   <img src='/public/images/kishor.jpg' />
                 </div>
-                <h3>Kishor ghising</h3>
+                <h3>Kishor Ghising</h3>
                 <div className='social_media mt-2'>
                   <a
                     target='_blank'
@@ -185,7 +194,7 @@ class Home extends React.Component {
                 <div className='member_img'>
                   <img src='/public/images/shrawan.jpg' />
                 </div>
-                <h3>Shrawan ghimire</h3>
+                <h3>Shrawan Ghimire</h3>
                 <div className='social_media mt-2'>
                   <a
                     target='_blank'

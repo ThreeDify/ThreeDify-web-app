@@ -39,27 +39,25 @@ class LoginForm extends Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
 
     this.disable();
+    try {
+      let response = await login(this.state.username, this.state.password);
+      this.enable();
+      if (response.status === STATUS_OK) {
+        this.loginSuccess(response);
+      }
+    } catch (e) {
+      this.enable();
 
-    login(this.state.username, this.state.password)
-      .then((response) => {
-        this.enable();
-        if (response.status === STATUS_OK) {
-          this.loginSuccess(response);
-        }
-      })
-      .catch((e) => {
-        this.enable();
-
-        if (e.response && e.response.data) {
-          this.loginFailed(e.response);
-        } else {
-          this.loginError(e);
-        }
-      });
+      if (e.response && e.response.data) {
+        this.loginFailed(e.response);
+      } else {
+        this.loginError(e);
+      }
+    }
   }
 
   loginSuccess(response) {

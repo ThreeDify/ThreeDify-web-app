@@ -117,43 +117,42 @@ class SignupForm extends Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
 
     this.setState({
       isBtnDisabled: true,
     });
 
-    SignupFormValidation.validate(this.state, {
-      abortEarly: false,
-    })
-      .then(async (validatedData) => {
-        let isEmailAndUsernameUnique = await this.validateUniqueUsernameAndEmail(
-          validatedData.username,
-          validatedData.email
-        );
+    try {
+      const validatedData = await SignupFormValidation.validate(this.state, {
+        abortEarly: false,
+      });
+      let isEmailAndUsernameUnique = await this.validateUniqueUsernameAndEmail(
+        validatedData.username,
+        validatedData.email
+      );
 
-        if (isEmailAndUsernameUnique) {
-          await this.register(validatedData);
-        }
+      if (isEmailAndUsernameUnique) {
+        await this.register(validatedData);
+      }
+
+      this.setState({
+        isBtnDisabled: false,
+      });
+    } catch (errors) {
+      if (errors.name === 'ValidationError') {
+        let validationErrors = errors.inner.reduce((acc, err) => {
+          acc[err.path] = err.errors[0];
+          return acc;
+        }, {});
 
         this.setState({
           isBtnDisabled: false,
+          errors: validationErrors,
         });
-      })
-      .catch((errors) => {
-        if (errors.name === 'ValidationError') {
-          let validationErrors = errors.inner.reduce((acc, err) => {
-            acc[err.path] = err.errors[0];
-            return acc;
-          }, {});
-
-          this.setState({
-            isBtnDisabled: false,
-            errors: validationErrors,
-          });
-        }
-      });
+      }
+    }
   }
 
   render() {
