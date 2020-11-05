@@ -36,7 +36,7 @@ class ReconstructionCard extends React.Component {
               )}
             </div>
             <Icon
-              className={this.state.liked ? 'icon-liked' : 'icon-notliked'}
+              className={this.state.liked ? 'icon-liked' : ''}
               name={['fas', 'heart']}
               size='2x'
               onClick={this.likeToggle}
