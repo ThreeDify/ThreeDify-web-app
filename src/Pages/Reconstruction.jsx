@@ -64,7 +64,7 @@ export class Reconstruction extends Component {
     this.clickHandler = this.clickHandler.bind(this);
   }
 
-  clickHandler(e) {
+  clickHandler() {
     this.form.current.reset();
     this.setState({
       uploading: false,
