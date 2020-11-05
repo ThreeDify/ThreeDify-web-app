@@ -2,17 +2,31 @@ import React, { Component } from 'react';
 
 import { asPage } from '../Middlewares/asPage';
 import authenticate from '../Middlewares/authenticate';
+import { getAuthenticatedInstance } from '../Utils/axios';
 
-import axios from 'axios';
+import { RECONSTRUCTION_CREATE_URL } from '../Constants/apiUrls';
+import { RECONSTRUCTION_URL } from '../Constants/appUrls';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import {
+  IMAGE_UPLOAD_SUCCESS,
+  IMAGE_SIZE_ERROR,
+  BACKEND_ERROR_MESSAGE,
+} from '../Constants/messages';
+import InputField from '../Components/InputField';
+import { Link } from 'react-router-dom';
 
 export class Reconstruction extends Component {
   constructor(props) {
     super(props);
+    this.form = React.createRef();
 
     this.state = {
-      loading: false,
-      name: '',
-      selectedFiles: [],
+      uploading: false,
+      uploadSuccess: false,
+      uploadFail: false,
+
       images: [
         {
           img_url:
@@ -46,50 +60,57 @@ export class Reconstruction extends Component {
         },
       ],
     };
-    this.changeNameHandler = this.changeNameHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
-    this.onFileChange = this.onFileChange.bind(this);
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
-  changeNameHandler(e) {
+  clickHandler(e) {
+    this.form.current.reset();
     this.setState({
-      name: e.target.value,
+      uploading: false,
+      uploadSuccess: false,
+      uploadFail: false,
+      backendError: false,
     });
   }
 
-  onFileChange(e) {
-    this.setState({
-      selectedFiles: e.target.files[0],
-    });
-  }
-
-  submitHandler(e) {
+  async submitHandler(e) {
     e.preventDefault();
-    const myData = document.getElementById('form');
+    const myData = new FormData(this.form.current);
+    let imagesList = myData.getAll('images');
+
+    // form file-size validation
+    for (let key of imagesList) {
+      if (key.size / 1000000 > 0.5) {
+        this.setState({ uploadFail: true });
+        return;
+      }
+    }
+
+    {
+      this.state.uploadFail && this.setState({ uploadFail: false });
+    }
 
     this.setState({
-      loading: true,
+      uploading: true,
     });
 
-    const url =
-      'https://threedify-api-staging.herokuapp.com/reconstructions/create';
-
-    axios
-      .post(url, myData)
-      .then((resp) => {
-        console.log(resp);
+    let axios = await getAuthenticatedInstance();
+    try {
+      let resp = await axios.post(RECONSTRUCTION_CREATE_URL, myData);
+      if (resp.status === 200) {
         this.setState({
-          loading: false,
-          message: resp,
+          uploadSuccess: true,
+          uploading: false,
         });
-      })
-      .catch((err) => {
-        console.log(err);
+      }
+    } catch (err) {
+      if (err) {
         this.setState({
-          loading: false,
-          message: err,
+          backendError: true,
         });
-      });
+      }
+    }
   }
 
   render() {
@@ -113,17 +134,20 @@ export class Reconstruction extends Component {
         {/* left-section */}
         <div className='col-6'>
           {/* form  */}
-          <form id='form' onSubmit={this.submitHandler} className='form-group'>
+          <form
+            ref={this.form}
+            onSubmit={this.submitHandler}
+            className={`form-group ${
+              (this.state.uploading || this.state.uploadSuccess) && 'd-none'
+            }`}
+          >
             <div className='form-group mb-4'>
               <label htmlFor='title'>Project Title</label>
-              <input
-                className='form-control col-4'
-                id='title'
-                name='reconstruction_image'
+              <InputField
+                name='reconstruction_name'
                 type='text'
-                onChange={this.changeNameHandler}
-                value={this.state.value}
                 placeholder='eg: 3D Bottles'
+                required
               />
             </div>
 
@@ -135,22 +159,70 @@ export class Reconstruction extends Component {
               <br />
               <input
                 className='form-control-file'
-                id='image-upload'
                 name='images'
                 type='file'
-                onChange={this.onFileChange}
                 multiple
+                accept='image/png, image/jpeg'
+                required
               />
               <small className='form-text text-muted'>
                 Select multiple files at once.
               </small>
             </div>
 
-            <button type='submit' className='btn btn-primary my-2'>
+            <button
+              disabled={this.state.uploading && true}
+              type='submit'
+              className='btn btn-primary my-2'
+            >
               Upload
             </button>
           </form>
-          {this.state.loading && <span>Loading...</span>}
+
+          {/* uploading spinner */}
+          {this.state.uploading && (
+            <span>
+              <FontAwesomeIcon icon='spinner' pulse className='mx-5' />
+              Uploading...
+            </span>
+          )}
+
+          {/* Size error message */}
+          {this.state.uploadFail && (
+            <span className='alert alert-danger'>{IMAGE_SIZE_ERROR}</span>
+          )}
+
+          {/* Success Message */}
+          {this.state.uploadSuccess && (
+            <div>
+              {' '}
+              <span className='alert alert-success'>
+                {IMAGE_UPLOAD_SUCCESS}
+              </span>
+              <button
+                className='btn btn-success mx-2'
+                onClick={this.clickHandler}
+              >
+                <Link to={RECONSTRUCTION_URL}>Reconstruct Again</Link>
+              </button>
+            </div>
+          )}
+
+          {/* Backend Error Message */}
+          {this.state.backendError && (
+            <div>
+              {' '}
+              <span className='alert alert-danger'>
+                {BACKEND_ERROR_MESSAGE}
+              </span>
+              <button
+                className='btn btn-danger mx-2'
+                onClick={this.clickHandler}
+              >
+                <Link to={RECONSTRUCTION_URL}>Try Again</Link>
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Right Section */}
