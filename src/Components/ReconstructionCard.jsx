@@ -1,36 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Icon from '../Components/Icon';
+import { IMAGE_URL } from '../constants/apiUrls';
 
 class ReconstructionCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: false,
+      liked: false,
     };
-    this.heartToggle = this.heartToggle.bind(this);
+    this.likeToggle = this.likeToggle.bind(this);
   }
-  heartToggle() {
-    const currentState = this.state.active;
-    this.setState({ active: !currentState });
+  likeToggle() {
+    const currentState = this.state.liked;
+    this.setState({ liked: !currentState });
   }
   render() {
     return (
-      <div className=' mt-5 color-box-com'>
-        <div className='recent-model'></div>
-        <div className='card_details'>
-          <div>
-            <h3>Project{this.props.project_title}</h3>
-            <p className='created_user'>Created By{this.props.username}</p>
+      <div className='reconstruction-card'>
+        <img
+          src={IMAGE_URL + '/' + this.props.reconstruction.images[0].fileName}
+          className='reconstruction-card-image'
+        ></img>
+        <div className='reconstruction-card-details'>
+          <div className='card-details'>
+            <div>
+              <h5 className='reconstruction-card-title'>
+                Project{this.props.reconstruction.name}
+              </h5>
+              {this.props.showCreator && (
+                <p className='creator-user-name'>
+                  Created by{this.props.reconstruction.createdByUser.username}
+                </p>
+              )}
+            </div>
+            <Icon
+              className={this.state.liked ? 'icon-liked' : 'icon-notliked'}
+              name={['fas', 'heart']}
+              size='2x'
+              onClick={this.likeToggle}
+            />
           </div>
-          <Icon
-            className={
-              this.state.active ? 'heart_icon_active' : 'heart_icon_deactivate'
-            }
-            name={['fas', 'heart']}
-            size='2x'
-            onClick={this.heartToggle}
-          />
         </div>
       </div>
     );
@@ -38,8 +49,8 @@ class ReconstructionCard extends React.Component {
 }
 
 ReconstructionCard.propTypes = {
-  username: PropTypes.string,
-  project_title: PropTypes.string,
+  reconstruction: PropTypes.object,
+  showCreator: PropTypes.bool,
 };
 
 export default ReconstructionCard;
