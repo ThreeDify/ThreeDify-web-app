@@ -5,7 +5,6 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 
 import { RECONSTRUCTION_CREATE_URL } from '../Constants/apiUrls';
-import { RECONSTRUCTION_URL } from '../Constants/appUrls';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -15,7 +14,6 @@ import {
   BACKEND_ERROR_MESSAGE,
 } from '../Constants/messages';
 import InputField from '../Components/InputField';
-import { Link } from 'react-router-dom';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -61,11 +59,11 @@ export class Reconstruction extends Component {
       ],
     };
     this.submitHandler = this.submitHandler.bind(this);
-    this.clickHandler = this.clickHandler.bind(this);
+    this.resetHandler = this.resetHandler.bind(this);
   }
 
-  clickHandler() {
-    this.form.current.reset();
+  resetHandler() {
+    this.form.current && this.form.current.reset();
     this.setState({
       uploading: false,
       uploadSuccess: false,
@@ -81,18 +79,15 @@ export class Reconstruction extends Component {
 
     // form file-size validation
     for (let key of imagesList) {
-      if (key.size / 1000000 > 0.5) {
+      if (key.size / 1000000 > 5) {
         this.setState({ uploadFail: true });
         return;
       }
     }
 
-    {
-      this.state.uploadFail && this.setState({ uploadFail: false });
-    }
-
     this.setState({
       uploading: true,
+      uploadFail: false,
     });
 
     let axios = await getAuthenticatedInstance();
@@ -138,7 +133,7 @@ export class Reconstruction extends Component {
             ref={this.form}
             onSubmit={this.submitHandler}
             className={`form-group ${
-              (this.state.uploading || this.state.uploadSuccess) && 'd-none'
+              this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''
             }`}
           >
             <div className='form-group mb-4'>
@@ -195,15 +190,14 @@ export class Reconstruction extends Component {
           {/* Success Message */}
           {this.state.uploadSuccess && (
             <div>
-              {' '}
               <span className='alert alert-success'>
                 {IMAGE_UPLOAD_SUCCESS}
               </span>
               <button
                 className='btn btn-success mx-2'
-                onClick={this.clickHandler}
+                onClick={this.resetHandler}
               >
-                <Link to={RECONSTRUCTION_URL}>Reconstruct Again</Link>
+                Reconstruct Again
               </button>
             </div>
           )}
@@ -211,15 +205,14 @@ export class Reconstruction extends Component {
           {/* Backend Error Message */}
           {this.state.backendError && (
             <div>
-              {' '}
               <span className='alert alert-danger'>
                 {BACKEND_ERROR_MESSAGE}
               </span>
               <button
                 className='btn btn-danger mx-2'
-                onClick={this.clickHandler}
+                onClick={this.resetHandler}
               >
-                <Link to={RECONSTRUCTION_URL}>Try Again</Link>
+                Try Again
               </button>
             </div>
           )}
