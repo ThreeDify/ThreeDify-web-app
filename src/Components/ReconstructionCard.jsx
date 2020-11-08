@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from '../Components/Icon';
-import { IMAGE_URL } from '../constants/apiUrls';
+import { IMAGE_URL } from '../Constants/apiUrls';
 
 class ReconstructionCard extends React.Component {
   constructor(props) {
