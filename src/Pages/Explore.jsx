@@ -17,16 +17,13 @@ class Explore extends React.Component {
       loading: true,
       reconstruction: [],
     };
-    this.reconstructionCardFetchHandler = this.reconstructionCardFetchHandler.bind(
-      this
-    );
   }
 
   componentDidMount() {
-    this.reconstructionCardFetchHandler();
+    this.fetchReconstructions();
   }
 
-  async reconstructionCardFetchHandler() {
+  async fetchReconstructions() {
     let axios = getAxiosInstance();
     let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL);
 
@@ -65,7 +62,10 @@ class Explore extends React.Component {
             key={index}
             className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
           >
-            <ReconstructionCard reconstruction={reconstruction} />
+            <ReconstructionCard
+              showCreator={true}
+              reconstruction={reconstruction}
+            />
           </div>
         );
       }

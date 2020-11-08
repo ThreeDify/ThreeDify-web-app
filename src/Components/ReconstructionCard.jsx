@@ -26,17 +26,21 @@ class ReconstructionCard extends React.Component {
         <div className='reconstruction-card-details'>
           <div className='card-details'>
             <div>
-              <h5>
+              <h5
+                className={this.props.showCreator ? '' : 'heading-showCreator'}
+              >
                 <span className='reconstruction-card-title'>
                   {this.props.reconstruction.name}
                 </span>
               </h5>
-              <p>
-                Created by{' '}
-                <span className='creator-user-name'>
-                  {this.props.reconstruction.createdByUser.username}
-                </span>
-              </p>
+              {this.props.showCreator && (
+                <p>
+                  Created by{' '}
+                  <span className='creator-user-name'>
+                    {this.props.reconstruction.createdByUser.username}
+                  </span>
+                </p>
+              )}
             </div>
             <Icon
               className={this.state.liked ? 'icon-liked icon' : 'icon'}

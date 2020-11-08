@@ -27,10 +27,13 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    align-items: center;
+    align-items: flex-start;
 
     h5 {
       margin-bottom: 0px;
+    }
+    .heading-showCreator {
+      margin-bottom: 24px;
     }
 
     .reconstruction-card-title:hover,
