@@ -1,0 +1,25 @@
+.search-section {
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    font-size: 14px;
+  }
+}
+.search-display {
+  h2 {
+    font-weight: 900;
+  }
+}
+.loading {
+  margin-top: 64px;
+  display: flex;
+  justify-content: center;
+}
+.reconstruction-card-container {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+}

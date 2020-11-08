@@ -1,14 +1,13 @@
 .reconstruction-card {
-  width: 360px;
-  height: 240px;
+  width: 350px;
+  height: 250px;
   position: relative;
-  cursor: pointer;
 }
 .reconstruction-card-image {
   height: 100%;
   width: 100%;
-  border-radius: 12px;
-  object-fit: fit;
+  border-radius: 8px;
+  object-fit: cover;
 }
 .reconstruction-card-details {
   top: 0;
@@ -31,7 +30,18 @@
     align-items: center;
 
     h5 {
-      margin-bottom: -2px;
+      margin-bottom: 0px;
+    }
+
+    .reconstruction-card-title:hover,
+    .creator-user-name:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      color: map-get($map: $theme-colors, $key: 'primary');
+    }
+
+    .icon:hover {
+      cursor: pointer;
     }
   }
 }
