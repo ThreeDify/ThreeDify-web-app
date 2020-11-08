@@ -6,11 +6,7 @@ import { asPage } from '../Middlewares/asPage';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import { getAxiosInstance } from '../Utils/axios';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
-import {
-  STATUS_OK,
-  STATUS_NOT_FOUND,
-  STATUS_INTERNAL_SERVER_ERROR,
-} from '../Constants/httpStatus';
+import { STATUS_OK } from '../Constants/httpStatus';
 import Icon from '../Components/Icon';
 
 class Explore extends React.Component {
