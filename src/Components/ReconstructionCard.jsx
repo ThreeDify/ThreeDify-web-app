@@ -27,7 +27,9 @@ class ReconstructionCard extends React.Component {
           <div className='card-details'>
             <div>
               <h5
-                className={!this.props.showCreator ? 'heading-creator-hidden' : ''}
+                className={
+                  !this.props.showCreator ? 'heading-creator-hidden' : ''
+                }
               >
                 <span className='reconstruction-card-title'>
                   {this.props.reconstruction.name}
