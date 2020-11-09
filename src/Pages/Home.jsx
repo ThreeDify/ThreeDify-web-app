@@ -6,7 +6,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
-import Icon from '../Components/Icon';
 import { EXPLORE_URL } from '../Constants/appUrls';
 import TeamMemberCard from '../Components/TeamMemberCard';
 
