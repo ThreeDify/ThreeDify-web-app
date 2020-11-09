@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import InputField from '../Components/InputField';
 import { asPage } from '../Middlewares/asPage';
@@ -103,10 +102,5 @@ class Explore extends React.Component {
     );
   }
 }
-
-Explore.propTypes = {
-  reconstruction: PropTypes.object,
-  loading: PropTypes.bool,
-};
 
 export default asPage(Explore);
