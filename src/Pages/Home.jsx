@@ -130,7 +130,7 @@ class Home extends React.Component {
                 imgLink='/public/images/anish.jpg'
                 name='Anish Silwal Khatri'
                 description='Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
-                  his bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He has a huge
+                  his bachelors degree in Bsc.CSIT. He has a huge
                   interest in Game Development. He is a massive football fan (supports Chelsea Football Club).'
                 githubLink='https://www.github.com/silwalanish/'
                 instagramLink='https://www.instagram.com/silwal_anish/'
