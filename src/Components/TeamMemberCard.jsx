@@ -6,7 +6,7 @@ import Icon from '../Components/Icon';
 class TeamMemberCard extends React.Component {
   render() {
     return (
-      <div className='team-member-card col-xl-3 col-lg-4 col-md-6 col-sm-12'>
+      <div className='team-member-card'>
         <div className='member-img'>
           <img src={this.props.imgLink} />
         </div>

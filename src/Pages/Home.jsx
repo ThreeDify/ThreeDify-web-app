@@ -20,7 +20,7 @@ class Home extends React.Component {
         <div className='home-page col-12'>
           <div className='d-flex align-items-center' height='90vh'>
             <div>
-              <h1>Construct your 3D object</h1>
+              <h1>Construct your 3D models</h1>
               <p>
                 ThreeDify gives a simple user-interface which allows any users
                 with zero knowledge of 3D modeling to build their own 3D model.
@@ -66,13 +66,13 @@ class Home extends React.Component {
           </div>
           <div className='our-team-section'>
             <h1>Our Team</h1>
-            <div className='team-member row'>
+            <div className='team-member'>
               <TeamMemberCard
                 imgLink='/public/images/anish.jpg'
                 name='Anish Silwal Khatri'
-                description='Anish Sliwal Khatri is a Programming Genius and currently working at Leapfrog Technology. He is pursuing 
-                  his bachelors degree in CSIT at Bhaktapur Multiple Campus. He has a huge
-                  interest on Football and Game Development. He is real blue supporter.'
+                description='Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
+                  his bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He has a huge
+                  interest in Game Development. He is a massive football fan (supports Chelsea Football Club).'
                 githubLink='https://www.github.com/silwalanish/'
                 instagramLink='https://www.instagram.com/silwal_anish/'
                 linkedinLink='https://www.linkedin.com/in/silwalanish/'
@@ -80,9 +80,9 @@ class Home extends React.Component {
               <TeamMemberCard
                 imgLink='/public/images/daniel.jpg'
                 name='Daniel Thapa Magar'
-                description='Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing
-                  bachelors degree in CSIT at Bhaktapur Multiple Campus. He also has a creative knowlegde on video editing, graphic
-                  design and many more. He loves to play music.'
+                description='Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing his
+                  bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He also has a creative knowlegde on video editing, graphic
+                  design, and many more. He loves to play music.'
                 githubLink='https://www.github.com/danny237/'
                 instagramLink='https://www.instagram.com/danielthapa23/'
                 linkedinLink='https://www.linkedin.com/in/thapadaniel/'
@@ -91,8 +91,8 @@ class Home extends React.Component {
               <TeamMemberCard
                 imgLink='/public/images/kishor.jpg'
                 name='Kishor Ghising'
-                description='Kishor Ghising is an inspiring UI/UX Engineer. He is currently working 
-                  at prokura innovations and pursuing his bachelor’s degree in computer science and information 
+                description='Kishor Ghising is a UI/UX Engineer at Prokura Innovations. He is currently 
+                pursuing his bachelor’s degree in computer science and information 
                   technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek.
                   '
                 githubLink='https://www.github.com/KGhising/'
@@ -104,8 +104,8 @@ class Home extends React.Component {
                 imgLink='/public/images/shrawan.jpg'
                 name='Shrawan Ghimire'
                 description='Shrawan Ghimire is a Web Developer and Technology Enthusiastic. He is pursuing his bachelors degree
-                  in computer science and information technology at Bhaktapur Multiple Campus. He is a technology geek and also 
-                  a genuine fan of Real Madrid.'
+                  in computer science and information technology at Bhaktapur Multiple Campus. He is a huge football fan and supports 
+                  Football Club Real Madrid.'
                 githubLink='https://www.github.com/SG-coder/'
                 instagramLink='https://www.instagram.com/shrwan_ghimire/'
                 linkedinLink='https://www.linkedin.com/in/shrawan-ghimire-36536b145/'
