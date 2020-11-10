@@ -1,0 +1,80 @@
+.team-member-card {
+  width: 260px;
+  height: 340px;
+  margin-top: 16px;
+  margin-right: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: map-get($map: $theme-colors, $key: 'white');
+  border-radius: 16px;
+  font-size: 14px;
+  transition-property: background-color;
+  transition-duration: 400ms;
+  transition-delay: 50ms;
+  transform: translate3d(0, 0, 0);
+  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  p {
+    display: none;
+    text-align: left;
+    letter-spacing: 1px;
+    font-weight: 550;
+  }
+
+  h5 {
+    margin-top: 24px;
+    font-weight: 600;
+  }
+
+  .member-img {
+    max-width: 116px;
+    height: 116px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+    }
+  }
+
+  .social-media {
+    margin-top: 4px;
+    display: flex;
+    justify-content: center;
+
+    .social-media-icon {
+      margin-right: 12px;
+      color: map-get($map: $theme-colors, $key: 'secondary');
+    }
+    .social-media-icon:hover {
+      color: map-get($map: $theme-colors, $key: 'blue');
+    }
+  }
+}
+
+.team-member-card:hover {
+  background-color: map-get($map: $theme-colors, $key: 'primary');
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0 18px;
+  cursor: pointer;
+
+  p {
+    display: block;
+  }
+
+  h5 {
+    font-weight: 700;
+  }
+
+  .member-img {
+    display: none;
+  }
+  .social-media {
+    justify-content: flex-start;
+  }
+}

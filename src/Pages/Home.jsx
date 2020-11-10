@@ -8,6 +8,7 @@ import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
 import Icon from '../Components/Icon';
 import { EXPLORE_URL } from '../Constants/appUrls';
+import TeamMemberCard from '../Components/TeamMemberCard';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import { getAxiosInstance } from '../Utils/axios';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
@@ -122,173 +123,52 @@ class Home extends React.Component {
               </a>
             </p>
           </div>
-          <div className='wrapper mt-5'>
-            <h1 className='mt-5'>Our Team</h1>
-            <div className='our_team mt-4'>
-              <div className='team_member mr-3 mb-3'>
-                <div className='member_img'>
-                  <img src='/public/images/anish.jpg' />
-                </div>
-                <h3>Anish Silwal Khatri</h3>
-                <div className='social_media mt-2'>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.instagram.com/silwal_anish/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'instagram']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.linkedin.com/in/silwalanish/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'linkedin']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.facebook.com/silwalanish'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'facebook']}
-                      size='2x'
-                    />
-                  </a>
-                </div>
-              </div>
-              <div className='team_member mr-3 mb-3'>
-                <div className='member_img'>
-                  <img src='/public/images/daniel.jpg' />
-                </div>
-                <h3>Daniel Thapa Magar</h3>
-                <div className='social_media mt-2'>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.instagram.com/danielthapa23/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'instagram']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.linkedin.com/in/thapadaniel/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'linkedin']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.facebook.com/daniel.thapa.35'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'facebook']}
-                      size='2x'
-                    />
-                  </a>
-                </div>
-              </div>
-              <div className='team_member mr-3 mb-3'>
-                <div className='member_img'>
-                  <img src='/public/images/kishor.jpg' />
-                </div>
-                <h3>Kishor Ghising</h3>
-                <div className='social_media mt-2'>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.instagram.com/kghisinga/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'instagram']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.linkedin.com/in/kishor-ghising-9b77611a4/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'linkedin']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.facebook.com/kghisinga/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'facebook']}
-                      size='2x'
-                    />
-                  </a>
-                </div>
-              </div>
-              <div className='team_member mb-3'>
-                <div className='member_img'>
-                  <img src='/public/images/shrawan.jpg' />
-                </div>
-                <h3>Shrawan Ghimire</h3>
-                <div className='social_media mt-2'>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.instagram.com/shrwan_ghimire/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'instagram']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.linkedin.com/in/shrawan-ghimire-36536b145/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'linkedin']}
-                      size='2x'
-                    />
-                  </a>
-                  <a
-                    target='_blank'
-                    rel='noreferrer'
-                    href='https://www.facebook.com/shrawan.ghimire.7/'
-                  >
-                    <Icon
-                      className='social-media-icon'
-                      name={['fab', 'facebook']}
-                      size='2x'
-                    />
-                  </a>
-                </div>
-              </div>
+          <div className='our-team-section'>
+            <h1>Our Team</h1>
+            <div className='team-member'>
+              <TeamMemberCard
+                imgLink='/public/images/anish.jpg'
+                name='Anish Silwal Khatri'
+                description='Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
+                  his bachelors degree in Bsc.CSIT. He has a huge
+                  interest in Game Development. He is a massive football fan (supports Chelsea Football Club).'
+                githubLink='https://www.github.com/silwalanish/'
+                instagramLink='https://www.instagram.com/silwal_anish/'
+                linkedinLink='https://www.linkedin.com/in/silwalanish/'
+              />
+              <TeamMemberCard
+                imgLink='/public/images/daniel.jpg'
+                name='Daniel Thapa Magar'
+                description='Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing his
+                  bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He also has a creative knowlegde on video editing, graphic
+                  design, and many more. He loves to play music.'
+                githubLink='https://www.github.com/danny237/'
+                instagramLink='https://www.instagram.com/danielthapa23/'
+                linkedinLink='https://www.linkedin.com/in/thapadaniel/'
+              />
+
+              <TeamMemberCard
+                imgLink='/public/images/kishor.jpg'
+                name='Kishor Ghising'
+                description='Kishor Ghising is a UI/UX Engineer at Prokura Innovations. He is currently 
+                pursuing his bachelor’s degree in computer science and information 
+                  technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek.
+                  '
+                githubLink='https://www.github.com/KGhising/'
+                instagramLink='https://www.instagram.com/kghisinga/'
+                linkedinLink='https://www.linkedin.com/in/kghisiga/'
+              />
+
+              <TeamMemberCard
+                imgLink='/public/images/shrawan.jpg'
+                name='Shrawan Ghimire'
+                description='Shrawan Ghimire is a Web Developer and Technology Enthusiastic. He is pursuing his bachelors degree
+                  in computer science and information technology at Bhaktapur Multiple Campus. He is a huge football fan and supports 
+                  Football Club Real Madrid.'
+                githubLink='https://www.github.com/SG-coder/'
+                instagramLink='https://www.instagram.com/shrwan_ghimire/'
+                linkedinLink='https://www.linkedin.com/in/shrawan-ghimire-36536b145/'
+              />
             </div>
           </div>
         </div>
