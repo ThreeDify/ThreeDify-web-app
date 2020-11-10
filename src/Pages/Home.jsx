@@ -6,13 +6,13 @@ import { withRouter, Link } from 'react-router-dom';
 import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
+import Icon from '../Components/Icon';
 import { EXPLORE_URL } from '../Constants/appUrls';
+import TeamMemberCard from '../Components/TeamMemberCard';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import { getAxiosInstance } from '../Utils/axios';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
 import { STATUS_OK } from '../Constants/httpStatus';
-import Icon from '../Components/Icon';
-import TeamMemberCard from '../Components/TeamMemberCard';
 
 class Home extends React.Component {
   constructor(props) {
