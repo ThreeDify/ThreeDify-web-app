@@ -7,20 +7,80 @@ import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
 import { requestSignup } from '../Store/Actions/auth';
 import { EXPLORE_URL } from '../Constants/appUrls';
+import ReconstructionCard from '../Components/ReconstructionCard';
+import { getAxiosInstance } from '../Utils/axios';
+import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
+import { STATUS_OK } from '../Constants/httpStatus';
+import Icon from '../Components/Icon';
 import TeamMemberCard from '../Components/TeamMemberCard';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      loading: true,
+      reconstruction: [],
+    };
+  }
+
+  componentDidMount() {
+    this.fetchReconstructions();
+  }
+
+  async fetchReconstructions() {
+    let axios = getAxiosInstance();
+    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL);
+
+    try {
+      if (reconstruction.status === STATUS_OK) {
+        this.setState({
+          loading: false,
+        });
+        this.fetchReconstructionsSuccess(reconstruction.data);
+      }
+    } catch (err) {
+      if (err) {
+        this.setState({
+          loading: true,
+        });
+      }
+    }
+  }
+
+  fetchReconstructionsSuccess(reconstruction) {
+    let sortedArray = reconstruction.sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    let recentNineReconstructions = sortedArray.slice(0, 6);
+    this.setState({
+      reconstruction: recentNineReconstructions,
+    });
   }
 
   render() {
+    const reconstructionArray = this.state.reconstruction;
+    const reconstructionCard = reconstructionArray.map(
+      (reconstruction, index) => {
+        return (
+          <div
+            key={index}
+            className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
+          >
+            <ReconstructionCard
+              showCreator={true}
+              reconstruction={reconstruction}
+            />
+          </div>
+        );
+      }
+    );
     return (
       <React.Fragment>
-        <div className='home-page col-12'>
-          <div className='d-flex align-items-center' height='90vh'>
-            <div>
-              <h1>Construct your 3D models</h1>
+        <div className='container'>
+          <div className='hero-section'>
+            <div className='threedify-about-section'>
+              <h1>Construct your 3D object</h1>
               <p>
                 ThreeDify gives a simple user-interface which allows any users
                 with zero knowledge of 3D modeling to build their own 3D model.
@@ -41,25 +101,24 @@ class Home extends React.Component {
                 </button>
               )}
             </div>
-            <div>
-              <img src='/public/images/kg.png' width='434px' height='auto' />
+            <div className='about-section-image'>
+              <img src='/public/images/kg.png' />
             </div>
           </div>
-          <div className='mt-5'>
+          <div className='discover-section'>
             <h1>Discover best from ThreeDify</h1>
-            <div className='color-box d-flex justify-content-between mt-5'>
-              <div className='bg-danger text-white'></div>
-              <div className='bg-warning text-dark'></div>
-              <div className='bg-info text-white'></div>
-            </div>
-            <div className='color-box d-flex justify-content-between mt-4'>
-              <div className='bg-secondary text-white'></div>
-              <div className='bg-success text-white'></div>
-              <div className='bg-dark text-white'></div>
+            <div className='reconstruction-image-section'>
+              {this.state.loading ? (
+                <div className='loading'>
+                  <Icon name='spinner' size='3x' spin={true} />
+                </div>
+              ) : (
+                <div className='row'>{reconstructionCard}</div>
+              )}
             </div>
             <p className='text-right'>
               {' '}
-              <a href='#' className='link  '>
+              <a href='#' className='more-link'>
                 more
               </a>
             </p>
