@@ -24,5 +24,5 @@ Dashboard.propTypes = {
 };
 
 export default asPage(
-  withRouter(authenticate(withAuthenticatedUser(Dashboard)))
+  withRouter(withAuthenticatedUser(authenticate(Dashboard)))
 );

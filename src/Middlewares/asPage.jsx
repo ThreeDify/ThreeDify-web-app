@@ -6,7 +6,7 @@ export function asPage(WrappedComponent) {
       return (
         <div className='container'>
           <div className='row justify-content-center'>
-            <WrappedComponent></WrappedComponent>
+            <WrappedComponent {...this.props}></WrappedComponent>
           </div>
         </div>
       );
