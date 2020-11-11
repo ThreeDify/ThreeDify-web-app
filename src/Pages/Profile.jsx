@@ -3,6 +3,7 @@ import authenticate from '../Middlewares/authenticate';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
+import PropTypes from 'prop-types';
 
 export class Profile extends Component {
   constructor(props) {
@@ -87,5 +88,9 @@ export class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  user: PropTypes.object,
+};
 
 export default authenticate(withAuthenticatedUser(Profile));
