@@ -8,6 +8,7 @@ import Explore from './Pages/Explore';
 import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
 import Reconstruction from './Pages/Reconstruction';
+import Profile from './Pages/Profile';
 import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
@@ -17,6 +18,7 @@ import {
   DASHBOARD_URL,
   RECONSTRUCTION_URL,
   EXPLORE_URL,
+  PROFILE_URL,
 } from './Constants/appUrls';
 
 class App extends React.Component {
@@ -45,6 +47,10 @@ class App extends React.Component {
 
               <Route exact path={HOME_URL}>
                 <Home></Home>
+              </Route>
+
+              <Route exact path={PROFILE_URL}>
+                <Profile></Profile>
               </Route>
 
               <Route strict exact path={RECONSTRUCTION_URL}>
