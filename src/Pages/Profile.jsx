@@ -62,13 +62,13 @@ export class Profile extends Component {
         <div className='main-content col-12'>
           <div className='profile-section col-3'>
             {/* profile img */}
-            <div className='user-profile-pic border border-primary rounded-circle text-center text-primary'>
+            <div className='user-profile-pic border border-primary rounded-circle text-center text-primary mb-0'>
               {firstLetter}
             </div>
-            <h2 className='font-weight-medium'>{fullName}</h2>
-            <h4>{this.props.user.username}</h4>
+            <h4 className='font-weight-medium'>{fullName}</h4>
+            <p className='text-muted'>{this.props.user.username}</p>
 
-            <button className='btn btn-primary col-8 my-4'>Follow</button>
+            <button className='btn btn-primary col-8 mb-4'>Follow</button>
 
             <div className='info col-8'>
               <div className='d-flex'>
@@ -88,9 +88,8 @@ export class Profile extends Component {
 
           {/* model section */}
           <div className='model-section ml-2 col-7'>
-            <h2 className='ml-5 text-center'>Models</h2>
-            <hr />
-            <div className='d-flex ml-5 flex-wrap'>{cards}</div>
+            <h3 className='border-bottom text-center'>Models</h3>
+            <div className='d-flex flex-wrap'>{cards}</div>
           </div>
         </div>
       </div>
