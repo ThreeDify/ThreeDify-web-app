@@ -4,6 +4,7 @@ import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import PropTypes from 'prop-types';
+import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
 
 export class Profile extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export class Profile extends Component {
     let axios = await getAuthenticatedInstance();
     try {
       let resp = await axios.get(
-        `https://threedify-api-staging.herokuapp.com/users/${this.props.user.id}/reconstructions`
+        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id)
       );
       const imagesList = resp.data;
       this.setState({
@@ -44,14 +45,15 @@ export class Profile extends Component {
     ));
 
     return (
+      // maincontainer
       <div className='col-12'>
         {/* background holder*/}
-        <div className='backgroundHolder col-12'></div>
+        <div className='background-holder col-12'></div>
 
         {/* profile section */}
-        <div className='mainContent'>
-          <div className='profileSection'>
-            {/* pforile img */}
+        <div className='main-content col-12'>
+          <div className='profile-section col-3'>
+            {/* profile img */}
             <div className='user-profile-pic border border-primary rounded-circle text-center text-primary'>
               {firstLetter}
             </div>
@@ -77,8 +79,9 @@ export class Profile extends Component {
           </div>
 
           {/* model section */}
-          <div className='model-section ml-2'>
-            <h2 className='ml-5'>Models</h2>
+          <div className='model-section ml-2 col-7'>
+            <h2 className='ml-5 text-center'>Models</h2>
+            <hr />
             <div className='d-flex flex-wrap justify-content-center align-items-center'>
               {cards}
             </div>
@@ -93,4 +96,4 @@ Profile.propTypes = {
   user: PropTypes.object,
 };
 
-export default authenticate(withAuthenticatedUser(Profile));
+export default withAuthenticatedUser(authenticate(Profile));

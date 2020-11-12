@@ -18,3 +18,5 @@ export const RECONSTRUCTION_CREATE_URL =
 export const IMAGE_URL = process.env.API_URL + '/images';
 export const RECONSTRUCTION_FETCH_URL =
   process.env.API_URL + '/reconstructions';
+export const USER_RECONSTRUCTIONS_API =
+  process.env.API_URL + '/users/{userId}/reconstructions';
