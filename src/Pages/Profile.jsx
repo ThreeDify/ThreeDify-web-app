@@ -44,6 +44,14 @@ export class Profile extends Component {
       </div>
     ));
 
+    // get full name
+    const getFullName = () => {
+      let user = this.props.user;
+      return user.first_name + ' ' + user.last_name;
+    };
+
+    let fullName = getFullName();
+
     return (
       // maincontainer
       <div className='col-12'>
@@ -57,8 +65,8 @@ export class Profile extends Component {
             <div className='user-profile-pic border border-primary rounded-circle text-center text-primary'>
               {firstLetter}
             </div>
-            <h1 className='font-weight-bold'>{this.props.user.first_name}</h1>
-            <h3>{this.props.user.username}</h3>
+            <h2 className='font-weight-medium'>{fullName}</h2>
+            <h4>{this.props.user.username}</h4>
 
             <button className='btn btn-primary col-8 my-4'>Follow</button>
 
@@ -82,9 +90,7 @@ export class Profile extends Component {
           <div className='model-section ml-2 col-7'>
             <h2 className='ml-5 text-center'>Models</h2>
             <hr />
-            <div className='d-flex flex-wrap justify-content-center align-items-center'>
-              {cards}
-            </div>
+            <div className='d-flex ml-5 flex-wrap'>{cards}</div>
           </div>
         </div>
       </div>
