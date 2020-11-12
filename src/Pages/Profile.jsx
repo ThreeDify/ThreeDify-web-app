@@ -62,7 +62,7 @@ export class Profile extends Component {
         <div className='main-content col-12'>
           <div className='profile-section col-3'>
             {/* profile img */}
-            <div className='user-profile-pic border border-primary rounded-circle text-center text-primary mb-0'>
+            <div className='user-profile-pic border border-primary rounded-circle text-center text-primary mb-2'>
               {firstLetter}
             </div>
             <h4 className='font-weight-medium'>{fullName}</h4>
@@ -87,7 +87,7 @@ export class Profile extends Component {
           </div>
 
           {/* model section */}
-          <div className='model-section ml-2 col-7'>
+          <div className='model-section ml-2'>
             <h3 className='border-bottom text-center'>Models</h3>
             <div className='d-flex flex-wrap'>{cards}</div>
           </div>
