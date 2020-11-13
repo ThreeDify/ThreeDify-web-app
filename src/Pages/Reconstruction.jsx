@@ -117,7 +117,7 @@ export class Reconstruction extends Component {
         </div>
 
         {/* main content */}
-        <div className='col-12 d-flex'>
+        <div className='col-12 d-flex justify-content-around'>
           {/* left-section */}
           <div className='form col-4 p-4'>
             {/* form  */}
@@ -212,7 +212,7 @@ export class Reconstruction extends Component {
           </div>
 
           {/* Right Section */}
-          <div className='ml-2 col-7'>
+          <div className='reconstruction-card-container'>
             <nav>
               <div className='nav nav-tabs' id='nav-tab' role='tablist'>
                 <a
@@ -269,7 +269,7 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-all-tab'
               >
-                <div className='d-flex flex-wrap col-12'>{cards}</div>
+                <div className='d-flex flex-wrap'>{cards}</div>
               </div>
 
               {/* completed tab */}

@@ -2,8 +2,13 @@
   padding: 0 100px;
 }
 
+.reconstruction-card-container{
+    max-width: 1098px;
+    box-sizing: content-box;
+}
+
 .form {
-  min-width: 300px;
+  box-sizing: border-box;
   background-color: #fff;
   border-radius: 10px;
   height: 400px;
