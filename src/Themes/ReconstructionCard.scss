@@ -1,0 +1,59 @@
+.reconstruction-card {
+  width: 350px;
+  height: 250px;
+  position: relative;
+}
+.reconstruction-card-image {
+  height: 100%;
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.reconstruction-card-details {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  padding: 0px 30px 0px 30px;
+  color: map-get($map: $theme-colors, $key: 'white');
+  visibility: hidden;
+  opacity: 0;
+  text-align: left;
+
+  .card-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+
+    h5 {
+      margin-bottom: 0px;
+    }
+    .heading-creator-hidden {
+      margin-bottom: 24px;
+    }
+
+    .reconstruction-card-title:hover,
+    .creator-user-name:hover {
+      cursor: pointer;
+      text-decoration: underline;
+      color: map-get($map: $theme-colors, $key: 'primary');
+    }
+
+    .icon:hover {
+      cursor: pointer;
+    }
+  }
+}
+.reconstruction-card:hover .reconstruction-card-details {
+  border-radius: 8px;
+  visibility: visible;
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.5);
+}
+.icon-liked {
+  color: map-get($map: $theme-colors, $key: 'primary');
+}

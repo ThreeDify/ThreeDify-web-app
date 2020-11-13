@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
 import { asPage } from '../Middlewares/asPage';
-import { authenticate } from '../Middlewares/authenticate';
+import authenticate from '../Middlewares/authenticate';
+import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
 
 class Dashboard extends React.Component {
   render() {
@@ -22,4 +23,6 @@ Dashboard.propTypes = {
   user: PropTypes.object,
 };
 
-export default asPage(withRouter(authenticate(Dashboard)));
+export default asPage(
+  withRouter(withAuthenticatedUser(authenticate(Dashboard)))
+);

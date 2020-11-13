@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 
 import NavLink from '../Components/NavLink';
 import { PROFILE_URL } from '../Constants/appUrls';
-import { authenticate } from '../Middlewares/authenticate';
+import authenticate from '../Middlewares/authenticate';
+import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
 
 class AuthenticatedToolbarOptions extends React.Component {
   render() {
@@ -45,4 +46,4 @@ AuthenticatedToolbarOptions.propTypes = {
   user: PropTypes.object,
 };
 
-export default authenticate(AuthenticatedToolbarOptions);
+export default authenticate(withAuthenticatedUser(AuthenticatedToolbarOptions));

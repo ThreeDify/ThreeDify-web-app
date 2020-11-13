@@ -1,6 +1,16 @@
-.image-holder img {
-  height: 150px;
-  width: 150px;
+.main-container {
+  padding: 0 100px;
+}
+
+.reconstruction-tabs-container {
+  max-width: 1098px;
+  box-sizing: content-box;
+}
+
+.form {
+  box-sizing: border-box;
+  background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0px 5px 10px 3px #c4c4c4;
+  height: 400px;
+  box-shadow: 0px 10px 15px rgba(53, 53, 53, 0.2);
 }
