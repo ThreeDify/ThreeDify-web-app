@@ -45,7 +45,6 @@ export class Reconstruction extends Component {
 
   // fetching model
   async componentDidMount() {
-    console.log(this.props);
 
     let axios = await getAuthenticatedInstance();
     try {
