@@ -211,7 +211,7 @@ export class Reconstruction extends Component {
           </div>
 
           {/* Right Section */}
-          <div className='reconstruction-card-container'>
+          <div className='reconstruction-tabs-container'>
             <nav>
               <div className='nav nav-tabs' id='nav-tab' role='tablist'>
                 <a
