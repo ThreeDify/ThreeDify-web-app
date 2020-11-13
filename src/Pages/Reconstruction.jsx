@@ -107,10 +107,8 @@ export class Reconstruction extends Component {
       </div>
     ));
 
-    console.log(this.props.user);
-
     return (
-      <div className='main-container col-12'>
+      <div className='main-container'>
         {/* Title */}
         <div className='col-12'>
           <h2 className='h2 font-weight-bold'>
@@ -122,7 +120,7 @@ export class Reconstruction extends Component {
         {/* main content */}
         <div className='col-12 d-flex'>
           {/* left-section */}
-          <div className='col-3 form p-4'>
+          <div className='form col-4 p-4'>
             {/* form  */}
             <form
               ref={this.form}
@@ -216,10 +214,94 @@ export class Reconstruction extends Component {
 
           {/* Right Section */}
           <div className='ml-2 col-7'>
-            <h2 className='text-center'>Your Models</h2>
-            <hr />
-            <div className='d-flex flex-wrap justify-content-center align-items-center'>
-              {cards}
+            <nav>
+              <div className='nav nav-tabs' id='nav-tab' role='tablist'>
+                <a
+                  className='nav-item nav-link active'
+                  id='nav-all-tab'
+                  data-toggle='tab'
+                  href='#nav-all'
+                  role='tab'
+                  aria-controls='nav-all'
+                  aria-selected='true'
+                >
+                  All
+                </a>
+                <a
+                  className='nav-item nav-link'
+                  id='nav-completed-tab'
+                  data-toggle='tab'
+                  href='#nav-completed'
+                  role='tab'
+                  aria-controls='nav-completed'
+                  aria-selected='true'
+                >
+                  Completed
+                </a>
+                <a
+                  className='nav-item nav-link'
+                  id='nav-process-tab'
+                  data-toggle='tab'
+                  href='#nav-process'
+                  role='tab'
+                  aria-controls='nav-process'
+                  aria-selected='false'
+                >
+                  In Process
+                </a>
+                <a
+                  className='nav-item nav-link'
+                  id='nav-queue-tab'
+                  data-toggle='tab'
+                  href='#nav-queue'
+                  role='tab'
+                  aria-controls='nav-queue'
+                  aria-selected='false'
+                >
+                  In Queue
+                </a>
+              </div>
+            </nav>
+            <div className='tab-content' id='nav-tabContent'>
+              {/* all tab */}
+              <div
+                className='tab-pane fade show active mt-2'
+                id='nav-all'
+                role='tabpanel'
+                aria-labelledby='nav-all-tab'
+              >
+                <div className='d-flex flex-wrap col-12'>{cards}</div>
+              </div>
+
+              {/* completed tab */}
+              <div
+                className='tab-pane fade mt-2'
+                id='nav-completed'
+                role='tabpanel'
+                aria-labelledby='nav-completed-tab'
+              >
+                <p>Completed models appears here.</p>
+              </div>
+
+              {/* Process tab */}
+              <div
+                className='tab-pane fade mt-2'
+                id='nav-process'
+                role='tabpanel'
+                aria-labelledby='nav-process-tab'
+              >
+                <p>No models are in process ! </p>
+              </div>
+
+              {/* Queue Tab */}
+              <div
+                className='tab-pane fade mt-2'
+                id='nav-queue'
+                role='tabpanel'
+                aria-labelledby='nav-queue-tab'
+              >
+                <p>No models are in queue !</p>
+              </div>
             </div>
           </div>
         </div>
