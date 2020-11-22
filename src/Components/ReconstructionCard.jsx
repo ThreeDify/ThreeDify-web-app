@@ -20,7 +20,10 @@ class ReconstructionCard extends React.Component {
     return (
       <div className='reconstruction-card'>
         <img
-          src={IMAGE_URL + '/' + this.props.reconstruction.images[0].fileName}
+          src={IMAGE_URL.replace(
+            '{fileName}',
+            this.props.reconstruction.images[0].fileName
+          )}
           className='reconstruction-card-image'
         ></img>
         <div className='reconstruction-card-details'>
@@ -46,7 +49,7 @@ class ReconstructionCard extends React.Component {
             </div>
             <Icon
               className={this.state.liked ? 'icon-liked icon' : 'icon'}
-              name={['fas', 'heart']}
+              name={[this.state.liked ? 'fas' : 'far', 'heart']}
               size='2x'
               onClick={this.likeToggle}
             />

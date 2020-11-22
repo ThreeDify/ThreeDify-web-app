@@ -1,22 +1,25 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import authenticate from '../Middlewares/authenticate';
-import { getAuthenticatedInstance } from '../Utils/axios';
-import PropTypes from 'prop-types';
 import {
   RECONSTRUCTION_CREATE_URL,
   USER_RECONSTRUCTIONS_API,
 } from '../Constants/apiUrls';
-import ReconstructionCard from '../Components/ReconstructionCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import {
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_SIZE_ERROR,
   BACKEND_ERROR_MESSAGE,
 } from '../Constants/messages';
+import Icon from '../Components/Icon';
 import InputField from '../Components/InputField';
+import authenticate from '../Middlewares/authenticate';
+import { getAuthenticatedInstance } from '../Utils/axios';
+import ReconstructionCard from '../Components/ReconstructionCard';
+import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+
+const SORT_ORDER = 'DESC';
+const NUM_RECONSTRUCTIONS = 6;
+const FILTERS = 'orderByCreatedAt';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -29,6 +32,7 @@ export class Reconstruction extends Component {
       uploadFail: false,
       reconstructions: [],
     };
+
     this.submitHandler = this.submitHandler.bind(this);
     this.resetHandler = this.resetHandler.bind(this);
   }
@@ -43,17 +47,22 @@ export class Reconstruction extends Component {
     });
   }
 
-  // fetching model
   async componentDidMount() {
     let axios = await getAuthenticatedInstance();
     try {
       let resp = await axios.get(
-        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id)
+        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id),
+        {
+          params: {
+            filters: FILTERS,
+            order: SORT_ORDER,
+            size: NUM_RECONSTRUCTIONS,
+          },
+        }
       );
-      const imagesList = resp.data;
 
       this.setState({
-        reconstructions: imagesList.slice(0, 6),
+        reconstructions: resp.data.data,
       });
     } catch (err) {
       console.log(err);
@@ -169,7 +178,7 @@ export class Reconstruction extends Component {
             {/* uploading spinner */}
             {this.state.uploading && (
               <span>
-                <FontAwesomeIcon icon='spinner' pulse className='mx-5' />
+                <Icon name='spinner' size='3x' spin={true} />
                 Uploading...
               </span>
             )}

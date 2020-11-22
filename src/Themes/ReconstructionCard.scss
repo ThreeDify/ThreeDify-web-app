@@ -1,59 +1,67 @@
 .reconstruction-card {
   width: 350px;
   height: 250px;
+  overflow: hidden;
   position: relative;
-}
-.reconstruction-card-image {
-  height: 100%;
-  width: 100%;
   border-radius: 8px;
-  object-fit: cover;
-}
-.reconstruction-card-details {
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  position: absolute;
-  padding: 0px 30px 0px 30px;
-  color: map-get($map: $theme-colors, $key: 'white');
-  visibility: hidden;
-  opacity: 0;
-  text-align: left;
+  background-color: map-get($map: $theme-colors, $key: 'secondary');
 
-  .card-details {
-    display: flex;
-    justify-content: space-between;
+  .reconstruction-card-image {
+    height: 100%;
     width: 100%;
-    align-items: flex-start;
+    object-fit: cover;
+  }
 
-    h5 {
-      margin-bottom: 0px;
-    }
-    .heading-creator-hidden {
-      margin-bottom: 24px;
-    }
+  .reconstruction-card-details {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    text-align: left;
+    position: absolute;
+    visibility: hidden;
+    align-items: flex-end;
+    padding: 0px 30px 0px 30px;
+    color: map-get($map: $theme-colors, $key: 'white');
+    transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
 
-    .reconstruction-card-title:hover,
-    .creator-user-name:hover {
-      cursor: pointer;
-      text-decoration: underline;
-      color: map-get($map: $theme-colors, $key: 'primary');
-    }
+    .card-details {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
 
-    .icon:hover {
-      cursor: pointer;
+      h5 {
+        margin-bottom: 0px;
+      }
+      .heading-creator-hidden {
+        margin-bottom: 24px;
+      }
+
+      .reconstruction-card-title:hover,
+      .creator-user-name:hover {
+        cursor: pointer;
+        text-decoration: underline;
+        color: map-get($map: $theme-colors, $key: 'primary');
+      }
+
+      .icon {
+        &:hover {
+          cursor: pointer;
+        }
+
+        &.icon-liked {
+          color: map-get($map: $theme-colors, $key: 'primary');
+        }
+      }
     }
   }
-}
-.reconstruction-card:hover .reconstruction-card-details {
-  border-radius: 8px;
-  visibility: visible;
-  opacity: 1;
-  background: rgba(0, 0, 0, 0.5);
-}
-.icon-liked {
-  color: map-get($map: $theme-colors, $key: 'primary');
+
+  &:hover .reconstruction-card-details {
+    opacity: 1;
+    visibility: visible;
+    background: rgba(0, 0, 0, 0.5);
+  }
 }
