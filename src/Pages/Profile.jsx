@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
-import authenticate from '../Middlewares/authenticate';
-import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { getAuthenticatedInstance } from '../Utils/axios';
-import ReconstructionCard from '../Components/ReconstructionCard';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+
+import authenticate from '../Middlewares/authenticate';
+import { getAuthenticatedInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
+import ReconstructionCard from '../Components/ReconstructionCard';
+import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+
+const SORT_ORDER = 'DESC';
+const NUM_RECONSTRUCTIONS = 9;
+const FILTERS = 'orderByCreatedAt';
 
 export class Profile extends Component {
   constructor(props) {
@@ -19,11 +24,18 @@ export class Profile extends Component {
     let axios = await getAuthenticatedInstance();
     try {
       let resp = await axios.get(
-        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id)
+        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id),
+        {
+          params: {
+            filters: FILTERS,
+            order: SORT_ORDER,
+            size: NUM_RECONSTRUCTIONS,
+          },
+        }
       );
-      const imagesList = resp.data;
+
       this.setState({
-        reconstructions: imagesList.slice(0, 6),
+        reconstructions: resp.data.data,
       });
     } catch (err) {
       console.log(err);
