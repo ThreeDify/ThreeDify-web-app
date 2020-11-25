@@ -60,21 +60,33 @@ class Home extends React.Component {
 
   render() {
     const reconstructionArray = this.state.reconstruction;
-    const reconstructionCard = reconstructionArray.map(
-      (reconstruction, index) => {
-        return (
-          <div
-            key={index}
-            className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
-          >
-            <ReconstructionCard
-              showCreator={true}
-              reconstruction={reconstruction}
+    const reconstructionCard =
+      reconstructionArray.length > 0 ? (
+        reconstructionArray.map((reconstruction, index) => {
+          return (
+            <div
+              key={index}
+              className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
+            >
+              <ReconstructionCard
+                showCreator={true}
+                reconstruction={reconstruction}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size=''
             />
-          </div>
-        );
-      }
-    );
+          </i>
+          Reconstructions not found!
+        </p>
+      );
     return (
       <React.Fragment>
         <div className='container'>
@@ -116,12 +128,6 @@ class Home extends React.Component {
                 <div className='row'>{reconstructionCard}</div>
               )}
             </div>
-            <p className='text-right'>
-              {' '}
-              <a href='#' className='more-link'>
-                more
-              </a>
-            </p>
           </div>
           <div className='our-team-section'>
             <h1>Our Team</h1>
