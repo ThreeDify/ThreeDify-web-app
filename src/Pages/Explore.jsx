@@ -75,7 +75,7 @@ class Explore extends React.Component {
             <Icon
               className='exclamation-circle'
               name={['fas', 'exclamation-circle']}
-              size=''
+              size='1x'
             />
           </i>
           Reconstructions not found!
