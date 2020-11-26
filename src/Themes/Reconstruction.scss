@@ -2,8 +2,18 @@
   padding: 0 100px;
 }
 
+.main-container-title {
+  margin-top: 34px;
+}
+
+.main-reconstruction-content {
+  margin-top: 34px;
+  display: flex;
+}
+
 .reconstruction-tabs-container {
-  max-width: 1098px;
+  max-width: 1100px;
+  margin-left: 24px;
   box-sizing: content-box;
 }
 
@@ -11,6 +21,26 @@
   box-sizing: border-box;
   background-color: #fff;
   border-radius: 10px;
-  height: 400px;
-  box-shadow: 0px 10px 15px rgba(53, 53, 53, 0.2);
+  height: 350px;
+  padding: 24px;
+
+  label {
+    font-weight: 600;
+  }
+
+  .upload-image-message {
+    margin-top: -0.5rem;
+  }
+}
+
+.tab-content {
+  margin-top: 16px;
+}
+
+.reconstruction-again-button {
+  margin-top: 24px;
+}
+
+.nav-item {
+  color: map-get($map: $theme-colors, $key: 'secondary');
 }
