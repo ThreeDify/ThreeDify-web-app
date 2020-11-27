@@ -117,17 +117,17 @@ export class Reconstruction extends Component {
     return (
       <div className='main-container'>
         {/* Title */}
-        <div className='col-12'>
+        <div className='col-12 main-container-title'>
           <h2 className='h2 font-weight-bold'>
             Create a 3D model from images.
           </h2>
-          <p>Upload images of the object to reconstruct 3D model.</p>
+          <h5>Upload images of the object to reconstruct 3D model.</h5>
         </div>
 
         {/* main content */}
-        <div className='col-12 d-flex justify-content-around'>
+        <div className='col-12 main-reconstruction-content'>
           {/* left-section */}
-          <div className='form col-4 p-4'>
+          <div className='form col-4'>
             {/* form  */}
             <form
               ref={this.form}
@@ -136,7 +136,7 @@ export class Reconstruction extends Component {
                 this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''
               }`}
             >
-              <div className='form-group mb-4'>
+              <div className='form-group'>
                 <label htmlFor='title'>Project Title</label>
                 <InputField
                   name='reconstruction_name'
@@ -146,9 +146,9 @@ export class Reconstruction extends Component {
                 />
               </div>
 
-              <div className='form-group mb-2'>
+              <div className='form-group'>
                 <label htmlFor='image-upload'>Upload Image</label>
-                <small className='form-text text-muted'>
+                <small className='form-text text-muted upload-image-message'>
                   *more images makes 3D model better.
                 </small>
                 <br />
@@ -169,7 +169,7 @@ export class Reconstruction extends Component {
               <button
                 disabled={this.state.uploading && true}
                 type='submit'
-                className='btn btn-primary my-2'
+                className='btn btn-primary upload-button'
               >
                 Upload
               </button>
@@ -195,7 +195,7 @@ export class Reconstruction extends Component {
                   {IMAGE_UPLOAD_SUCCESS}
                 </span>
                 <button
-                  className='btn btn-success mx-2'
+                  className='btn btn-success reconstruction-again-button'
                   onClick={this.resetHandler}
                 >
                   Reconstruct Again
@@ -210,7 +210,7 @@ export class Reconstruction extends Component {
                   {BACKEND_ERROR_MESSAGE}
                 </span>
                 <button
-                  className='btn btn-danger mx-2'
+                  className='btn btn-danger reconstruction-again-button'
                   onClick={this.resetHandler}
                 >
                   Try Again
@@ -272,7 +272,7 @@ export class Reconstruction extends Component {
             <div className='tab-content' id='nav-tabContent'>
               {/* all tab */}
               <div
-                className='tab-pane fade show active mt-2'
+                className='tab-pane fade show active'
                 id='nav-all'
                 role='tabpanel'
                 aria-labelledby='nav-all-tab'
@@ -282,7 +282,7 @@ export class Reconstruction extends Component {
 
               {/* completed tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-completed'
                 role='tabpanel'
                 aria-labelledby='nav-completed-tab'
@@ -292,7 +292,7 @@ export class Reconstruction extends Component {
 
               {/* Process tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-process'
                 role='tabpanel'
                 aria-labelledby='nav-process-tab'
@@ -302,7 +302,7 @@ export class Reconstruction extends Component {
 
               {/* Queue Tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-queue'
                 role='tabpanel'
                 aria-labelledby='nav-queue-tab'
