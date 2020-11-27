@@ -61,19 +61,36 @@ class SignupForm extends Component {
   }
 
   async validateUniqueUsernameAndEmail(username, email) {
-    let isEmailUnique = await checkUniqueEmail(email);
-    let isUsernameUnique = await checkUniqueUsername(username);
-
+    let isEmailUnique, isUsernameUnique;
     this.setState({
-      errors: {
-        email: isEmailUnique.data.errors
-          ? isEmailUnique.data.errors[0].email.message
-          : '',
-        username: isUsernameUnique.data.errors
-          ? isUsernameUnique.data.errors[0].username.message
-          : '',
-      },
+      errors: {},
     });
+
+    try {
+      isEmailUnique = await checkUniqueEmail(email);
+    } catch (error) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          email: error.response.data.errors
+            ? error.response.data.errors[0].email.message
+            : '',
+        },
+      });
+    }
+
+    try {
+      isUsernameUnique = await checkUniqueUsername(username);
+    } catch (error) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          username: error.response.data.errors
+            ? error.response.data.errors[0].username.message
+            : '',
+        },
+      });
+    }
 
     return isUsernameUnique.data === 'OK' && isEmailUnique.data === 'OK';
   }
@@ -136,10 +153,6 @@ class SignupForm extends Component {
       if (isEmailAndUsernameUnique) {
         await this.register(validatedData);
       }
-
-      this.setState({
-        isBtnDisabled: false,
-      });
     } catch (errors) {
       if (errors.name === 'ValidationError') {
         let validationErrors = errors.inner.reduce((acc, err) => {
@@ -148,11 +161,13 @@ class SignupForm extends Component {
         }, {});
 
         this.setState({
-          isBtnDisabled: false,
           errors: validationErrors,
         });
       }
     }
+    this.setState({
+      isBtnDisabled: false,
+    });
   }
 
   render() {
