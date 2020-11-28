@@ -27,7 +27,7 @@ class AuthenticatedToolbarOptions extends React.Component {
             aria-labelledby='userSettings'
           >
             <a className='dropdown-item' href='#' onClick={this.props.logout}>
-              Logout
+              Log out
             </a>
           </div>
         </li>

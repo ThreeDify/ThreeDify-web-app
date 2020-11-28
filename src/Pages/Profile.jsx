@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import Icon from '../Components/Icon';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
@@ -16,6 +17,7 @@ export class Profile extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       reconstructions: [],
     };
   }
@@ -35,10 +37,13 @@ export class Profile extends Component {
       );
 
       this.setState({
+        loading: false,
         reconstructions: resp.data.data,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
@@ -50,11 +55,25 @@ export class Profile extends Component {
 
     // card list
     const selectedList = this.state.reconstructions;
-    let cards = selectedList.map((reconstruction, index) => (
-      <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} />
-      </div>
-    ));
+    let cards =
+      selectedList.length > 0 ? (
+        selectedList.map((reconstruction, index) => (
+          <div key={index} className='m-2'>
+            <ReconstructionCard reconstruction={reconstruction} small />
+          </div>
+        ))
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
+            />
+          </i>
+          Reconstructions not found!
+        </p>
+      );
 
     // get full name
     const getFullName = () => {
@@ -66,13 +85,13 @@ export class Profile extends Component {
 
     return (
       // maincontainer
-      <div className='col-12'>
+      <div>
         {/* background holder*/}
-        <div className='background-holder col-12'></div>
+        <div className='background-holder'></div>
 
         {/* profile section */}
-        <div className='main-content col-12'>
-          <div className='profile-section col-3'>
+        <div className='main-content container'>
+          <div className='profile-section col-4'>
             {/* profile img */}
             <div className='user-profile-pic border border-primary rounded-circle text-center text-primary mb-2'>
               {firstLetter}
@@ -99,9 +118,15 @@ export class Profile extends Component {
           </div>
 
           {/* model section */}
-          <div className='model-section ml-2'>
-            <h3 className='border-bottom text-center'>Models</h3>
-            <div className='d-flex flex-wrap'>{cards}</div>
+          <div className='model-section col-8'>
+            <h3 className='border-bottom  mt-2 pb-2'>Models</h3>
+            {this.state.loading ? (
+              <div className='loading'>
+                <Icon name='spinner' size='3x' spin={true} />
+              </div>
+            ) : (
+              <div className='d-flex flex-wrap'>{cards}</div>
+            )}
           </div>
         </div>
       </div>

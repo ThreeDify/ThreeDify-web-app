@@ -109,7 +109,7 @@ class Home extends React.Component {
                   className='btn btn-primary'
                   onClick={this.props.signup}
                 >
-                  Signup
+                  Sign Up
                 </button>
               )}
             </div>

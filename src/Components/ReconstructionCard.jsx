@@ -18,7 +18,11 @@ class ReconstructionCard extends React.Component {
   }
   render() {
     return (
-      <div className='reconstruction-card'>
+      <div
+        className={`reconstruction-card ${
+          this.props.small ? 'reconstruction-card--small' : ''
+        }`}
+      >
         <img
           src={IMAGE_URL.replace(
             '{fileName}',
@@ -63,6 +67,7 @@ class ReconstructionCard extends React.Component {
 ReconstructionCard.propTypes = {
   reconstruction: PropTypes.object,
   showCreator: PropTypes.bool,
+  small: PropTypes.bool,
 };
 
 export default ReconstructionCard;

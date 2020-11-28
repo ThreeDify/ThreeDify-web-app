@@ -11,6 +11,7 @@ import {
   BACKEND_ERROR_MESSAGE,
 } from '../Constants/messages';
 import Icon from '../Components/Icon';
+import { asPage } from '../Middlewares/asPage';
 import InputField from '../Components/InputField';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
@@ -30,6 +31,7 @@ export class Reconstruction extends Component {
       uploading: false,
       uploadSuccess: false,
       uploadFail: false,
+      loading: true,
       reconstructions: [],
     };
 
@@ -63,9 +65,12 @@ export class Reconstruction extends Component {
 
       this.setState({
         reconstructions: resp.data.data,
+        loading: false,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
@@ -108,16 +113,30 @@ export class Reconstruction extends Component {
 
   render() {
     const selectedList = this.state.reconstructions;
-    let cards = selectedList.map((reconstruction, index) => (
-      <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} />
-      </div>
-    ));
+    let cards =
+      selectedList.length > 0 ? (
+        selectedList.map((reconstruction, index) => (
+          <div key={index} className='m-2'>
+            <ReconstructionCard reconstruction={reconstruction} small />
+          </div>
+        ))
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
+            />
+          </i>
+          Reconstructions not found!
+        </p>
+      );
 
     return (
-      <div className='main-container'>
+      <div className='row'>
         {/* Title */}
-        <div className='col-12 main-container-title'>
+        <div className='col-12 my-5'>
           <h2 className='h2 font-weight-bold'>
             Create a 3D model from images.
           </h2>
@@ -125,7 +144,7 @@ export class Reconstruction extends Component {
         </div>
 
         {/* main content */}
-        <div className='col-12 main-reconstruction-content'>
+        <div className='col-12 d-flex'>
           {/* left-section */}
           <div className='form col-4'>
             {/* form  */}
@@ -220,7 +239,7 @@ export class Reconstruction extends Component {
           </div>
 
           {/* Right Section */}
-          <div className='reconstruction-tabs-container'>
+          <div className='col-8'>
             <nav>
               <div className='nav nav-tabs' id='nav-tab' role='tablist'>
                 <a
@@ -277,7 +296,13 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-all-tab'
               >
-                <div className='d-flex flex-wrap'>{cards}</div>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </div>
 
               {/* completed tab */}
@@ -297,7 +322,7 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-process-tab'
               >
-                <p>No models are in process ! </p>
+                <p>No models are in process! </p>
               </div>
 
               {/* Queue Tab */}
@@ -307,7 +332,7 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-queue-tab'
               >
-                <p>No models are in queue !</p>
+                <p>No models are in queue!</p>
               </div>
             </div>
           </div>
@@ -321,4 +346,4 @@ Reconstruction.propTypes = {
   user: PropTypes.object,
 };
 
-export default withAuthenticatedUser(authenticate(Reconstruction));
+export default withAuthenticatedUser(authenticate(asPage(Reconstruction)));

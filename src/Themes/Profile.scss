@@ -1,5 +1,5 @@
 .background-holder {
-  height: 30vh;
+  height: 300px;
   background-color: #12acd4;
   z-index: -1;
 }
@@ -7,15 +7,14 @@
 .main-content {
   display: flex;
   padding: 10px;
-  justify-content: center;
   z-index: 0;
 }
 
 .profile-section {
   text-align: center;
-  width: 400px;
+  width: 100%;
   height: 750px;
-  margin-top: -125px;
+  margin-top: -150px;
   z-index: 1;
   background-color: map-get($map: $theme-colors, $key: 'white');
   border-radius: 10px;
@@ -23,14 +22,12 @@
 }
 
 .model-section {
-  padding: 20px;
-  max-width: 1098px;
   box-sizing: content-box;
 }
 
 .user-profile-pic {
-  height: 250px;
-  width: 250px;
+  height: 200px;
+  width: 200px;
   margin: 50px auto;
   align-items: center;
   justify-content: center;
