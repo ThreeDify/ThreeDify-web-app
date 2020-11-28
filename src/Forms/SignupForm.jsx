@@ -190,7 +190,7 @@ class SignupForm extends Component {
       <div className='py-5 p-md-5'>
         <div className='pb-2 text-center'>
           <h2 className='font-weight-bold'>Welcome!</h2>
-          <p>Sigup to create 3D models.</p>
+          <p>Sign up to create 3D models.</p>
         </div>
 
         <form className='pt-2' ref={this.ref} onSubmit={this.handleSubmit}>
@@ -267,14 +267,14 @@ class SignupForm extends Component {
               className='btn btn-primary font-weight-bold'
               disabled={this.state.isBtnDisabled}
             >
-              Signup
+              Sign Up
             </button>
           </div>
 
           <hr className='w-75 mx-auto' />
 
           <div className='text-center'>
-            Already have a account. <a href='#'>Sign in</a>
+            <a href='#'>Already have a account?</a>
           </div>
         </form>
       </div>
