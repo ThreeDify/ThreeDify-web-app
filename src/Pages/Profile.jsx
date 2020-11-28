@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import Icon from '../Components/Icon';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
@@ -16,6 +17,7 @@ export class Profile extends Component {
     super(props);
 
     this.state = {
+      loading: true,
       reconstructions: [],
     };
   }
@@ -35,10 +37,13 @@ export class Profile extends Component {
       );
 
       this.setState({
+        loading: false,
         reconstructions: resp.data.data,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
@@ -50,11 +55,25 @@ export class Profile extends Component {
 
     // card list
     const selectedList = this.state.reconstructions;
-    let cards = selectedList.map((reconstruction, index) => (
-      <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} small />
-      </div>
-    ));
+    let cards =
+      selectedList.length > 0 ? (
+        selectedList.map((reconstruction, index) => (
+          <div key={index} className='m-2'>
+            <ReconstructionCard reconstruction={reconstruction} small />
+          </div>
+        ))
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
+            />
+          </i>
+          Reconstructions not found!
+        </p>
+      );
 
     // get full name
     const getFullName = () => {
@@ -101,7 +120,13 @@ export class Profile extends Component {
           {/* model section */}
           <div className='model-section col-8'>
             <h3 className='border-bottom  mt-2 pb-2'>Models</h3>
-            <div className='d-flex flex-wrap'>{cards}</div>
+            {this.state.loading ? (
+              <div className='loading'>
+                <Icon name='spinner' size='3x' spin={true} />
+              </div>
+            ) : (
+              <div className='d-flex flex-wrap'>{cards}</div>
+            )}
           </div>
         </div>
       </div>

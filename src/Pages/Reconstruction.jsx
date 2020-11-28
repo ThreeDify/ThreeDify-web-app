@@ -31,6 +31,7 @@ export class Reconstruction extends Component {
       uploading: false,
       uploadSuccess: false,
       uploadFail: false,
+      loading: true,
       reconstructions: [],
     };
 
@@ -64,9 +65,12 @@ export class Reconstruction extends Component {
 
       this.setState({
         reconstructions: resp.data.data,
+        loading: false,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
@@ -109,11 +113,25 @@ export class Reconstruction extends Component {
 
   render() {
     const selectedList = this.state.reconstructions;
-    let cards = selectedList.map((reconstruction, index) => (
-      <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} small />
-      </div>
-    ));
+    let cards =
+      selectedList.length > 0 ? (
+        selectedList.map((reconstruction, index) => (
+          <div key={index} className='m-2'>
+            <ReconstructionCard reconstruction={reconstruction} small />
+          </div>
+        ))
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
+            />
+          </i>
+          Reconstructions not found!
+        </p>
+      );
 
     return (
       <div className='row'>
@@ -278,7 +296,13 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-all-tab'
               >
-                <div className='d-flex flex-wrap'>{cards}</div>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </div>
 
               {/* completed tab */}
@@ -298,7 +322,7 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-process-tab'
               >
-                <p>No models are in process ! </p>
+                <p>No models are in process! </p>
               </div>
 
               {/* Queue Tab */}
@@ -308,7 +332,7 @@ export class Reconstruction extends Component {
                 role='tabpanel'
                 aria-labelledby='nav-queue-tab'
               >
-                <p>No models are in queue !</p>
+                <p>No models are in queue!</p>
               </div>
             </div>
           </div>
