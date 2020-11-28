@@ -6,7 +6,6 @@ import { getAuthenticatedInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { asPage } from '../Middlewares/asPage';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
