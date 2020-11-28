@@ -11,12 +11,12 @@ import {
   BACKEND_ERROR_MESSAGE,
 } from '../Constants/messages';
 import Icon from '../Components/Icon';
+import { asPage } from '../Middlewares/asPage';
 import InputField from '../Components/InputField';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { asPage } from '../Middlewares/asPage';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -111,7 +111,7 @@ export class Reconstruction extends Component {
     const selectedList = this.state.reconstructions;
     let cards = selectedList.map((reconstruction, index) => (
       <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} />
+        <ReconstructionCard reconstruction={reconstruction} small />
       </div>
     ));
 

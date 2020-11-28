@@ -52,7 +52,7 @@ export class Profile extends Component {
     const selectedList = this.state.reconstructions;
     let cards = selectedList.map((reconstruction, index) => (
       <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} />
+        <ReconstructionCard reconstruction={reconstruction} small />
       </div>
     ));
 

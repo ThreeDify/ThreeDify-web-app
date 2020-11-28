@@ -4,7 +4,13 @@
   overflow: hidden;
   position: relative;
   border-radius: 8px;
+  box-shadow: 3px 3px 8px 0px rgba(0, 0, 0, 0.1);
   background-color: map-get($map: $theme-colors, $key: 'secondary');
+
+  &--small {
+    width: 288px;
+    height: 200px;
+  }
 
   .reconstruction-card-image {
     height: 100%;
