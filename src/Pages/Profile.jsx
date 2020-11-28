@@ -6,6 +6,7 @@ import { getAuthenticatedInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+import { asPage } from '../Middlewares/asPage';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
@@ -66,13 +67,13 @@ export class Profile extends Component {
 
     return (
       // maincontainer
-      <div className='col-12'>
+      <div>
         {/* background holder*/}
-        <div className='background-holder col-12'></div>
+        <div className='background-holder'></div>
 
         {/* profile section */}
-        <div className='main-content col-12'>
-          <div className='profile-section col-3'>
+        <div className='main-content container'>
+          <div className='profile-section col-4'>
             {/* profile img */}
             <div className='user-profile-pic border border-primary rounded-circle text-center text-primary mb-2'>
               {firstLetter}
@@ -99,8 +100,8 @@ export class Profile extends Component {
           </div>
 
           {/* model section */}
-          <div className='model-section ml-2'>
-            <h3 className='border-bottom text-center'>Models</h3>
+          <div className='model-section col-8'>
+            <h3 className='border-bottom  mt-2 pb-2'>Models</h3>
             <div className='d-flex flex-wrap'>{cards}</div>
           </div>
         </div>

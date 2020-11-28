@@ -16,6 +16,7 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+import { asPage } from '../Middlewares/asPage';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -115,9 +116,9 @@ export class Reconstruction extends Component {
     ));
 
     return (
-      <div className='main-container'>
+      <div className='row'>
         {/* Title */}
-        <div className='col-12 main-container-title'>
+        <div className='col-12 my-5'>
           <h2 className='h2 font-weight-bold'>
             Create a 3D model from images.
           </h2>
@@ -125,7 +126,7 @@ export class Reconstruction extends Component {
         </div>
 
         {/* main content */}
-        <div className='col-12 main-reconstruction-content'>
+        <div className='col-12 d-flex'>
           {/* left-section */}
           <div className='form col-4'>
             {/* form  */}
@@ -220,7 +221,7 @@ export class Reconstruction extends Component {
           </div>
 
           {/* Right Section */}
-          <div className='reconstruction-tabs-container'>
+          <div className='col-8'>
             <nav>
               <div className='nav nav-tabs' id='nav-tab' role='tablist'>
                 <a
@@ -321,4 +322,4 @@ Reconstruction.propTypes = {
   user: PropTypes.object,
 };
 
-export default withAuthenticatedUser(authenticate(Reconstruction));
+export default withAuthenticatedUser(authenticate(asPage(Reconstruction)));
