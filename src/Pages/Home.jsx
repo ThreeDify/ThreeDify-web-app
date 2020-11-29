@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
+import Icon from '../Components/Icon';
 import { login } from '../Store/Actions/auth';
 import { asPage } from '../Middlewares/asPage';
-import { requestSignup } from '../Store/Actions/auth';
-import Icon from '../Components/Icon';
-import { EXPLORE_URL } from '../Constants/appUrls';
-import TeamMemberCard from '../Components/TeamMemberCard';
-import ReconstructionCard from '../Components/ReconstructionCard';
 import { getAxiosInstance } from '../Utils/axios';
-import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
+import { EXPLORE_URL } from '../Constants/appUrls';
 import { STATUS_OK } from '../Constants/httpStatus';
+import { requestSignup } from '../Store/Actions/auth';
+import TeamMemberCard from '../Components/TeamMemberCard';
+import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
+import ReconstructionCard from '../Components/ReconstructionCard';
+
+const SORT_ORDER = 'DESC';
+const NUM_RECONSTRUCTIONS = 6;
+const FILTERS = 'orderByCreatedAt';
 
 class Home extends React.Component {
   constructor(props) {
@@ -30,14 +34,20 @@ class Home extends React.Component {
 
   async fetchReconstructions() {
     let axios = getAxiosInstance();
-    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL);
+    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
+      params: {
+        filters: FILTERS,
+        order: SORT_ORDER,
+        size: NUM_RECONSTRUCTIONS,
+      },
+    });
 
     try {
       if (reconstruction.status === STATUS_OK) {
         this.setState({
           loading: false,
+          reconstruction: reconstruction.data.data,
         });
-        this.fetchReconstructionsSuccess(reconstruction.data);
       }
     } catch (err) {
       if (err) {
@@ -48,33 +58,35 @@ class Home extends React.Component {
     }
   }
 
-  fetchReconstructionsSuccess(reconstruction) {
-    let sortedArray = reconstruction.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-    let recentNineReconstructions = sortedArray.slice(0, 6);
-    this.setState({
-      reconstruction: recentNineReconstructions,
-    });
-  }
-
   render() {
     const reconstructionArray = this.state.reconstruction;
-    const reconstructionCard = reconstructionArray.map(
-      (reconstruction, index) => {
-        return (
-          <div
-            key={index}
-            className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
-          >
-            <ReconstructionCard
-              showCreator={true}
-              reconstruction={reconstruction}
+    const reconstructionCard =
+      reconstructionArray.length > 0 ? (
+        reconstructionArray.map((reconstruction, index) => {
+          return (
+            <div
+              key={index}
+              className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
+            >
+              <ReconstructionCard
+                showCreator={true}
+                reconstruction={reconstruction}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
             />
-          </div>
-        );
-      }
-    );
+          </i>
+          Reconstructions not found!
+        </p>
+      );
     return (
       <React.Fragment>
         <div className='container'>
@@ -97,7 +109,7 @@ class Home extends React.Component {
                   className='btn btn-primary'
                   onClick={this.props.signup}
                 >
-                  Signup
+                  Sign Up
                 </button>
               )}
             </div>
@@ -116,12 +128,6 @@ class Home extends React.Component {
                 <div className='row'>{reconstructionCard}</div>
               )}
             </div>
-            <p className='text-right'>
-              {' '}
-              <a href='#' className='more-link'>
-                more
-              </a>
-            </p>
           </div>
           <div className='our-team-section'>
             <h1>Our Team</h1>

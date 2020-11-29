@@ -113,7 +113,7 @@ class LoginForm extends Component {
       <div className='p-5'>
         <div className='pb-2 text-center'>
           <h2 className='font-weight-bold'>Welcome Back!</h2>
-          <p>Sigin to access your 3D models.</p>
+          <p>Sign in to access your 3D models.</p>
         </div>
 
         {this.state.loginError && (
@@ -160,7 +160,7 @@ class LoginForm extends Component {
               disabled={disabled}
               className='btn btn-primary font-weight-bold'
             >
-              Login
+              Log In
             </button>
           </div>
 

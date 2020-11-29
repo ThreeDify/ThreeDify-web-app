@@ -22,6 +22,9 @@ import {
   faBars,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
+
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+
 import {
   faFacebook,
   faTwitter,
@@ -51,6 +54,7 @@ const ICONS = {
   faArrowAltCircleUp,
   faArrowAltCircleDown,
   faHeart,
+  farHeart,
   faBars,
   faSpinner,
   faInstagram,

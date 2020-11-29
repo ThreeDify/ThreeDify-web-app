@@ -19,7 +19,7 @@ class ToolbarOptions extends React.Component {
               className='btn btn-primary'
               onClick={this.props.requestSignup}
             >
-              Signup
+              Sign Up
             </button>
           </li>
           <li className='nav-item ml-2'>
@@ -28,7 +28,7 @@ class ToolbarOptions extends React.Component {
               className='btn btn-primary'
               onClick={this.props.requestAuth}
             >
-              Login
+              Log In
             </button>
           </li>
         </ul>

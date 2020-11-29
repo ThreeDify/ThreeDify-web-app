@@ -1,22 +1,26 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import authenticate from '../Middlewares/authenticate';
-import { getAuthenticatedInstance } from '../Utils/axios';
-import PropTypes from 'prop-types';
 import {
   RECONSTRUCTION_CREATE_URL,
   USER_RECONSTRUCTIONS_API,
 } from '../Constants/apiUrls';
-import ReconstructionCard from '../Components/ReconstructionCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import {
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_SIZE_ERROR,
   BACKEND_ERROR_MESSAGE,
 } from '../Constants/messages';
+import Icon from '../Components/Icon';
+import { asPage } from '../Middlewares/asPage';
 import InputField from '../Components/InputField';
+import authenticate from '../Middlewares/authenticate';
+import { getAuthenticatedInstance } from '../Utils/axios';
+import ReconstructionCard from '../Components/ReconstructionCard';
+import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+
+const SORT_ORDER = 'DESC';
+const NUM_RECONSTRUCTIONS = 6;
+const FILTERS = 'orderByCreatedAt';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -27,8 +31,10 @@ export class Reconstruction extends Component {
       uploading: false,
       uploadSuccess: false,
       uploadFail: false,
+      loading: true,
       reconstructions: [],
     };
+
     this.submitHandler = this.submitHandler.bind(this);
     this.resetHandler = this.resetHandler.bind(this);
   }
@@ -43,20 +49,28 @@ export class Reconstruction extends Component {
     });
   }
 
-  // fetching model
   async componentDidMount() {
     let axios = await getAuthenticatedInstance();
     try {
       let resp = await axios.get(
-        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id)
+        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id),
+        {
+          params: {
+            filters: FILTERS,
+            order: SORT_ORDER,
+            size: NUM_RECONSTRUCTIONS,
+          },
+        }
       );
-      const imagesList = resp.data;
 
       this.setState({
-        reconstructions: imagesList.slice(0, 6),
+        reconstructions: resp.data.data,
+        loading: false,
       });
     } catch (err) {
-      console.log(err);
+      this.setState({
+        loading: false,
+      });
     }
   }
 
@@ -99,26 +113,40 @@ export class Reconstruction extends Component {
 
   render() {
     const selectedList = this.state.reconstructions;
-    let cards = selectedList.map((reconstruction, index) => (
-      <div key={index} className='m-2'>
-        <ReconstructionCard reconstruction={reconstruction} />
-      </div>
-    ));
+    let cards =
+      selectedList.length > 0 ? (
+        selectedList.map((reconstruction, index) => (
+          <div key={index} className='m-2'>
+            <ReconstructionCard reconstruction={reconstruction} small />
+          </div>
+        ))
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
+            />
+          </i>
+          Reconstructions not found!
+        </p>
+      );
 
     return (
-      <div className='main-container'>
+      <div className='row'>
         {/* Title */}
-        <div className='col-12'>
+        <div className='col-12 my-5'>
           <h2 className='h2 font-weight-bold'>
             Create a 3D model from images.
           </h2>
-          <p>Upload images of the object to reconstruct 3D model.</p>
+          <h5>Upload images of the object to reconstruct 3D model.</h5>
         </div>
 
         {/* main content */}
-        <div className='col-12 d-flex justify-content-around'>
+        <div className='col-12 d-flex'>
           {/* left-section */}
-          <div className='form col-4 p-4'>
+          <div className='form col-4'>
             {/* form  */}
             <form
               ref={this.form}
@@ -127,7 +155,7 @@ export class Reconstruction extends Component {
                 this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''
               }`}
             >
-              <div className='form-group mb-4'>
+              <div className='form-group'>
                 <label htmlFor='title'>Project Title</label>
                 <InputField
                   name='reconstruction_name'
@@ -137,9 +165,9 @@ export class Reconstruction extends Component {
                 />
               </div>
 
-              <div className='form-group mb-2'>
+              <div className='form-group'>
                 <label htmlFor='image-upload'>Upload Image</label>
-                <small className='form-text text-muted'>
+                <small className='form-text text-muted upload-image-message'>
                   *more images makes 3D model better.
                 </small>
                 <br />
@@ -160,7 +188,7 @@ export class Reconstruction extends Component {
               <button
                 disabled={this.state.uploading && true}
                 type='submit'
-                className='btn btn-primary my-2'
+                className='btn btn-primary upload-button'
               >
                 Upload
               </button>
@@ -169,7 +197,7 @@ export class Reconstruction extends Component {
             {/* uploading spinner */}
             {this.state.uploading && (
               <span>
-                <FontAwesomeIcon icon='spinner' pulse className='mx-5' />
+                <Icon name='spinner' size='3x' spin={true} />
                 Uploading...
               </span>
             )}
@@ -186,7 +214,7 @@ export class Reconstruction extends Component {
                   {IMAGE_UPLOAD_SUCCESS}
                 </span>
                 <button
-                  className='btn btn-success mx-2'
+                  className='btn btn-success reconstruction-again-button'
                   onClick={this.resetHandler}
                 >
                   Reconstruct Again
@@ -201,7 +229,7 @@ export class Reconstruction extends Component {
                   {BACKEND_ERROR_MESSAGE}
                 </span>
                 <button
-                  className='btn btn-danger mx-2'
+                  className='btn btn-danger reconstruction-again-button'
                   onClick={this.resetHandler}
                 >
                   Try Again
@@ -211,7 +239,7 @@ export class Reconstruction extends Component {
           </div>
 
           {/* Right Section */}
-          <div className='reconstruction-tabs-container'>
+          <div className='col-8'>
             <nav>
               <div className='nav nav-tabs' id='nav-tab' role='tablist'>
                 <a
@@ -263,17 +291,23 @@ export class Reconstruction extends Component {
             <div className='tab-content' id='nav-tabContent'>
               {/* all tab */}
               <div
-                className='tab-pane fade show active mt-2'
+                className='tab-pane fade show active'
                 id='nav-all'
                 role='tabpanel'
                 aria-labelledby='nav-all-tab'
               >
-                <div className='d-flex flex-wrap'>{cards}</div>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </div>
 
               {/* completed tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-completed'
                 role='tabpanel'
                 aria-labelledby='nav-completed-tab'
@@ -283,22 +317,22 @@ export class Reconstruction extends Component {
 
               {/* Process tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-process'
                 role='tabpanel'
                 aria-labelledby='nav-process-tab'
               >
-                <p>No models are in process ! </p>
+                <p>No models are in process! </p>
               </div>
 
               {/* Queue Tab */}
               <div
-                className='tab-pane fade mt-2'
+                className='tab-pane fade'
                 id='nav-queue'
                 role='tabpanel'
                 aria-labelledby='nav-queue-tab'
               >
-                <p>No models are in queue !</p>
+                <p>No models are in queue!</p>
               </div>
             </div>
           </div>
@@ -312,4 +346,4 @@ Reconstruction.propTypes = {
   user: PropTypes.object,
 };
 
-export default withAuthenticatedUser(authenticate(Reconstruction));
+export default withAuthenticatedUser(authenticate(asPage(Reconstruction)));
