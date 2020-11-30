@@ -17,6 +17,7 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
+import { Tabs, Tab } from 'react-bootstrap';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -33,6 +34,7 @@ export class Reconstruction extends Component {
       uploadFail: false,
       loading: true,
       reconstructions: [],
+      key: 'all',
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -49,7 +51,7 @@ export class Reconstruction extends Component {
     });
   }
 
-  async componentDidMount() {
+  async fetchModels() {
     let axios = await getAuthenticatedInstance();
     try {
       let resp = await axios.get(
@@ -72,6 +74,10 @@ export class Reconstruction extends Component {
         loading: false,
       });
     }
+  }
+
+  componentDidMount() {
+    this.fetchModels();
   }
 
   async submitHandler(e) {
@@ -240,62 +246,13 @@ export class Reconstruction extends Component {
 
           {/* Right Section */}
           <div className='col-8'>
-            <nav>
-              <div className='nav nav-tabs' id='nav-tab' role='tablist'>
-                <a
-                  className='nav-item nav-link active'
-                  id='nav-all-tab'
-                  data-toggle='tab'
-                  href='#nav-all'
-                  role='tab'
-                  aria-controls='nav-all'
-                  aria-selected='true'
-                >
-                  All
-                </a>
-                <a
-                  className='nav-item nav-link'
-                  id='nav-completed-tab'
-                  data-toggle='tab'
-                  href='#nav-completed'
-                  role='tab'
-                  aria-controls='nav-completed'
-                  aria-selected='true'
-                >
-                  Completed
-                </a>
-                <a
-                  className='nav-item nav-link'
-                  id='nav-process-tab'
-                  data-toggle='tab'
-                  href='#nav-process'
-                  role='tab'
-                  aria-controls='nav-process'
-                  aria-selected='false'
-                >
-                  In Process
-                </a>
-                <a
-                  className='nav-item nav-link'
-                  id='nav-queue-tab'
-                  data-toggle='tab'
-                  href='#nav-queue'
-                  role='tab'
-                  aria-controls='nav-queue'
-                  aria-selected='false'
-                >
-                  In Queue
-                </a>
-              </div>
-            </nav>
-            <div className='tab-content' id='nav-tabContent'>
+            <Tabs
+              defaultActiveKey='all'
+              activeKey={this.state.key}
+              onSelect={(k) => this.setState({ key: k })}
+            >
               {/* all tab */}
-              <div
-                className='tab-pane fade show active'
-                id='nav-all'
-                role='tabpanel'
-                aria-labelledby='nav-all-tab'
-              >
+              <Tab eventKey='all' title='All'>
                 {this.state.loading ? (
                   <div className='loading'>
                     <Icon name='spinner' size='3x' spin={true} />
@@ -303,38 +260,23 @@ export class Reconstruction extends Component {
                 ) : (
                   <div className='d-flex flex-wrap'>{cards}</div>
                 )}
-              </div>
+              </Tab>
 
-              {/* completed tab */}
-              <div
-                className='tab-pane fade'
-                id='nav-completed'
-                role='tabpanel'
-                aria-labelledby='nav-completed-tab'
-              >
-                <p>Completed models appears here.</p>
-              </div>
+              {/* Completed tab */}
+              <Tab eventKey='completed' title='Completed'>
+                <p>Completed Models appears here !</p>
+              </Tab>
 
-              {/* Process tab */}
-              <div
-                className='tab-pane fade'
-                id='nav-process'
-                role='tabpanel'
-                aria-labelledby='nav-process-tab'
-              >
-                <p>No models are in process! </p>
-              </div>
+              {/* Process Tab */}
+              <Tab eventKey='in_progress' title='In Process'>
+                <p>Process tab !</p>
+              </Tab>
 
-              {/* Queue Tab */}
-              <div
-                className='tab-pane fade'
-                id='nav-queue'
-                role='tabpanel'
-                aria-labelledby='nav-queue-tab'
-              >
-                <p>No models are in queue!</p>
-              </div>
-            </div>
+              {/* In Queue Tab */}
+              <Tab eventKey='in_queue' title='In Queue'>
+                <p>Currently, no models are in queue !</p>
+              </Tab>
+            </Tabs>
           </div>
         </div>
       </div>
