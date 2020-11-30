@@ -22,7 +22,6 @@ import { Pagination } from '@material-ui/lab';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
-const FILTERS = 'orderByCreatedAt';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -68,8 +67,8 @@ export class Reconstruction extends Component {
         {
           params: {
             page: this.state.page,
-            size: 6,
-            order: 'DESC',
+            size: NUM_RECONSTRUCTIONS,
+            order: SORT_ORDER,
             filters: 'orderByCreatedAt' + (filters ? `,${filters}` : ''),
           },
         }
