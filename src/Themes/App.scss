@@ -16,6 +16,14 @@ body {
   background-color: map-get($map: $theme-colors, $key: 'bgColor');
 }
 
+.nav-link {
+  color: map-get($map: $theme-colors, $key: 'secondary');
+}
+
+.nav-item.active .nav-link {
+  color: map-get($map: $theme-colors, $key: 'linkColor');
+}
+
 .user-profile-icon {
   width: 42px;
   color: map-get($map: $theme-colors, $key: 'primary');
