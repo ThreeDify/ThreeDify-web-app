@@ -17,8 +17,7 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { Tabs, Tab } from 'react-bootstrap';
-import { Pagination } from '@material-ui/lab';
+import { Tabs, Tab, Pagination } from 'react-bootstrap';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -37,6 +36,8 @@ export class Reconstruction extends Component {
       key: 'all',
       total: 0,
       page: 1,
+      hasPrevious: false,
+      hasNext: false,
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -76,7 +77,9 @@ export class Reconstruction extends Component {
       this.setState({
         reconstructions: resp.data.data,
         loading: false,
-        total: Math.ceil(resp.data.total / 6),
+        total: Math.ceil(resp.data.total / NUM_RECONSTRUCTIONS),
+        hasPrevious: resp.data.hasPrevPage,
+        hasNext: resp.data.hasNextPage,
       });
     } catch (err) {
       this.setState({
@@ -103,7 +106,7 @@ export class Reconstruction extends Component {
     );
   }
 
-  pageChangeHandler(event, value) {
+  pageChangeHandler(value) {
     if (value === this.state.page) return;
     this.setState(
       {
@@ -172,6 +175,23 @@ export class Reconstruction extends Component {
           Reconstructions not found!
         </p>
       );
+
+    // pagination
+    let pageNumbers = [];
+
+    for (var i = 1; i <= this.state.total; i++) {
+      pageNumbers.push(i);
+    }
+
+    let pageList = pageNumbers.map((num) => (
+      <Pagination.Item
+        active={num === this.state.page}
+        key={num}
+        onClick={() => this.pageChangeHandler(num)}
+      >
+        {num}
+      </Pagination.Item>
+    ));
 
     return (
       <div className='row'>
@@ -331,14 +351,23 @@ export class Reconstruction extends Component {
             </Tabs>
 
             {/* Pagination */}
-            {this.state.total > 1 && (
-              <Pagination
-                count={this.state.total}
-                variant='outlined'
-                shape='rounded'
-                page={this.state.page}
-                onChange={this.pageChangeHandler}
-              />
+
+            {pageList.length > 1 && (
+              <Pagination>
+                <Pagination.Prev
+                  disabled={!this.state.hasPrevious}
+                  onClick={() => {
+                    this.pageChangeHandler(this.state.page - 1);
+                  }}
+                />
+                {pageList}
+                <Pagination.Next
+                  disabled={!this.state.hasNext}
+                  onClick={() => {
+                    this.pageChangeHandler(this.state.page + 1);
+                  }}
+                />
+              </Pagination>
             )}
           </div>
         </div>
