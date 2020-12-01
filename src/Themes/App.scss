@@ -24,9 +24,14 @@ body {
   color: map-get($map: $theme-colors, $key: 'linkColor');
 }
 
+.dropdown-item:hover {
+  color: map-get($map: $theme-colors, $key: 'linkColor');
+  background: transparent;
+}
+
 .user-profile-icon {
   width: 42px;
-  color: map-get($map: $theme-colors, $key: 'primary');
+  color: map-get($map: $theme-colors, $key: 'linkColor');
 
   &-bg {
     width: 100px;
@@ -35,11 +40,11 @@ body {
   }
 
   &:hover {
-    color: map-get($map: $theme-colors, $key: 'primary');
+    color: map-get($map: $theme-colors, $key: 'linkColor');
   }
 }
 .modal-content {
-  border: 2px solid map-get($map: $theme-colors, $key: 'primary');
+  border: 2px solid map-get($map: $theme-colors, $key: 'secondary');
   border-radius: 0.1rem;
 
   .modal-body {
