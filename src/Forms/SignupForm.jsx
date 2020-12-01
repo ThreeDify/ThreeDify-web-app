@@ -273,7 +273,7 @@ class SignupForm extends Component {
 
           <hr className='w-75 mx-auto' />
 
-          <div className='text-center'>
+          <div className='text-center form-optionLink'>
             <a href='#'>Already have a account?</a>
           </div>
         </form>
