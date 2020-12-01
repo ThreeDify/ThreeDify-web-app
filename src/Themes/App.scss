@@ -29,6 +29,10 @@ body {
   background: transparent;
 }
 
+.form-optionLink a {
+  color: map-get($map: $theme-colors, $key: 'blue');
+}
+
 .user-profile-icon {
   width: 42px;
   color: map-get($map: $theme-colors, $key: 'linkColor');

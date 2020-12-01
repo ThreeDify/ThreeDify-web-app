@@ -166,7 +166,7 @@ class LoginForm extends Component {
 
           <hr className='w-75 mx-auto'></hr>
 
-          <div className='text-center'>
+          <div className='text-center form-optionLink'>
             <a href='#'>Forgot Password?</a>
           </div>
         </form>
