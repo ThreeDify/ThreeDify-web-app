@@ -177,21 +177,19 @@ export class Reconstruction extends Component {
       );
 
     // pagination
-    let pageNumbers = [];
+    let pageList = [];
 
-    for (var i = 1; i <= this.state.total; i++) {
-      pageNumbers.push(i);
+    for (let i = 1; i <= this.state.total; i++) {
+      pageList.push(
+        <Pagination.Item
+          active={i === this.state.page}
+          key={i}
+          onClick={() => this.pageChangeHandler(i)}
+        >
+          {i}
+        </Pagination.Item>
+      );
     }
-
-    let pageList = pageNumbers.map((num) => (
-      <Pagination.Item
-        active={num === this.state.page}
-        key={num}
-        onClick={() => this.pageChangeHandler(num)}
-      >
-        {num}
-      </Pagination.Item>
-    ));
 
     return (
       <div className='row'>
