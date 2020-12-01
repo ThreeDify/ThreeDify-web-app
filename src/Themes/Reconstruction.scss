@@ -25,3 +25,10 @@
 .nav-item {
   color: map-get($map: $theme-colors, $key: 'secondary');
 }
+
+.page-link {
+  color: map-get($map: $theme-colors, $key: 'secondary');
+}
+.page-item.active .page-link {
+  color: map-get($map: $theme-colors, $key: 'secondary');
+}
