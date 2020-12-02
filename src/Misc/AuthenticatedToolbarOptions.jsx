@@ -12,7 +12,7 @@ class AuthenticatedToolbarOptions extends React.Component {
       <ul className='navbar-nav align-items-center'>
         <li className='nav-item dropdown'>
           <a
-            className='nav-link dropdown-toggle text-capitalize text-primary'
+            className='nav-link dropdown-toggle text-capitalize text-secondary'
             href='#'
             id='userSettings'
             role='button'
@@ -32,7 +32,7 @@ class AuthenticatedToolbarOptions extends React.Component {
           </div>
         </li>
         <NavLink url={PROFILE_URL}>
-          <div className='user-profile-icon border border-primary p-2 rounded-circle text-center font-weight-bold'>
+          <div className='user-profile-icon border border-linkColor p-2 rounded-circle text-center font-weight-bold'>
             {this.props.user && this.props.user.first_name[0].toUpperCase()}
           </div>
         </NavLink>
