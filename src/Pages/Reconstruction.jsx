@@ -17,11 +17,10 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Tabs, Tab, Pagination } from 'react-bootstrap';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
-const FILTERS = 'orderByCreatedAt';
 
 export class Reconstruction extends Component {
   constructor(props) {
@@ -35,10 +34,16 @@ export class Reconstruction extends Component {
       loading: true,
       reconstructions: [],
       key: 'all',
+      total: 0,
+      page: 1,
+      hasPrevious: false,
+      hasNext: false,
     };
 
     this.submitHandler = this.submitHandler.bind(this);
     this.resetHandler = this.resetHandler.bind(this);
+    this.tabChangeHandler = this.tabChangeHandler.bind(this);
+    this.pageChangeHandler = this.pageChangeHandler.bind(this);
   }
 
   resetHandler() {
@@ -52,25 +57,34 @@ export class Reconstruction extends Component {
   }
 
   async fetchModels() {
+    this.setState({
+      loading: true,
+    });
     let axios = await getAuthenticatedInstance();
     try {
+      let filters = this.state.key === 'all' ? '' : this.state.key;
       let resp = await axios.get(
         USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id),
         {
           params: {
-            filters: FILTERS,
-            order: SORT_ORDER,
+            page: this.state.page,
             size: NUM_RECONSTRUCTIONS,
+            order: SORT_ORDER,
+            filters: 'orderByCreatedAt' + (filters ? `,${filters}` : ''),
           },
         }
       );
-
       this.setState({
         reconstructions: resp.data.data,
         loading: false,
+        total: Math.ceil(resp.data.total / NUM_RECONSTRUCTIONS),
+        hasPrevious: resp.data.hasPrevPage,
+        hasNext: resp.data.hasNextPage,
       });
     } catch (err) {
       this.setState({
+        reconstructions: [],
+        total: 0,
         loading: false,
       });
     }
@@ -78,6 +92,29 @@ export class Reconstruction extends Component {
 
   componentDidMount() {
     this.fetchModels();
+  }
+
+  tabChangeHandler(k) {
+    if (k === this.state.key) return;
+    this.setState(
+      {
+        key: k,
+        reconstructions: [],
+        total: 0,
+      },
+      () => this.fetchModels()
+    );
+  }
+
+  pageChangeHandler(value) {
+    if (value === this.state.page) return;
+    this.setState(
+      {
+        page: value,
+        reconstructions: [],
+      },
+      () => this.fetchModels()
+    );
   }
 
   async submitHandler(e) {
@@ -138,6 +175,21 @@ export class Reconstruction extends Component {
           Reconstructions not found!
         </p>
       );
+
+    // pagination
+    let pageList = [];
+
+    for (let i = 1; i <= this.state.total; i++) {
+      pageList.push(
+        <Pagination.Item
+          active={i === this.state.page}
+          key={i}
+          onClick={() => this.pageChangeHandler(i)}
+        >
+          {i}
+        </Pagination.Item>
+      );
+    }
 
     return (
       <div className='row'>
@@ -249,7 +301,7 @@ export class Reconstruction extends Component {
             <Tabs
               defaultActiveKey='all'
               activeKey={this.state.key}
-              onSelect={(k) => this.setState({ key: k })}
+              onSelect={this.tabChangeHandler}
             >
               {/* all tab */}
               <Tab eventKey='all' title='All'>
@@ -264,19 +316,57 @@ export class Reconstruction extends Component {
 
               {/* Completed tab */}
               <Tab eventKey='completed' title='Completed'>
-                <p>Completed Models appears here !</p>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </Tab>
 
               {/* Process Tab */}
-              <Tab eventKey='in_progress' title='In Process'>
-                <p>Process tab !</p>
+              <Tab eventKey='inProgress' title='In Process'>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </Tab>
 
               {/* In Queue Tab */}
-              <Tab eventKey='in_queue' title='In Queue'>
-                <p>Currently, no models are in queue !</p>
+              <Tab eventKey='inQueue' title='In Queue'>
+                {this.state.loading ? (
+                  <div className='loading'>
+                    <Icon name='spinner' size='3x' spin={true} />
+                  </div>
+                ) : (
+                  <div className='d-flex flex-wrap'>{cards}</div>
+                )}
               </Tab>
             </Tabs>
+
+            {/* Pagination */}
+
+            {pageList.length > 1 && (
+              <Pagination>
+                <Pagination.Prev
+                  disabled={!this.state.hasPrevious}
+                  onClick={() => {
+                    this.pageChangeHandler(this.state.page - 1);
+                  }}
+                />
+                {pageList}
+                <Pagination.Next
+                  disabled={!this.state.hasNext}
+                  onClick={() => {
+                    this.pageChangeHandler(this.state.page + 1);
+                  }}
+                />
+              </Pagination>
+            )}
           </div>
         </div>
       </div>
