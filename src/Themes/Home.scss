@@ -23,13 +23,14 @@
   display: flex;
   justify-content: center;
 }
-.more-link {
-  color: black;
-  text-decoration: underline;
-  text-decoration-color: #f6de00;
+.reconstruction-not-found {
+  width: 100%;
+  text-align: center;
+  margin-top: 34px;
   font-size: 24px;
-  margin-top: 12px;
-  font-weight: bold;
+  .exclamation-circle {
+    margin-right: 8px;
+  }
 }
 .our-team-section {
   margin-top: 80px;

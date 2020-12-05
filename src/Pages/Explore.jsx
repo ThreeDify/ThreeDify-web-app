@@ -1,12 +1,16 @@
 import React from 'react';
 
-import InputField from '../Components/InputField';
-import { asPage } from '../Middlewares/asPage';
-import ReconstructionCard from '../Components/ReconstructionCard';
-import { getAxiosInstance } from '../Utils/axios';
-import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
-import { STATUS_OK } from '../Constants/httpStatus';
 import Icon from '../Components/Icon';
+import { asPage } from '../Middlewares/asPage';
+import InputField from '../Components/InputField';
+import { getAxiosInstance } from '../Utils/axios';
+import { STATUS_OK } from '../Constants/httpStatus';
+import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
+import ReconstructionCard from '../Components/ReconstructionCard';
+
+const SORT_ORDER = 'DESC';
+const NUM_RECONSTRUCTIONS = 9;
+const FILTERS = 'orderByCreatedAt';
 
 class Explore extends React.Component {
   constructor(props) {
@@ -24,14 +28,20 @@ class Explore extends React.Component {
 
   async fetchReconstructions() {
     let axios = getAxiosInstance();
-    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL);
+    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
+      params: {
+        filters: FILTERS,
+        order: SORT_ORDER,
+        size: NUM_RECONSTRUCTIONS,
+      },
+    });
 
     try {
       if (reconstruction.status === STATUS_OK) {
         this.setState({
           loading: false,
+          reconstruction: reconstruction.data.data,
         });
-        this.fetchReconstructionsSuccess(reconstruction.data);
       }
     } catch (err) {
       if (err) {
@@ -42,33 +52,35 @@ class Explore extends React.Component {
     }
   }
 
-  fetchReconstructionsSuccess(reconstruction) {
-    let sortedArray = reconstruction.sort((a, b) => {
-      return new Date(b.createdAt) - new Date(a.createdAt);
-    });
-    let recentNineReconstructions = sortedArray.slice(0, 9);
-    this.setState({
-      reconstruction: recentNineReconstructions,
-    });
-  }
-
   render() {
     const reconstructionArray = this.state.reconstruction;
-    const reconstructionCard = reconstructionArray.map(
-      (reconstruction, index) => {
-        return (
-          <div
-            key={index}
-            className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
-          >
-            <ReconstructionCard
-              showCreator={true}
-              reconstruction={reconstruction}
+    const reconstructionCard =
+      reconstructionArray.length > 0 ? (
+        reconstructionArray.map((reconstruction, index) => {
+          return (
+            <div
+              key={index}
+              className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
+            >
+              <ReconstructionCard
+                showCreator={true}
+                reconstruction={reconstruction}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <p className='reconstruction-not-found'>
+          <i>
+            <Icon
+              className='exclamation-circle'
+              name={['fas', 'exclamation-circle']}
+              size='1x'
             />
-          </div>
-        );
-      }
-    );
+          </i>
+          Reconstructions not found!
+        </p>
+      );
     return (
       <React.Fragment>
         <div className='container'>

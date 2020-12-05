@@ -36,7 +36,7 @@ class App extends React.Component {
             ></Navbar>
           </header>
 
-          <main className='py-5'>
+          <main className='pb-5'>
             <Switch>
               <Route exact path={EXPLORE_URL}>
                 <Explore></Explore>

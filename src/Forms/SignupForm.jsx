@@ -61,19 +61,36 @@ class SignupForm extends Component {
   }
 
   async validateUniqueUsernameAndEmail(username, email) {
-    let isEmailUnique = await checkUniqueEmail(email);
-    let isUsernameUnique = await checkUniqueUsername(username);
-
+    let isEmailUnique, isUsernameUnique;
     this.setState({
-      errors: {
-        email: isEmailUnique.data.errors
-          ? isEmailUnique.data.errors[0].email.message
-          : '',
-        username: isUsernameUnique.data.errors
-          ? isUsernameUnique.data.errors[0].username.message
-          : '',
-      },
+      errors: {},
     });
+
+    try {
+      isEmailUnique = await checkUniqueEmail(email);
+    } catch (error) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          email: error.response.data.errors
+            ? error.response.data.errors[0].email.message
+            : '',
+        },
+      });
+    }
+
+    try {
+      isUsernameUnique = await checkUniqueUsername(username);
+    } catch (error) {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          username: error.response.data.errors
+            ? error.response.data.errors[0].username.message
+            : '',
+        },
+      });
+    }
 
     return isUsernameUnique.data === 'OK' && isEmailUnique.data === 'OK';
   }
@@ -136,10 +153,6 @@ class SignupForm extends Component {
       if (isEmailAndUsernameUnique) {
         await this.register(validatedData);
       }
-
-      this.setState({
-        isBtnDisabled: false,
-      });
     } catch (errors) {
       if (errors.name === 'ValidationError') {
         let validationErrors = errors.inner.reduce((acc, err) => {
@@ -148,11 +161,13 @@ class SignupForm extends Component {
         }, {});
 
         this.setState({
-          isBtnDisabled: false,
           errors: validationErrors,
         });
       }
     }
+    this.setState({
+      isBtnDisabled: false,
+    });
   }
 
   render() {
@@ -175,7 +190,7 @@ class SignupForm extends Component {
       <div className='py-5 p-md-5'>
         <div className='pb-2 text-center'>
           <h2 className='font-weight-bold'>Welcome!</h2>
-          <p>Sigup to create 3D models.</p>
+          <p>Sign up to create 3D models.</p>
         </div>
 
         <form className='pt-2' ref={this.ref} onSubmit={this.handleSubmit}>
@@ -252,14 +267,14 @@ class SignupForm extends Component {
               className='btn btn-primary font-weight-bold'
               disabled={this.state.isBtnDisabled}
             >
-              Signup
+              Sign Up
             </button>
           </div>
 
           <hr className='w-75 mx-auto' />
 
-          <div className='text-center'>
-            Already have a account. <a href='#'>Sign in</a>
+          <div className='text-center form-optionLink'>
+            <a href='#'>Already have a account?</a>
           </div>
         </form>
       </div>
