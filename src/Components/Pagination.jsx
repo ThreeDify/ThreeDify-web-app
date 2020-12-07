@@ -41,7 +41,7 @@ export class PaginationComponent extends Component {
 }
 
 PaginationComponent.propTypes = {
-  total: PropTypes.array,
+  total: PropTypes.number,
   page: PropTypes.number,
   pageChangeHandler: PropTypes.func,
   disablePrevious: PropTypes.bool,

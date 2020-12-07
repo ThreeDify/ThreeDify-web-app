@@ -351,7 +351,7 @@ export class Reconstruction extends Component {
             </Tabs>
 
             {/* pagintaion-component */}
-            {pageList.length > 1 && (
+            {this.state.total > 1 && (
               <PaginationComponent
                 disablePrevious={!this.state.hasPrevious}
                 disableNext={!this.state.hasNext}
