@@ -17,8 +17,8 @@ import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { Tabs, Tab, Pagination } from 'react-bootstrap';
-import PaginationComponent from '../Components/Pagination';
+import { Tabs, Tab } from 'react-bootstrap';
+import Pagination from '../Components/Pagination';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -177,21 +177,6 @@ export class Reconstruction extends Component {
           Reconstructions not found!
         </p>
       );
-
-    // pagination
-    let pageList = [];
-
-    for (let i = 1; i <= this.state.total; i++) {
-      pageList.push(
-        <Pagination.Item
-          active={i === this.state.page}
-          key={i}
-          onClick={() => this.pageChangeHandler(i)}
-        >
-          {i}
-        </Pagination.Item>
-      );
-    }
 
     return (
       <div className='row'>
@@ -352,7 +337,7 @@ export class Reconstruction extends Component {
 
             {/* pagintaion-component */}
             {this.state.total > 1 && (
-              <PaginationComponent
+              <Pagination
                 disablePrevious={!this.state.hasPrevious}
                 disableNext={!this.state.hasNext}
                 total={this.state.total}

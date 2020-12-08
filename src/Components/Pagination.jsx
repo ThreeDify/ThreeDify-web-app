@@ -1,46 +1,44 @@
 import React, { Component } from 'react';
-import { Pagination } from 'react-bootstrap';
+import { Pagination as ReactPagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-export class PaginationComponent extends Component {
+export class Pagination extends Component {
   render() {
     let pageList = [];
 
     for (let i = 1; i <= this.props.total; i++) {
       pageList.push(
-        <Pagination.Item
+        <ReactPagination.Item
           active={i === this.props.page}
           key={i}
           onClick={() => this.props.pageChangeHandler(i)}
         >
           {i}
-        </Pagination.Item>
+        </ReactPagination.Item>
       );
     }
 
     return (
-      <div>
-        <Pagination>
-          <Pagination.Prev
-            disabled={this.props.disablePrevious}
-            onClick={() => {
-              this.props.pageChangeHandler(this.props.page - 1);
-            }}
-          />
-          {pageList}
-          <Pagination.Next
-            disabled={this.props.disableNext}
-            onClick={() => {
-              this.props.pageChangeHandler(this.props.page + 1);
-            }}
-          />
-        </Pagination>
-      </div>
+      <ReactPagination>
+        <ReactPagination.Prev
+          disabled={this.props.disablePrevious}
+          onClick={() => {
+            this.props.pageChangeHandler(this.props.page - 1);
+          }}
+        />
+        {pageList}
+        <ReactPagination.Next
+          disabled={this.props.disableNext}
+          onClick={() => {
+            this.props.pageChangeHandler(this.props.page + 1);
+          }}
+        />
+      </ReactPagination>
     );
   }
 }
 
-PaginationComponent.propTypes = {
+Pagination.propTypes = {
   total: PropTypes.number,
   page: PropTypes.number,
   pageChangeHandler: PropTypes.func,
@@ -48,4 +46,4 @@ PaginationComponent.propTypes = {
   disableNext: PropTypes.bool,
 };
 
-export default PaginationComponent;
+export default Pagination;
