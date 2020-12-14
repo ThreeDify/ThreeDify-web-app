@@ -7,6 +7,7 @@ import { getAxiosInstance } from '../Utils/axios';
 import { STATUS_OK } from '../Constants/httpStatus';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
+import Pagination from '../Components/Pagination';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
@@ -17,9 +18,17 @@ class Explore extends React.Component {
     super(props);
 
     this.state = {
+      search: '',
       loading: true,
       reconstruction: [],
+      total: 0,
+      page: 1,
+      hasPrevious: false,
+      hasNext: false,
     };
+
+    this.searchHandler = this.searchHandler.bind(this);
+    this.pageChangeHandler = this.pageChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +39,8 @@ class Explore extends React.Component {
     let axios = getAxiosInstance();
     let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
       params: {
+        q: this.state.search,
+        page: this.state.page,
         filters: FILTERS,
         order: SORT_ORDER,
         size: NUM_RECONSTRUCTIONS,
@@ -41,15 +52,42 @@ class Explore extends React.Component {
         this.setState({
           loading: false,
           reconstruction: reconstruction.data.data,
+          total: Math.ceil(reconstruction.data.total / NUM_RECONSTRUCTIONS),
+          hasPrevious: reconstruction.data.hasPrevPage,
+          hasNext: reconstruction.data.hasNextPage,
         });
       }
     } catch (err) {
       if (err) {
         this.setState({
-          loading: true,
+          loading: false,
         });
       }
     }
+  }
+
+  searchHandler(e) {
+    this.setState(
+      {
+        search: e.target.value,
+        loading: true,
+        reconstruction: [],
+        total: 0,
+      },
+      () => this.fetchReconstructions()
+    );
+  }
+
+  pageChangeHandler(value) {
+    if (value == this.state.page) return;
+    this.setState(
+      {
+        loading: true,
+        reconstruction: [],
+        page: value,
+      },
+      () => this.fetchReconstructions()
+    );
   }
 
   render() {
@@ -87,6 +125,8 @@ class Explore extends React.Component {
           <div className='search-section'>
             <div className='search-section-input'>
               <InputField
+                value={this.state.search}
+                onChange={this.searchHandler}
                 required
                 type='text'
                 name='search'
@@ -99,7 +139,7 @@ class Explore extends React.Component {
               </p>
             </div>
           </div>
-          <div className='search-display'>
+          <div className='search-display mb-2'>
             <h2>Recently constructed models for you</h2>
             {this.state.loading ? (
               <div className='loading'>
@@ -109,6 +149,15 @@ class Explore extends React.Component {
               <div className='row'>{reconstructionCard}</div>
             )}
           </div>
+          {this.state.total > 1 && (
+            <Pagination
+              disablePrevious={!this.state.hasPrevious}
+              disableNext={!this.state.hasNext}
+              total={this.state.total}
+              pageChangeHandler={this.pageChangeHandler}
+              page={this.state.page}
+            />
+          )}
         </div>
       </React.Fragment>
     );
