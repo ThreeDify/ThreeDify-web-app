@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
@@ -17,6 +18,7 @@ class ReconstructionCard extends React.Component {
     this.setState({ liked: !currentState });
   }
   render() {
+    console.log(this.props.reconstruction);
     return (
       <div
         className={`reconstruction-card ${
@@ -38,9 +40,11 @@ class ReconstructionCard extends React.Component {
                   !this.props.showCreator ? 'heading-creator-hidden' : ''
                 }
               >
-                <span className='reconstruction-card-title'>
-                  {this.props.reconstruction.name}
-                </span>
+                <Link to={'/reconstructions/' + this.props.reconstruction.id}>
+                  <span className='reconstruction-card-title'>
+                    {this.props.reconstruction.name}
+                  </span>
+                </Link>
               </h5>
               {this.props.showCreator && (
                 <p>

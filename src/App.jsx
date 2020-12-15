@@ -13,6 +13,7 @@ import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import SignupModal from './Modals/SignupModal';
+import ReconstructionDetails from './Pages/ReconstructionDetails';
 import {
   HOME_URL,
   DASHBOARD_URL,
@@ -56,6 +57,13 @@ class App extends React.Component {
               <Route strict exact path={RECONSTRUCTION_URL}>
                 <Reconstruction></Reconstruction>
               </Route>
+
+              <Route
+                strict
+                exact
+                path='/reconstructions/:id'
+                component={ReconstructionDetails}
+              ></Route>
             </Switch>
           </main>
 
