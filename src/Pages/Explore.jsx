@@ -76,11 +76,12 @@ class Explore extends React.Component {
     this.fetchReconstructions();
   }
 
-  searchHandler(value) {
+  searchHandler(e) {
     this.setState(
       {
-        search: value,
+        search: e.target.value,
         total: 0,
+        page: 1,
       },
       this.delayHandler()
     );
@@ -133,9 +134,7 @@ class Explore extends React.Component {
             <div className='search-section-input'>
               <InputField
                 value={this.state.search}
-                onChange={(e) => {
-                  this.searchHandler(e.target.value);
-                }}
+                onChange={this.searchHandler}
                 required
                 type='text'
                 name='search'
@@ -158,15 +157,17 @@ class Explore extends React.Component {
               <div className='row'>{reconstructionCard}</div>
             )}
           </div>
-          {this.state.total > 1 && (
-            <Pagination
-              disablePrevious={!this.state.hasPrevious}
-              disableNext={!this.state.hasNext}
-              total={this.state.total}
-              pageChangeHandler={this.pageChangeHandler}
-              page={this.state.page}
-            />
-          )}
+          <div className='d-flex justify-content-center'>
+            {this.state.total > 1 && (
+              <Pagination
+                disablePrevious={!this.state.hasPrevious}
+                disableNext={!this.state.hasNext}
+                total={this.state.total}
+                pageChangeHandler={this.pageChangeHandler}
+                page={this.state.page}
+              />
+            )}
+          </div>
         </div>
       </React.Fragment>
     );
