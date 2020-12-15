@@ -7,6 +7,8 @@ import { getAxiosInstance } from '../Utils/axios';
 import { STATUS_OK } from '../Constants/httpStatus';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
+import Pagination from '../Components/Pagination';
+import { debounce } from 'lodash';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
@@ -17,39 +19,82 @@ class Explore extends React.Component {
     super(props);
 
     this.state = {
-      loading: true,
+      search: '',
+      loading: false,
       reconstruction: [],
+      total: 0,
+      page: 1,
+      hasPrevious: false,
+      hasNext: false,
     };
+
+    this.searchHandler = this.searchHandler.bind(this);
+    this.pageChangeHandler = this.pageChangeHandler.bind(this);
+
+    // debounce
+    this.delayHandler = debounce(this.delayHandler, 1000);
+  }
+
+  async fetchReconstructions() {
+    try {
+      this.setState({
+        loading: true,
+      });
+      let axios = getAxiosInstance();
+      let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
+        params: {
+          q: this.state.search,
+          page: this.state.page,
+          filters: FILTERS,
+          order: SORT_ORDER,
+          size: NUM_RECONSTRUCTIONS,
+        },
+      });
+      if (reconstruction.status === STATUS_OK) {
+        this.setState({
+          loading: false,
+          reconstruction: reconstruction.data.data,
+          total: Math.ceil(reconstruction.data.total / NUM_RECONSTRUCTIONS),
+          hasPrevious: reconstruction.data.hasPrevPage,
+          hasNext: reconstruction.data.hasNextPage,
+        });
+      }
+    } catch (err) {
+      this.setState({
+        reconstruction: [],
+        loading: false,
+      });
+    }
   }
 
   componentDidMount() {
     this.fetchReconstructions();
   }
 
-  async fetchReconstructions() {
-    let axios = getAxiosInstance();
-    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
-      params: {
-        filters: FILTERS,
-        order: SORT_ORDER,
-        size: NUM_RECONSTRUCTIONS,
-      },
-    });
+  delayHandler() {
+    this.fetchReconstructions();
+  }
 
-    try {
-      if (reconstruction.status === STATUS_OK) {
-        this.setState({
-          loading: false,
-          reconstruction: reconstruction.data.data,
-        });
-      }
-    } catch (err) {
-      if (err) {
-        this.setState({
-          loading: true,
-        });
-      }
-    }
+  searchHandler(e) {
+    this.setState(
+      {
+        search: e.target.value.trim(),
+        total: 0,
+        page: 1,
+      },
+      this.delayHandler()
+    );
+  }
+
+  pageChangeHandler(value) {
+    if (value == this.state.page) return;
+    this.setState(
+      {
+        reconstruction: [],
+        page: value,
+      },
+      () => this.fetchReconstructions()
+    );
   }
 
   render() {
@@ -87,6 +132,8 @@ class Explore extends React.Component {
           <div className='search-section'>
             <div className='search-section-input'>
               <InputField
+                value={this.state.search}
+                onChange={this.searchHandler}
                 required
                 type='text'
                 name='search'
@@ -99,14 +146,29 @@ class Explore extends React.Component {
               </p>
             </div>
           </div>
-          <div className='search-display'>
-            <h2>Recently constructed models for you</h2>
+          <div className='search-display mb-2'>
+            {this.state.search === '' ? (
+              <h2>Recently constructed models for you</h2>
+            ) : (
+              <h2>Showing search results for {this.state.search}</h2>
+            )}
             {this.state.loading ? (
               <div className='loading'>
                 <Icon name='spinner' size='3x' spin={true} />
               </div>
             ) : (
               <div className='row'>{reconstructionCard}</div>
+            )}
+          </div>
+          <div className='d-flex justify-content-center'>
+            {this.state.total > 1 && (
+              <Pagination
+                disablePrevious={!this.state.hasPrevious}
+                disableNext={!this.state.hasNext}
+                total={this.state.total}
+                pageChangeHandler={this.pageChangeHandler}
+                page={this.state.page}
+              />
             )}
           </div>
         </div>
