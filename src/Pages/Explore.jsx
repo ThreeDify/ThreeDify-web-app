@@ -78,7 +78,7 @@ class Explore extends React.Component {
   searchHandler(e) {
     this.setState(
       {
-        search: e.target.value,
+        search: e.target.value.trim(),
         total: 0,
         page: 1,
       },
@@ -147,7 +147,11 @@ class Explore extends React.Component {
             </div>
           </div>
           <div className='search-display mb-2'>
-            <h2>Recently constructed models for you</h2>
+            {this.state.search === '' ? (
+              <h2>Recently constructed models for you</h2>
+            ) : (
+              <h2>Showing search results for {this.state.search}</h2>
+            )}
             {this.state.loading ? (
               <div className='loading'>
                 <Icon name='spinner' size='3x' spin={true} />
