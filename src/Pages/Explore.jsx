@@ -60,11 +60,10 @@ class Explore extends React.Component {
         });
       }
     } catch (err) {
-      if (err) {
-        this.setState({
-          loading: false,
-        });
-      }
+      this.setState({
+        reconstruction: [],
+        loading: false,
+      });
     }
   }
 
