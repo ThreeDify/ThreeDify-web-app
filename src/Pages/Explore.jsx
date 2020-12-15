@@ -8,6 +8,7 @@ import { STATUS_OK } from '../Constants/httpStatus';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import Pagination from '../Components/Pagination';
+import { debounce } from 'lodash';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
@@ -19,7 +20,7 @@ class Explore extends React.Component {
 
     this.state = {
       search: '',
-      loading: true,
+      loading: false,
       reconstruction: [],
       total: 0,
       page: 1,
@@ -29,25 +30,26 @@ class Explore extends React.Component {
 
     this.searchHandler = this.searchHandler.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
-  }
 
-  componentDidMount() {
-    this.fetchReconstructions();
+    // debounce
+    this.delayHandler = debounce(this.delayHandler, 1000);
   }
 
   async fetchReconstructions() {
-    let axios = getAxiosInstance();
-    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
-      params: {
-        q: this.state.search,
-        page: this.state.page,
-        filters: FILTERS,
-        order: SORT_ORDER,
-        size: NUM_RECONSTRUCTIONS,
-      },
-    });
-
     try {
+      this.setState({
+        loading: true,
+      });
+      let axios = getAxiosInstance();
+      let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
+        params: {
+          q: this.state.search,
+          page: this.state.page,
+          filters: FILTERS,
+          order: SORT_ORDER,
+          size: NUM_RECONSTRUCTIONS,
+        },
+      });
       if (reconstruction.status === STATUS_OK) {
         this.setState({
           loading: false,
@@ -66,15 +68,21 @@ class Explore extends React.Component {
     }
   }
 
-  searchHandler(e) {
+  componentDidMount() {
+    this.fetchReconstructions();
+  }
+
+  delayHandler() {
+    this.fetchReconstructions();
+  }
+
+  searchHandler(value) {
     this.setState(
       {
-        search: e.target.value,
-        loading: true,
-        reconstruction: [],
+        search: value,
         total: 0,
       },
-      () => this.fetchReconstructions()
+      this.delayHandler()
     );
   }
 
@@ -82,7 +90,6 @@ class Explore extends React.Component {
     if (value == this.state.page) return;
     this.setState(
       {
-        loading: true,
         reconstruction: [],
         page: value,
       },
@@ -126,7 +133,9 @@ class Explore extends React.Component {
             <div className='search-section-input'>
               <InputField
                 value={this.state.search}
-                onChange={this.searchHandler}
+                onChange={(e) => {
+                  this.searchHandler(e.target.value);
+                }}
                 required
                 type='text'
                 name='search'
