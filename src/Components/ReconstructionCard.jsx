@@ -18,7 +18,6 @@ class ReconstructionCard extends React.Component {
     this.setState({ liked: !currentState });
   }
   render() {
-    console.log(this.props.reconstruction);
     return (
       <div
         className={`reconstruction-card ${

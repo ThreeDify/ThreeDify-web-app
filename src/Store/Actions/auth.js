@@ -65,7 +65,7 @@ export function refreshToken(token) {
       return;
     }
 
-    await new Promise((resolve, reject) => {
+    await new Promise((resolve) => {
       const unsubscribe = store.subscribe(() => {
         const newState = store.getState();
         if (!newState.auth.isTokenBeingFetched) {
