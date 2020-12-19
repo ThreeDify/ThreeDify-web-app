@@ -4,8 +4,8 @@
   "description": "A REACT app for ThreeDify",
   "main": "./src/index.js",
   "scripts": {
-    "lint": "eslint src/**/*.js* && prettier --check src/",
-    "lint:fix": "eslint src/**/*.js* --fix && prettier --write src/",
+    "lint": "eslint src/**/*.js*",
+    "lint:fix": "eslint src/**/*.js* --fix",
     "start": "node ./src/server.js",
     "start:dev": "webpack-dev-server --open",
     "watch": "webpack --watch",
@@ -13,7 +13,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "yarn lint:fix"
     }
   },
   "repository": "git@github.com:silwalanish/ThreeDify-web-app.git",
@@ -33,6 +33,7 @@
     "express": "^4.17.1",
     "jquery": "3.5.0",
     "jwt-decode": "^3.0.0",
+    "lodash": "^4.17.20",
     "morgan": "^1.10.0",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
@@ -55,13 +56,12 @@
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "^7.21.5",
     "html-webpack-plugin": "^4.5.0",
     "husky": "^4.2.5",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "prettier": "2.0.5",
-    "pretty-quick": "^2.0.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.1.3",

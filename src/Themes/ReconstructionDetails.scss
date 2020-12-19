@@ -1,0 +1,107 @@
+.reconstruction-main-container {
+  margin-top: 64px;
+}
+
+.reconstruction-details-section {
+  display: flex;
+}
+
+.reconstruction-section {
+  width: 700px;
+  height: 400px;
+  border-radius: 12px;
+  background-color: #808080;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+  }
+}
+
+.reconstruction-project-title-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.reconstruction-creator-section {
+  width: 100%;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.creator-info {
+  display: flex;
+  align-items: center;
+  .creator-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid map-get($map: $theme-colors, $key: 'linkColor');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: map-get($map: $theme-colors, $key: 'linkColor');
+  }
+  .created-by {
+    margin-left: 12px;
+    p {
+      margin-bottom: 0;
+
+      strong:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.interaction-section > :first-child,
+.interaction-section > :nth-child(2) {
+  margin-right: 24px;
+}
+
+.interaction-section > *:hover {
+  cursor: pointer;
+}
+
+.icon {
+  &.icon-liked {
+    color: map-get($map: $theme-colors, $key: 'primary');
+  }
+}
+
+.reconstruction-used-image-section {
+  margin-top: 42px;
+
+  .reconstruction-images {
+    margin-top: 18px;
+    display: flex;
+
+    .reconstruction-image-section {
+      width: 100px;
+      height: 60px;
+      background-color: gray;
+      border-radius: 4px;
+      margin-right: 12px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.reconstruction-recommendation-section {
+  padding: 0 34px;
+
+  .recommendation-reconstruction {
+    margin-top: 18px;
+  }
+}

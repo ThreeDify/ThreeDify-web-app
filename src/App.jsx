@@ -13,6 +13,7 @@ import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import SignupModal from './Modals/SignupModal';
+import ReconstructionDetails from './Pages/ReconstructionDetails';
 import {
   HOME_URL,
   DASHBOARD_URL,
@@ -29,7 +30,12 @@ class App extends React.Component {
           <header>
             <Navbar
               brand={
-                <img src={BRAND_URL} height='30' alt='ThreeDify Logo'></img>
+                <img
+                  src={BRAND_URL}
+                  height='30'
+                  alt='ThreeDify Logo'
+                  crossOrigin='anonymous'
+                ></img>
               }
               navigation={<Navigations></Navigations>}
               toolbar={<Toolbar></Toolbar>}
@@ -56,6 +62,14 @@ class App extends React.Component {
               <Route strict exact path={RECONSTRUCTION_URL}>
                 <Reconstruction></Reconstruction>
               </Route>
+
+              <Route
+                strict
+                exact
+                path='/reconstructions/:id'
+                component={ReconstructionDetails}
+              ></Route>
+              <Route path='/profile/:id' component={Profile}></Route>
             </Switch>
           </main>
 

@@ -21,6 +21,8 @@ import {
   faHeart,
   faBars,
   faSpinner,
+  faShare,
+  faCloudDownloadAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
@@ -62,6 +64,8 @@ const ICONS = {
   faTwitter,
   faLinkedin,
   faGithub,
+  faShare,
+  faCloudDownloadAlt,
 };
 
 export default ICONS;

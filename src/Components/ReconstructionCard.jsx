@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
-
+import { PROFILE_URL } from '../Constants/appUrls';
 class ReconstructionCard extends React.Component {
   constructor(props) {
     super(props);
@@ -29,6 +30,7 @@ class ReconstructionCard extends React.Component {
             this.props.reconstruction.images[0].fileName
           )}
           className='reconstruction-card-image'
+          crossOrigin='anonymous'
         ></img>
         <div className='reconstruction-card-details'>
           <div className='card-details'>
@@ -38,16 +40,26 @@ class ReconstructionCard extends React.Component {
                   !this.props.showCreator ? 'heading-creator-hidden' : ''
                 }
               >
-                <span className='reconstruction-card-title'>
-                  {this.props.reconstruction.name}
-                </span>
+                <Link to={'/reconstructions/' + this.props.reconstruction.id}>
+                  <span className='reconstruction-card-title'>
+                    {this.props.reconstruction.name}
+                  </span>
+                </Link>
               </h5>
               {this.props.showCreator && (
                 <p>
                   Created by{' '}
-                  <span className='creator-user-name'>
-                    {this.props.reconstruction.createdByUser.username}
-                  </span>
+                  <Link
+                    to={
+                      PROFILE_URL +
+                      '/' +
+                      `${this.props.reconstruction.createdByUser.id}`
+                    }
+                  >
+                    <span className='creator-user-name'>
+                      {this.props.reconstruction.createdByUser.username}
+                    </span>
+                  </Link>
                 </p>
               )}
             </div>
