@@ -69,6 +69,7 @@ class App extends React.Component {
                 path='/reconstructions/:id'
                 component={ReconstructionDetails}
               ></Route>
+              <Route path='/profile/:id' component={Profile}></Route>
             </Switch>
           </main>
 

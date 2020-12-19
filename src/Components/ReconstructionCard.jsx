@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
-
+import { PROFILE_URL } from '../Constants/appUrls';
 class ReconstructionCard extends React.Component {
   constructor(props) {
     super(props);
@@ -49,9 +49,17 @@ class ReconstructionCard extends React.Component {
               {this.props.showCreator && (
                 <p>
                   Created by{' '}
-                  <span className='creator-user-name'>
-                    {this.props.reconstruction.createdByUser.username}
-                  </span>
+                  <Link
+                    to={
+                      PROFILE_URL +
+                      '/' +
+                      `${this.props.reconstruction.createdByUser.id}`
+                    }
+                  >
+                    <span className='creator-user-name'>
+                      {this.props.reconstruction.createdByUser.username}
+                    </span>
+                  </Link>
                 </p>
               )}
             </div>
