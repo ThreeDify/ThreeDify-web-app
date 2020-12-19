@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Tabs, Tab } from 'react-bootstrap';
 
 import {
   RECONSTRUCTION_CREATE_URL,
@@ -13,12 +14,11 @@ import {
 import Icon from '../Components/Icon';
 import { asPage } from '../Middlewares/asPage';
 import InputField from '../Components/InputField';
+import Pagination from '../Components/Pagination';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-import { Tabs, Tab } from 'react-bootstrap';
-import Pagination from '../Components/Pagination';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;

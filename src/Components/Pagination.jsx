@@ -1,6 +1,6 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Pagination as ReactPagination } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 
 export class Pagination extends Component {
   render() {
