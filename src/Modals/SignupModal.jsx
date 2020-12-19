@@ -29,7 +29,12 @@ class SignupModal extends React.Component {
         <div className='container-fluid'>
           <div className='row justify-content-center'>
             <div className='col-lg-5 d-none d-lg-block text-center align-self-center'>
-              <img src={BRAND_URL} className='img-fluid' alt='ThreeDify Logo' />
+              <img
+                src={BRAND_URL}
+                className='img-fluid'
+                alt='ThreeDify Logo'
+                crossOrigin='anonymous'
+              />
             </div>
             <div className='col-lg-7'>
               <button
