@@ -29,6 +29,7 @@ class ReconstructionCard extends React.Component {
             this.props.reconstruction.images[0].fileName
           )}
           className='reconstruction-card-image'
+          crossOrigin='anonymous'
         ></img>
         <div className='reconstruction-card-details'>
           <div className='card-details'>

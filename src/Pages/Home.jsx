@@ -13,6 +13,12 @@ import { requestSignup } from '../Store/Actions/auth';
 import TeamMemberCard from '../Components/TeamMemberCard';
 import { RECONSTRUCTION_FETCH_URL } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
+import {
+  TEAM_MEMBER_ANISH_IMG_URL,
+  TEAM_MEMBER_DANIEL_IMG_URL,
+  TEAM_MEMBER_KISHOR_IMG_URL,
+  TEAM_MEMBER_SHRAWAN_IMG_URL,
+} from '../Constants/misc';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
@@ -114,7 +120,7 @@ class Home extends React.Component {
               )}
             </div>
             <div className='about-section-image'>
-              <img src='/public/images/kg.png' />
+              <img src='/public/images/kg.png' crossOrigin='anonymous' />
             </div>
           </div>
           <div className='discover-section'>
@@ -133,7 +139,7 @@ class Home extends React.Component {
             <h1>Our Team</h1>
             <div className='team-member'>
               <TeamMemberCard
-                imgLink='/public/images/anish.jpg'
+                imgLink={TEAM_MEMBER_ANISH_IMG_URL}
                 name='Anish Silwal Khatri'
                 description='Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
                   his bachelors degree in Bsc.CSIT. He has a huge
@@ -143,7 +149,7 @@ class Home extends React.Component {
                 linkedinLink='https://www.linkedin.com/in/silwalanish/'
               />
               <TeamMemberCard
-                imgLink='/public/images/daniel.jpg'
+                imgLink={TEAM_MEMBER_DANIEL_IMG_URL}
                 name='Daniel Thapa Magar'
                 description='Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing his
                   bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He also has a creative knowlegde on video editing, graphic
@@ -154,19 +160,18 @@ class Home extends React.Component {
               />
 
               <TeamMemberCard
-                imgLink='/public/images/kishor.jpg'
+                imgLink={TEAM_MEMBER_KISHOR_IMG_URL}
                 name='Kishor Ghising'
                 description='Kishor Ghising is a UI/UX Engineer at Prokura Innovations. He is currently 
-                pursuing his bachelor’s degree in computer science and information 
-                  technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek.
-                  '
+                  pursuing his bachelor’s degree in computer science and information 
+                  technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek.'
                 githubLink='https://www.github.com/KGhising/'
                 instagramLink='https://www.instagram.com/kghisinga/'
                 linkedinLink='https://www.linkedin.com/in/kghisiga/'
               />
 
               <TeamMemberCard
-                imgLink='/public/images/shrawan.jpg'
+                imgLink={TEAM_MEMBER_SHRAWAN_IMG_URL}
                 name='Shrawan Ghimire'
                 description='Shrawan Ghimire is a Web Developer and Technology Enthusiastic. He is pursuing his bachelors degree
                   in computer science and information technology at Bhaktapur Multiple Campus. He is a huge football fan and supports 
