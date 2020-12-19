@@ -31,6 +31,7 @@ export class Profile extends Component {
       this.fetchUserInformation(this.state.userId);
     }
   }
+
   componentDidUpdate() {
     let match = this.props.match || {};
     let id = (match.params && match.params.id) || this.props.authUser.id;
@@ -38,6 +39,7 @@ export class Profile extends Component {
       this.fetchUserInformation(id);
     }
   }
+
   async fetchUserInformation(id) {
     let axios = await getAuthenticatedInstance();
     try {
@@ -119,11 +121,11 @@ export class Profile extends Component {
                 <h4 className='font-weight-medium'>{fullName}</h4>
                 <p className='text-muted'>{this.state.userName}</p>
                 {this.props.match &&
-                  this.props.authUser.id != this.props.match.params.id && (
-                    <button className='btn btn-primary col-8 mb-4'>
-                      Follow
-                    </button>
-                  )}
+                    this.props.authUser.id != this.props.match.params.id && (
+                  <button className='btn btn-primary col-8 mb-4'>
+                        Follow
+                  </button>
+                )}
                 <div className='info col-8'>
                   <div className='d-flex'>
                     <p className='mr-auto'>Models</p>

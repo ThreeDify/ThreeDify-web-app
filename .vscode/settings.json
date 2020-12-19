@@ -1,4 +1,9 @@
 {
   "editor.tabSize": 2,
-  "html.format.endWithNewline": true
+  "html.format.endWithNewline": true,
+  "eslint.format.enable": true,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.packageManager": "yarn"
 }
