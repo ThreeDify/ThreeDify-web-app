@@ -30,7 +30,12 @@ class App extends React.Component {
           <header>
             <Navbar
               brand={
-                <img src={BRAND_URL} height='30' alt='ThreeDify Logo'></img>
+                <img
+                  src={BRAND_URL}
+                  height='30'
+                  alt='ThreeDify Logo'
+                  crossOrigin='anonymous'
+                ></img>
               }
               navigation={<Navigations></Navigations>}
               toolbar={<Toolbar></Toolbar>}

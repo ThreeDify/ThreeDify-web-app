@@ -8,7 +8,7 @@ class TeamMemberCard extends React.Component {
     return (
       <div className='team-member-card'>
         <div className='member-img'>
-          <img src={this.props.imgLink} />
+          <img src={this.props.imgLink} crossOrigin='anonymous' />
         </div>
         <h5>{this.props.name}</h5>
         <p>{this.props.description}</p>
