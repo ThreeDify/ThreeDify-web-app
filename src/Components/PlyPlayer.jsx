@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import Icon from './Icon';
+import Mouse from '../Utils/mouse';
+import Camera from '../Utils/camera';
+import Keyboard from '../Utils/keyboard';
 import { getAxiosInstance } from '../Utils/axios';
-import { createModelMatrix, createProjectionMatrix, createViewMatrix } from '../Utils/maths';
+import { createModelMatrix } from '../Utils/maths';
 import { clear, compileShaders, enableVertexAttribArray, generateFloatBuffer } from '../Utils/webgl';
 
 const vsSource = `
@@ -40,11 +43,24 @@ export default class PlyPlayer extends Component {
     this.canvas = document.createElement('canvas');
     this.programInfo = {};
     this.buffers = {};
-    this.rotation = 0;
     this.animation = null;
+    this.camera = new Camera({
+      fov: 45,
+      aspect: this.props.width / this.props.height,
+      zNear: 0.1,
+      zFar: 100.0,
+      position: vec3.fromValues(0, 0, 15),
+      speed: 0.5
+    });
+    this.mouse = new Mouse();
+    this.keyboard = new Keyboard();
+
+    this.mouse.mouseMoveListeners.push(this.camera.onMouseMove.bind(this.camera));
+    window.addEventListener('keydown', this.keyboard.onKeyDown.bind(this.keyboard));
+    window.addEventListener('keyup', this.keyboard.onKeyUp.bind(this.keyboard));
 
     this.state = {
-      error: true,
+      error: false,
       loading: true,
       url: this.props.url,
     };
@@ -83,6 +99,8 @@ export default class PlyPlayer extends Component {
         url: fileUrl
       });
     } catch (err) {
+      console.log(err);
+
       this.setState({
         loading: false,
         error: true
@@ -130,13 +148,25 @@ export default class PlyPlayer extends Component {
     });
   }
 
+  moveCamera() {
+    if (this.keyboard.isKeyPressed('KeyW')) {
+      this.camera.moveForward();
+    } else if (this.keyboard.isKeyPressed('KeyS')) {
+      this.camera.moveBack();
+    }
+
+    if (this.keyboard.isKeyPressed('KeyA')) {
+      this.camera.moveLeft();
+    } else if (this.keyboard.isKeyPressed('KeyD')) {
+      this.camera.moveRight();
+    }
+  }
+
   drawScene() {
     clear(this.gl);
 
     if (this.buffers.position && this.buffers.color) {
-      const projectionMatrix = createProjectionMatrix(45, this.gl.canvas.clientWidth / this.gl.canvas.clientHeight, 0.1, 100.0);
-      const viewMatrix = createViewMatrix(vec3.fromValues(0, 0, 15), vec3.fromValues(0, 0, 0), vec3.fromValues(0, 1, 0));
-      const modelMatrix = createModelMatrix(vec3.fromValues(0, 0, 0), vec3.fromValues(-90, this.rotation, 0));
+      const modelMatrix = createModelMatrix(vec3.fromValues(0, 0, 0), vec3.fromValues(-90, 0, 0));
 
       enableVertexAttribArray(this.gl, 3, this.programInfo.attribLocations.vertexPosition, this.buffers.position, this.gl.FLOAT, false, 0, 0);
       enableVertexAttribArray(this.gl, 3, this.programInfo.attribLocations.vertexColor, this.buffers.color, this.gl.FLOAT, false, 0, 0);
@@ -145,12 +175,12 @@ export default class PlyPlayer extends Component {
       this.gl.uniformMatrix4fv(
         this.programInfo.uniformLocations.projectionMatrix,
         false,
-        projectionMatrix
+        this.camera.getProjectionMatrix()
       );
       this.gl.uniformMatrix4fv(
         this.programInfo.uniformLocations.viewMatrix,
         false,
-        viewMatrix
+        this.camera.getViewMatrix()
       );
       this.gl.uniformMatrix4fv(
         this.programInfo.uniformLocations.modelMatrix,
@@ -175,14 +205,10 @@ export default class PlyPlayer extends Component {
   gameLoop() {
     cancelAnimationFrame(this.animation);
 
-    let then = 0;
-    const loop = (now) => {
+    const loop = () => {
+      this.moveCamera();
+      this.camera.calculateMatrix();
       this.drawScene();
-      now *= 0.001;
-      const deltaTime = now - then;
-      then = now;
-
-      this.rotation += 100 * deltaTime;
       this.animation = requestAnimationFrame(loop);
     };
 
@@ -195,6 +221,10 @@ export default class PlyPlayer extends Component {
       alert('Unable to initialize WebGL. Your browser or machine may not support it.');
       return;
     }
+
+    this.canvas.addEventListener('mousedown', this.mouse.onMouseDown.bind(this.mouse));
+    this.canvas.addEventListener('mouseup', this.mouse.onMouseUp.bind(this.mouse));
+    this.canvas.addEventListener('mousemove', this.mouse.onMouseMove.bind(this.mouse));
 
     this.parseFile(this.props.url);
 

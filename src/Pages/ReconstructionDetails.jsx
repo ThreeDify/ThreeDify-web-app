@@ -156,6 +156,9 @@ class ReconstructionDetails extends React.Component {
                 </div>
               }
             </div>
+            <div className='alert alert-primary my-2'>
+              <Icon name='question-circle' size='1x'></Icon> Use WASD to move around. Click and drag model to rotate.
+            </div>
             <div className='reconstruction-project-title-section'>
               <h4>{this.state.projectTitle}</h4>
               <div className='interaction-section'>
