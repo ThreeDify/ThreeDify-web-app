@@ -1,19 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Icon from '../Components/Icon';
-import { asPage } from '../Middlewares/asPage';
-import { getAuthenticatedInstance } from '../Utils/axios';
 import {
   RECONSTRUCTION_DETAILS_FETCH_URL,
+  RECONSTRUCTION_OUTPUT_URL,
   USER_RECONSTRUCTIONS_API,
 } from '../Constants/apiUrls';
+import Icon from '../Components/Icon';
+import { asPage } from '../Middlewares/asPage';
+import PlyPlayer from '../Components/PlyPlayer';
 import { IMAGE_URL } from '../Constants/apiUrls';
+import { getAuthenticatedInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
 const SORT_ORDER = 'AESC';
 const NUM_RECONSTRUCTIONS = 4;
 const FILTERS = 'orderByCreatedAt';
+
+const RECONSTRUCTION_STATE_MAP = {
+  'INQUEUE': 'in queue',
+  'INPROGRESS': 'in progress',
+  'COMPLETED': 'completed'
+};
 
 class ReconstructionDetails extends React.Component {
   constructor(props) {
@@ -26,6 +34,7 @@ class ReconstructionDetails extends React.Component {
       projectTitle: '',
       loading: false,
       reconstructions: [],
+      reconstructionState: 'INQUEUE',
       reconstructionId: this.props.match.params.id,
     };
     this.likeToggle = this.likeToggle.bind(this);
@@ -55,6 +64,7 @@ class ReconstructionDetails extends React.Component {
       this.setState({
         reconstructionId: id,
         loading: false,
+        reconstructionState: resp.data.state,
         userInfo: resp.data.createdByUser,
         images: resp.data.images,
         projectTitle: resp.data.name,
@@ -130,11 +140,22 @@ class ReconstructionDetails extends React.Component {
       </div>
     ));
 
+    const reconstructionState = RECONSTRUCTION_STATE_MAP[this.state.reconstructionState];
+
     return (
       <div className='reconstruction-main-container'>
         <div className='reconstruction-details-section'>
           <div className='reconstruction-main-section'>
-            <div className='reconstruction-section'></div>
+            <div className='reconstruction-section'>
+              {this.state.reconstructionState === 'COMPLETED' ?
+                <PlyPlayer url={RECONSTRUCTION_OUTPUT_URL.replace('{reconstructionId}', this.state.reconstructionId)} width={700} height={400} animate></PlyPlayer>
+                :
+                <div className='reconstruction-output-info'>
+                  <div className='mb-2'><Icon name='exclamation-circle' size='3x'></Icon></div>
+                  <h5>This reconstruction is still {reconstructionState}.</h5>
+                </div>
+              }
+            </div>
             <div className='reconstruction-project-title-section'>
               <h4>{this.state.projectTitle}</h4>
               <div className='interaction-section'>
@@ -167,7 +188,7 @@ class ReconstructionDetails extends React.Component {
             </div>
           </div>
           <div className='reconstruction-recommendation-section'>
-            <h3>Recommendations</h3>
+            <h3>More from this user.</h3>
             <div className='recommendation-reconstruction'>{cards}</div>
           </div>
         </div>

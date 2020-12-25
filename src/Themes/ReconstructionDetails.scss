@@ -10,12 +10,18 @@
   width: 700px;
   height: 400px;
   border-radius: 12px;
-  background-color: #808080;
+  background-color: #000000;
+  overflow: hidden;
 
-  img {
+  .reconstruction-output-info {
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    display: flex;
+    color: #ffffff;
+    position: relative;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
   }
 }
 
@@ -35,6 +41,7 @@
 .creator-info {
   display: flex;
   align-items: center;
+
   .creator-image {
     width: 50px;
     height: 50px;
@@ -47,8 +54,10 @@
     font-weight: bold;
     color: map-get($map: $theme-colors, $key: 'linkColor');
   }
+
   .created-by {
     margin-left: 12px;
+
     p {
       margin-bottom: 0;
 
@@ -60,12 +69,12 @@
   }
 }
 
-.interaction-section > :first-child,
-.interaction-section > :nth-child(2) {
+.interaction-section> :first-child,
+.interaction-section> :nth-child(2) {
   margin-right: 24px;
 }
 
-.interaction-section > *:hover {
+.interaction-section>*:hover {
   cursor: pointer;
 }
 

@@ -22,3 +22,5 @@ export const USER_RECONSTRUCTIONS_API =
   process.env.API_URL + '/users/{userId}/reconstructions';
 export const RECONSTRUCTION_DETAILS_FETCH_URL =
   process.env.API_URL + '/reconstructions/{reconstructionId}';
+export const RECONSTRUCTION_OUTPUT_URL =
+  process.env.API_URL + '/reconstructions/{reconstructionId}/reconstructionFile';

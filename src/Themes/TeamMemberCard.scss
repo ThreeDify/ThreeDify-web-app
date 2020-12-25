@@ -50,6 +50,7 @@
       margin-right: 12px;
       color: map-get($map: $theme-colors, $key: 'secondary');
     }
+
     .social-media-icon:hover {
       color: map-get($map: $theme-colors, $key: 'blue');
     }
@@ -74,6 +75,7 @@
   .member-img {
     display: none;
   }
+
   .social-media {
     justify-content: flex-start;
   }

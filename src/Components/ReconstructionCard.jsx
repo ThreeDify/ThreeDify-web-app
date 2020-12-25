@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
 import { PROFILE_URL } from '../Constants/appUrls';
+
 class ReconstructionCard extends React.Component {
   constructor(props) {
     super(props);
@@ -20,8 +21,7 @@ class ReconstructionCard extends React.Component {
   render() {
     return (
       <div
-        className={`reconstruction-card ${
-          this.props.small ? 'reconstruction-card--small' : ''
+        className={`reconstruction-card ${this.props.small ? 'reconstruction-card--small' : ''
         }`}
       >
         <img
