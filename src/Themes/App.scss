@@ -2,10 +2,11 @@
 @import '~bootstrap/scss/bootstrap';
 @import 'Home';
 @import 'Explore';
-@import 'Reconstruction';
-@import 'ReconstructionCard';
-@import 'TeamMemberCard';
 @import 'Profile';
+@import 'PlyPlayer';
+@import 'Reconstruction';
+@import 'TeamMemberCard';
+@import 'ReconstructionCard';
 @import 'ReconstructionDetails';
 
 * {
@@ -13,6 +14,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background-color: map-get($map: $theme-colors, $key: 'bgColor');
 }
@@ -48,6 +50,7 @@ body {
     color: map-get($map: $theme-colors, $key: 'linkColor');
   }
 }
+
 .modal-content {
   border: 2px solid map-get($map: $theme-colors, $key: 'secondary');
   border-radius: 0.1rem;
@@ -55,6 +58,7 @@ body {
   .modal-body {
     padding: 0px;
   }
+
   .close-modal {
     position: absolute;
     top: 10px;
