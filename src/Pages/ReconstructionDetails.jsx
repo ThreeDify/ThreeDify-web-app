@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import {
   RECONSTRUCTION_DETAILS_FETCH_URL,
@@ -11,11 +12,15 @@ import { asPage } from '../Middlewares/asPage';
 import PlyPlayer from '../Components/PlyPlayer';
 import { IMAGE_URL } from '../Constants/apiUrls';
 import { getAxiosInstance } from '../Utils/axios';
+import Pagination from '../Components/Pagination';
+import { PROFILE_URL } from '../Constants/appUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
 const SORT_ORDER = 'AESC';
 const NUM_RECONSTRUCTIONS = 4;
 const FILTERS = 'orderByCreatedAt';
+
+const NUM_IMAGES = 12;
 
 const RECONSTRUCTION_STATE_MAP = {
   'INQUEUE': 'in queue',
@@ -34,10 +39,14 @@ class ReconstructionDetails extends React.Component {
       projectTitle: '',
       loading: false,
       reconstructions: [],
+      imageCount: 0,
+      imagePage: 1,
       reconstructionState: 'INQUEUE',
       reconstructionId: this.props.match.params.id,
     };
+
     this.likeToggle = this.likeToggle.bind(this);
+    this.imagePageChange = this.imagePageChange.bind(this);
   }
 
   likeToggle() {
@@ -55,6 +64,12 @@ class ReconstructionDetails extends React.Component {
     }
   }
 
+  imagePageChange(page) {
+    this.setState({
+      imagePage: page
+    });
+  }
+
   async fetchReconstruction(id) {
     let axios = await getAxiosInstance();
     try {
@@ -67,6 +82,8 @@ class ReconstructionDetails extends React.Component {
         reconstructionState: resp.data.state,
         userInfo: resp.data.createdByUser,
         images: resp.data.images,
+        imageCount: resp.data.images.length,
+        imagePage: 1,
         projectTitle: resp.data.name,
       });
 
@@ -129,8 +146,8 @@ class ReconstructionDetails extends React.Component {
         </p>
       );
 
-    let reconstructionImage = this.state.images;
-    let images = reconstructionImage.map((image, index) => (
+    const reconstructionImage = this.state.images.slice((this.state.imagePage - 1) * NUM_IMAGES, this.state.imagePage * NUM_IMAGES);
+    const images = reconstructionImage.map((image, index) => (
       <div key={index} className='reconstruction-image-section'>
         <img
           src={IMAGE_URL.replace('{fileName}', image.fileName)}
@@ -177,7 +194,16 @@ class ReconstructionDetails extends React.Component {
                 <div className='creator-image'>{firstLetter}</div>
                 <div className='created-by'>
                   <p>
-                    Created by <strong>{this.state.userInfo.username}</strong>
+                    Created by{' '}
+                    <Link
+                      to={
+                        PROFILE_URL +
+                        '/' +
+                        `${this.state.userInfo.id}`
+                      }
+                    >
+                      {this.state.userInfo.username}
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -188,6 +214,14 @@ class ReconstructionDetails extends React.Component {
             <div className='reconstruction-used-image-section'>
               <h3>Images used to create reconstruction</h3>
               <div className='reconstruction-images'>{images}</div>
+              {this.state.imageCount > NUM_IMAGES &&
+                <Pagination
+                  total={this.state.imageCount}
+                  page={this.state.imagePage}
+                  pageSize={NUM_IMAGES}
+                  onPageChange={this.imagePageChange}>
+                </Pagination>
+              }
             </div>
           </div>
           <div className='reconstruction-recommendation-section'>

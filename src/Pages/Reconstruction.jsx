@@ -36,9 +36,7 @@ export class Reconstruction extends Component {
       reconstructions: [],
       key: 'all',
       total: 0,
-      page: 1,
-      hasPrevious: false,
-      hasNext: false,
+      page: 1
     };
 
     this.submitHandler = this.submitHandler.bind(this);
@@ -78,9 +76,7 @@ export class Reconstruction extends Component {
       this.setState({
         reconstructions: resp.data.data,
         loading: false,
-        total: Math.ceil(resp.data.total / NUM_RECONSTRUCTIONS),
-        hasPrevious: resp.data.hasPrevPage,
-        hasNext: resp.data.hasNextPage,
+        total: resp.data.total,
       });
     } catch (err) {
       this.setState({
@@ -196,9 +192,7 @@ export class Reconstruction extends Component {
             <form
               ref={this.form}
               onSubmit={this.submitHandler}
-              className={`form-group ${
-                this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''
-              }`}
+              className={`form-group ${this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''}`}
             >
               <div className='form-group'>
                 <label htmlFor='title'>Project Title</label>
@@ -336,13 +330,12 @@ export class Reconstruction extends Component {
             </Tabs>
 
             {/* pagintaion-component */}
-            {this.state.total > 1 && (
+            {this.state.total > NUM_RECONSTRUCTIONS && (
               <Pagination
-                disablePrevious={!this.state.hasPrevious}
-                disableNext={!this.state.hasNext}
                 total={this.state.total}
-                pageChangeHandler={this.pageChangeHandler}
+                onPageChange={this.pageChangeHandler}
                 page={this.state.page}
+                pageSize={NUM_RECONSTRUCTIONS}
               />
             )}
           </div>

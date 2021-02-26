@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Icon from '../Components/Icon';
 import { getAxiosInstance } from '../Utils/axios';
+import Pagination from '../Components/Pagination';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
@@ -22,8 +23,23 @@ export class Profile extends Component {
       userFirstName: '',
       userLastName: '',
       userName: '',
+      total: 0,
+      page: 1,
       userId: (match.params && match.params.id) || this.props.authUser.id,
     };
+
+    this.pageChangeHandler = this.pageChangeHandler.bind(this);
+  }
+
+  pageChangeHandler(value) {
+    if (value === this.state.page) return;
+    this.setState(
+      {
+        page: value,
+        reconstructions: [],
+      },
+      () => this.fetchUserInformation(this.state.userId)
+    );
   }
 
   async componentDidMount() {
@@ -47,6 +63,7 @@ export class Profile extends Component {
         USER_RECONSTRUCTIONS_API.replace('{userId}', id),
         {
           params: {
+            page: this.state.page,
             filters: FILTERS,
             order: SORT_ORDER,
             size: NUM_RECONSTRUCTIONS,
@@ -57,6 +74,7 @@ export class Profile extends Component {
       this.setState({
         loading: false,
         reconstructions: resp.data.data,
+        total: resp.data.total,
         userId: id,
         userFirstName: resp.data.data[0].createdByUser.firstName,
         userLastName: resp.data.data[0].createdByUser.lastName,
@@ -121,11 +139,11 @@ export class Profile extends Component {
                 <h4 className='font-weight-medium'>{fullName}</h4>
                 <p className='text-muted'>{this.state.userName}</p>
                 {this.props.match &&
-                    this.props.authUser.id != this.props.match.params.id && (
+                  this.props.authUser.id != this.props.match.params.id &&
                   <button className='btn btn-primary col-8 mb-4'>
-                        Follow
+                    Follow
                   </button>
-                )}
+                }
                 <div className='info col-8'>
                   <div className='d-flex'>
                     <p className='mr-auto'>Models</p>
@@ -152,7 +170,17 @@ export class Profile extends Component {
                 <Icon name='spinner' size='3x' spin={true} />
               </div>
             ) : (
-              <div className='d-flex flex-wrap'>{cards}</div>
+              <React.Fragment>
+                <div className='d-flex flex-wrap'>{cards}</div>
+                <div>{this.state.total > NUM_RECONSTRUCTIONS && (
+                  <Pagination
+                    total={this.state.total}
+                    onPageChange={this.pageChangeHandler}
+                    page={this.state.page}
+                    pageSize={NUM_RECONSTRUCTIONS}
+                  />
+                )}</div>
+              </React.Fragment>
             )}
           </div>
         </div>
