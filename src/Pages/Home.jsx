@@ -58,7 +58,7 @@ class Home extends React.Component {
     } catch (err) {
       if (err) {
         this.setState({
-          loading: true,
+          loading: false,
         });
       }
     }
