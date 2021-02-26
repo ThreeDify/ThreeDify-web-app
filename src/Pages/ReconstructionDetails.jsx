@@ -10,7 +10,7 @@ import Icon from '../Components/Icon';
 import { asPage } from '../Middlewares/asPage';
 import PlyPlayer from '../Components/PlyPlayer';
 import { IMAGE_URL } from '../Constants/apiUrls';
-import { getAuthenticatedInstance } from '../Utils/axios';
+import { getAxiosInstance } from '../Utils/axios';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
 const SORT_ORDER = 'AESC';
@@ -56,7 +56,7 @@ class ReconstructionDetails extends React.Component {
   }
 
   async fetchReconstruction(id) {
-    let axios = await getAuthenticatedInstance();
+    let axios = await getAxiosInstance();
     try {
       let resp = await axios.get(
         RECONSTRUCTION_DETAILS_FETCH_URL.replace('{reconstructionId}', id)

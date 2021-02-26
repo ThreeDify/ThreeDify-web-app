@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Icon from '../Components/Icon';
-import { getAuthenticatedInstance } from '../Utils/axios';
+import { getAxiosInstance } from '../Utils/axios';
 import { USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
@@ -41,7 +41,7 @@ export class Profile extends Component {
   }
 
   async fetchUserInformation(id) {
-    let axios = await getAuthenticatedInstance();
+    let axios = await getAxiosInstance();
     try {
       let resp = await axios.get(
         USER_RECONSTRUCTIONS_API.replace('{userId}', id),
