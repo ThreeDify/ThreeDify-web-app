@@ -15,6 +15,8 @@ export const UNIQUE_USERNAME_URL =
 
 export const RECONSTRUCTION_CREATE_URL =
   process.env.API_URL + '/reconstructions/create';
+export const RECONSTRUCTION_ADD_IMAGE_URL =
+  process.env.API_URL + '/reconstructions/{reconstructionId}/addImage';
 export const IMAGE_URL = process.env.API_URL + '/images/{fileName}';
 export const RECONSTRUCTION_FETCH_URL =
   process.env.API_URL + '/reconstructions';

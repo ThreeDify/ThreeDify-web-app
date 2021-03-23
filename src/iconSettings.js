@@ -23,6 +23,8 @@ import {
   faBars,
   faSpinner,
   faShare,
+  faTrash,
+  faCheck,
   faCloudDownloadAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -67,6 +69,8 @@ const ICONS = {
   faLinkedin,
   faGithub,
   faShare,
+  faTrash,
+  faCheck,
   faCloudDownloadAlt,
 };
 

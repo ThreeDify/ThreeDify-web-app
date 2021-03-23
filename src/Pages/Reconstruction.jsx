@@ -1,345 +1,288 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
 
-import {
-  RECONSTRUCTION_CREATE_URL,
-  USER_RECONSTRUCTIONS_API,
-} from '../Constants/apiUrls';
-import {
-  IMAGE_UPLOAD_SUCCESS,
-  IMAGE_SIZE_ERROR,
-  BACKEND_ERROR_MESSAGE,
-} from '../Constants/messages';
-import Icon from '../Components/Icon';
 import { asPage } from '../Middlewares/asPage';
-import InputField from '../Components/InputField';
-import Pagination from '../Components/Pagination';
+import { InputField } from '../Components/InputField';
+import FileSelector from '../Components/FileSelector';
+import ImagePreview from '../Components/ImagePreview';
 import authenticate from '../Middlewares/authenticate';
 import { getAuthenticatedInstance } from '../Utils/axios';
-import ReconstructionCard from '../Components/ReconstructionCard';
+import {
+  RECONSTRUCTION_ADD_IMAGE_URL,
+  RECONSTRUCTION_CREATE_URL,
+} from '../Constants/apiUrls';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
-
-const SORT_ORDER = 'DESC';
-const NUM_RECONSTRUCTIONS = 6;
 
 export class Reconstruction extends Component {
   constructor(props) {
     super(props);
-    this.form = React.createRef();
+    this.imageFormRef = React.createRef();
+    this.creationFormRef = React.createRef();
 
     this.state = {
+      reconstruction: {
+        id: 0,
+        name: '',
+      },
       uploading: false,
-      uploadSuccess: false,
-      uploadFail: false,
-      loading: true,
-      reconstructions: [],
-      key: 'all',
-      total: 0,
-      page: 1
+      uploadStates: {},
+      selectedImages: [],
+      reconstructionCreated: false,
+      creatingReconstruction: false,
     };
 
-    this.submitHandler = this.submitHandler.bind(this);
-    this.resetHandler = this.resetHandler.bind(this);
-    this.tabChangeHandler = this.tabChangeHandler.bind(this);
-    this.pageChangeHandler = this.pageChangeHandler.bind(this);
+    this.handleImageSelect = this.handleImageSelect.bind(this);
+    this.handleImageFormSubmit = this.handleImageFormSubmit.bind(this);
+    this.handleCreationFormSubmit = this.handleCreationFormSubmit.bind(this);
   }
 
-  resetHandler() {
-    this.form.current && this.form.current.reset();
+  handleImageSelect(images) {
     this.setState({
-      uploading: false,
-      uploadSuccess: false,
-      uploadFail: false,
-      backendError: false,
+      selectedImages: [
+        ...this.state.selectedImages,
+        ...images.filter((img) => {
+          return (
+            this.state.selectedImages.findIndex((sImg) => {
+              return sImg.name === img.name;
+            }) < 0
+          );
+        }),
+      ],
     });
   }
 
-  async fetchModels() {
-    this.setState({
-      loading: true,
-    });
-    let axios = await getAuthenticatedInstance();
-    try {
-      let filters = this.state.key === 'all' ? '' : this.state.key;
-      let resp = await axios.get(
-        USER_RECONSTRUCTIONS_API.replace('{userId}', this.props.user.id),
-        {
-          params: {
-            page: this.state.page,
-            size: NUM_RECONSTRUCTIONS,
-            order: SORT_ORDER,
-            filters: 'orderByCreatedAt' + (filters ? `,${filters}` : ''),
+  handleImageProgress(index) {
+    return (evnt) => {
+      this.setState({
+        uploadStates: {
+          ...this.state.uploadStates,
+          [index]: {
+            progress: Math.round((100 * evnt.loaded) / evnt.total),
           },
+        },
+      });
+    };
+  }
+
+  async uploadImage(image, index) {
+    this.setState(
+      {
+        uploadStates: {
+          ...this.state.uploadStates,
+          [index]: {
+            progress: 0,
+            error: false,
+          },
+        },
+      },
+      async () => {
+        const axios = await getAuthenticatedInstance();
+        const data = new FormData();
+        data.append('image', image);
+
+        const config = {
+          onUploadProgress: this.handleImageProgress(index),
+        };
+
+        try {
+          const resp = await axios.put(
+            RECONSTRUCTION_ADD_IMAGE_URL.replace(
+              '{reconstructionId}',
+              this.state.reconstruction.id
+            ),
+            data,
+            config
+          );
+
+          if (resp.status !== 200) {
+            this.setState({
+              uploadStates: {
+                ...this.state.uploadStates,
+                [index]: {
+                  progress: 0,
+                  error: true,
+                },
+              },
+            });
+          }
+        } catch (err) {
+          console.log(err);
+          this.setState({
+            uploadStates: {
+              ...this.state.uploadStates,
+              [index]: {
+                progress: 0,
+                error: true,
+              },
+            },
+          });
+        }
+      }
+    );
+  }
+
+  async handleImageFormSubmit(e) {
+    e.preventDefault();
+
+    if (this.state.selectedImages.length > 0) {
+      this.setState(
+        {
+          uploading: true,
+        },
+        () => {
+          this.state.selectedImages.forEach(this.uploadImage.bind(this));
         }
       );
-      this.setState({
-        reconstructions: resp.data.data,
-        loading: false,
-        total: resp.data.total,
-      });
-    } catch (err) {
-      this.setState({
-        reconstructions: [],
-        total: 0,
-        loading: false,
-      });
     }
   }
 
-  componentDidMount() {
-    this.fetchModels();
-  }
-
-  tabChangeHandler(k) {
-    if (k === this.state.key) return;
-    this.setState(
-      {
-        key: k,
-        reconstructions: [],
-        total: 0,
-        page: 1,
-      },
-      () => this.fetchModels()
-    );
-  }
-
-  pageChangeHandler(value) {
-    if (value === this.state.page) return;
-    this.setState(
-      {
-        page: value,
-        reconstructions: [],
-      },
-      () => this.fetchModels()
-    );
-  }
-
-  async submitHandler(e) {
+  async handleCreationFormSubmit(e) {
     e.preventDefault();
-    const myData = new FormData(this.form.current);
-    let imagesList = myData.getAll('images');
-
-    // form file-size validation
-    for (let key of imagesList) {
-      if (key.size / 1000000 > 5) {
-        this.setState({ uploadFail: true });
-        return;
-      }
-    }
 
     this.setState({
-      uploading: true,
-      uploadFail: false,
+      creatingReconstruction: true,
     });
 
-    // upload images
-    let axios = await getAuthenticatedInstance();
+    const axios = await getAuthenticatedInstance();
+    const data = new FormData(this.creationFormRef.current);
     try {
-      let resp = await axios.post(RECONSTRUCTION_CREATE_URL, myData);
+      const resp = await axios.post(RECONSTRUCTION_CREATE_URL, {
+        reconstruction_name: data.get('reconstruction_name'),
+      });
+
       if (resp.status === 200) {
         this.setState({
-          uploadSuccess: true,
-          uploading: false,
+          reconstructionCreated: true,
+          creatingReconstruction: false,
+          reconstruction: resp.data.reconstruction,
         });
       }
     } catch (err) {
-      if (err) {
-        this.setState({
-          backendError: true,
-        });
-      }
+      console.log(err);
     }
   }
 
   render() {
-    const selectedList = this.state.reconstructions;
-    let cards =
-      selectedList.length > 0 ? (
-        selectedList.map((reconstruction, index) => (
-          <div key={index} className='m-2'>
-            <ReconstructionCard reconstruction={reconstruction} small />
-          </div>
-        ))
-      ) : (
-        <p className='reconstruction-not-found'>
-          <i>
-            <Icon
-              className='exclamation-circle'
-              name={['fas', 'exclamation-circle']}
-              size='1x'
-            />
-          </i>
-          Reconstructions not found!
-        </p>
+    const {
+      uploading,
+      uploadStates,
+      reconstruction,
+      selectedImages,
+      reconstructionCreated,
+      creatingReconstruction,
+    } = this.state;
+
+    const btnContent =
+      selectedImages.length > 0 ? (
+        <React.Fragment>
+          Select more image.{' '}
+          <span className="badge badge-light">{selectedImages.length}</span>
+        </React.Fragment>
+      ) : null;
+
+    const images = selectedImages.map((image, index) => {
+      const state = uploadStates[index];
+
+      return (
+        <ImagePreview
+          key={index}
+          image={image}
+          uploading={uploading}
+          error={state && state.error}
+          progress={state && state.progress}
+        />
       );
+    });
+
+    const imageCount = this.state.selectedImages.length;
+
+    let uploadCount = 0;
+
+    for (let i = 0; i < imageCount; i++) {
+      const progress = uploadStates[i] ? uploadStates[i].progress : 0;
+      if (progress === 100) {
+        uploadCount++;
+      }
+    }
 
     return (
-      <div className='row'>
-        {/* Title */}
-        <div className='col-12 my-5'>
-          <h2 className='h2 font-weight-bold'>
-            Create a 3D model from images.
-          </h2>
-          <h5>Upload images of the object to reconstruct 3D model.</h5>
-        </div>
+      <div className="col-12 my-5">
+        <h2 className="h2 font-weight-bold">Create a 3D model from images.</h2>
+        <h5>Upload images of the object to reconstruct 3D model.</h5>
 
-        {/* main content */}
-        <div className='col-12 d-flex'>
-          {/* left-section */}
-          <div className='form col-4'>
-            {/* form  */}
+        <div className="form mt-3">
+          {reconstructionCreated ? (
+            <h3 className="h3 font-weight-bold">{reconstruction.name}</h3>
+          ) : (
             <form
-              ref={this.form}
-              onSubmit={this.submitHandler}
-              className={`form-group ${this.state.uploading || this.state.uploadSuccess ? 'd-none' : ''}`}
+              ref={this.creationFormRef}
+              onSubmit={this.handleCreationFormSubmit}
             >
-              <div className='form-group'>
-                <label htmlFor='title'>Project Title</label>
-                <InputField
-                  name='reconstruction_name'
-                  type='text'
-                  placeholder='eg: 3D Bottles'
-                  required
-                />
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="d-flex align-items-center">
+                  <label className="mb-3 mr-1">Name your reconstruction</label>
+                  <InputField
+                    type="text"
+                    name="reconstruction_name"
+                    placeholder="e.g. 3D Car"
+                    required
+                  ></InputField>
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary mb-3"
+                  disabled={creatingReconstruction}
+                >
+                  Create Reconstruction
+                </button>
               </div>
-
-              <div className='form-group'>
-                <label htmlFor='image-upload'>Upload Image</label>
-                <small className='form-text text-muted upload-image-message'>
-                  *more images makes 3D model better.
-                </small>
-                <br />
-                <input
-                  className='fileField file-path form-control-file'
-                  name='images'
-                  type='file'
-                  multiple
-                  accept='image/png, image/jpeg'
-                  aria-label='File browser example'
-                  required
-                />
-                <small className='form-text text-muted'>
-                  Select multiple files at once.
-                </small>
-              </div>
-
-              <button
-                disabled={this.state.uploading && true}
-                type='submit'
-                className='btn btn-primary upload-button'
-              >
-                Upload
-              </button>
             </form>
-
-            {/* uploading spinner */}
-            {this.state.uploading && (
-              <span>
-                <Icon name='spinner' size='3x' spin={true} />
-                Uploading...
-              </span>
-            )}
-
-            {/* Size error message */}
-            {this.state.uploadFail && (
-              <span className='alert alert-danger'>{IMAGE_SIZE_ERROR}</span>
-            )}
-
-            {/* Success Message */}
-            {this.state.uploadSuccess && (
-              <div>
-                <span className='alert alert-success'>
-                  {IMAGE_UPLOAD_SUCCESS}
-                </span>
-                <button
-                  className='btn btn-success reconstruction-again-button'
-                  onClick={this.resetHandler}
-                >
-                  Reconstruct Again
-                </button>
-              </div>
-            )}
-
-            {/* Backend Error Message */}
-            {this.state.backendError && (
-              <div>
-                <span className='alert alert-danger'>
-                  {BACKEND_ERROR_MESSAGE}
-                </span>
-                <button
-                  className='btn btn-danger reconstruction-again-button'
-                  onClick={this.resetHandler}
-                >
-                  Try Again
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Right Section */}
-          <div className='col-8'>
-            <Tabs
-              defaultActiveKey='all'
-              activeKey={this.state.key}
-              onSelect={this.tabChangeHandler}
-            >
-              {/* all tab */}
-              <Tab eventKey='all' title='All'>
-                {this.state.loading ? (
-                  <div className='loading'>
-                    <Icon name='spinner' size='3x' spin={true} />
-                  </div>
-                ) : (
-                  <div className='d-flex flex-wrap'>{cards}</div>
-                )}
-              </Tab>
-
-              {/* Completed tab */}
-              <Tab eventKey='completed' title='Completed'>
-                {this.state.loading ? (
-                  <div className='loading'>
-                    <Icon name='spinner' size='3x' spin={true} />
-                  </div>
-                ) : (
-                  <div className='d-flex flex-wrap'>{cards}</div>
-                )}
-              </Tab>
-
-              {/* Process Tab */}
-              <Tab eventKey='inProgress' title='In Process'>
-                {this.state.loading ? (
-                  <div className='loading'>
-                    <Icon name='spinner' size='3x' spin={true} />
-                  </div>
-                ) : (
-                  <div className='d-flex flex-wrap'>{cards}</div>
-                )}
-              </Tab>
-
-              {/* In Queue Tab */}
-              <Tab eventKey='inQueue' title='In Queue'>
-                {this.state.loading ? (
-                  <div className='loading'>
-                    <Icon name='spinner' size='3x' spin={true} />
-                  </div>
-                ) : (
-                  <div className='d-flex flex-wrap'>{cards}</div>
-                )}
-              </Tab>
-            </Tabs>
-
-            {/* pagintaion-component */}
-            {this.state.total > NUM_RECONSTRUCTIONS && (
-              <Pagination
-                total={this.state.total}
-                onPageChange={this.pageChangeHandler}
-                page={this.state.page}
-                pageSize={NUM_RECONSTRUCTIONS}
-              />
-            )}
-          </div>
+          )}
         </div>
+
+        {reconstructionCreated && (
+          <div className="form mt-3">
+            {!uploading ? (
+              <form
+                ref={this.imageFormRef}
+                onSubmit={this.handleImageFormSubmit}
+              >
+                <div className="d-flex flex-column">
+                  <div className="d-flex flex-column mb-2">
+                    <h4 className="h4">Upload Image</h4>
+                    <small className="text-muted">
+                      *more images makes 3D model better.
+                    </small>
+                  </div>
+                  <div className="d-flex">
+                    <FileSelector
+                      multiple
+                      disabled={uploading}
+                      btnContent={btnContent}
+                      onFileSelect={this.handleImageSelect}
+                      acceptMimeType="image/png, image/jpeg"
+                    ></FileSelector>
+                    {selectedImages.length > 0 && (
+                      <button
+                        type="submit"
+                        className="ml-2 btn btn-success"
+                        disabled={uploading}
+                      >
+                        Upload
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
+            ) : (
+              <h4 className="h4">
+                {uploadCount} out of {selectedImages.length} images uploaded.
+              </h4>
+            )}
+
+            <div className="d-flex flex-wrap">{images}</div>
+          </div>
+        )}
       </div>
     );
   }

@@ -21,19 +21,22 @@ class ReconstructionCard extends React.Component {
   render() {
     return (
       <div
-        className={`reconstruction-card ${this.props.small ? 'reconstruction-card--small' : ''
+        className={`reconstruction-card ${
+          this.props.small ? 'reconstruction-card--small' : ''
         }`}
       >
-        <img
-          src={IMAGE_URL.replace(
-            '{fileName}',
-            this.props.reconstruction.images[0].fileName
-          )}
-          className='reconstruction-card-image'
-          crossOrigin='anonymous'
-        ></img>
-        <div className='reconstruction-card-details'>
-          <div className='card-details'>
+        {this.props.reconstruction.images.length > 0 && (
+          <img
+            src={IMAGE_URL.replace(
+              '{fileName}',
+              this.props.reconstruction.images[0].fileName
+            )}
+            className="reconstruction-card-image"
+            crossOrigin="anonymous"
+          ></img>
+        )}
+        <div className="reconstruction-card-details">
+          <div className="card-details">
             <div>
               <h5
                 className={
@@ -41,7 +44,7 @@ class ReconstructionCard extends React.Component {
                 }
               >
                 <Link to={'/reconstructions/' + this.props.reconstruction.id}>
-                  <span className='reconstruction-card-title'>
+                  <span className="reconstruction-card-title">
                     {this.props.reconstruction.name}
                   </span>
                 </Link>
@@ -56,7 +59,7 @@ class ReconstructionCard extends React.Component {
                       `${this.props.reconstruction.createdByUser.id}`
                     }
                   >
-                    <span className='creator-user-name'>
+                    <span className="creator-user-name">
                       {this.props.reconstruction.createdByUser.username}
                     </span>
                   </Link>
@@ -66,7 +69,7 @@ class ReconstructionCard extends React.Component {
             <Icon
               className={this.state.liked ? 'icon-liked icon' : 'icon'}
               name={[this.state.liked ? 'fas' : 'far', 'heart']}
-              size='2x'
+              size="2x"
               onClick={this.likeToggle}
             />
           </div>

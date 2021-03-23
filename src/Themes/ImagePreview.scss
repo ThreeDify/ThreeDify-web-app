@@ -1,0 +1,85 @@
+.image-preview {
+  margin: 5px;
+  width: 200px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 5px;
+
+  .img-fluid {
+    z-index: 1;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .label-cont {
+    left: 0px;
+    z-index: 3;
+    bottom: 0px;
+    width: 100%;
+    padding: 5px 10px;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.6);
+
+    .label {
+      overflow-wrap: break-word;
+    }
+
+    .btn-close {
+      padding: 2px;
+
+      &:hover {
+        color: map-get($map: $theme-colors, $key: 'primary');
+      }
+    }
+  }
+
+  .overlay {
+    top: 0;
+    left: 0;
+    z-index: 2;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    transition: all 0.2s ease-in-out;
+    background: rgba(0, 0, 0, 0.6);
+
+    &.uploading {
+      opacity: 1;
+    }
+
+    .upload-progress,
+    .icon {
+      top: 40%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    .icon.spinning {
+      color: map-get($map: $theme-colors, $key: 'primary');
+    }
+
+    .icon.tick{
+      color: map-get($map: $theme-colors, $key: 'success');
+    }
+
+    .icon.error{
+      color: map-get($map: $theme-colors, $key: 'danger');
+    }
+    
+    .upload-progress {
+      color: map-get($map: $theme-colors, $key: 'white');
+    }
+  }
+
+  &:hover > .overlay {
+    opacity: 1;
+  }
+}
