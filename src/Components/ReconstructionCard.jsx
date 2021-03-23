@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
-import { PROFILE_URL } from '../Constants/appUrls';
+import { PROFILE_URL, RECONSTRUCTION_DETAILS_URL } from '../Constants/appUrls';
 
 class ReconstructionCard extends React.Component {
   constructor(props) {
@@ -43,7 +43,12 @@ class ReconstructionCard extends React.Component {
                   !this.props.showCreator ? 'heading-creator-hidden' : ''
                 }
               >
-                <Link to={'/reconstructions/' + this.props.reconstruction.id}>
+                <Link
+                  to={RECONSTRUCTION_DETAILS_URL.replace(
+                    ':id',
+                    this.props.reconstruction.id
+                  )}
+                >
                   <span className="reconstruction-card-title">
                     {this.props.reconstruction.name}
                   </span>
@@ -53,11 +58,10 @@ class ReconstructionCard extends React.Component {
                 <p>
                   Created by{' '}
                   <Link
-                    to={
-                      PROFILE_URL +
-                      '/' +
-                      `${this.props.reconstruction.createdByUser.id}`
-                    }
+                    to={PROFILE_URL.replace(
+                      ':id',
+                      this.props.reconstruction.createdByUser.id
+                    )}
                   >
                     <span className="creator-user-name">
                       {this.props.reconstruction.createdByUser.username}

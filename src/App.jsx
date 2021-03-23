@@ -1,18 +1,19 @@
 import React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import Home from './Pages/Home';
 import Footer from './Misc/Footer';
 import Toolbar from './Misc/Toolbar';
+import Profile from './Pages/Profile';
 import Explore from './Pages/Explore';
 import Navbar from './Components/Navbar';
 import Dashboard from './Pages/Dashboard';
-import Reconstruction from './Pages/Reconstruction';
-import Profile from './Pages/Profile';
 import LoginModal from './Modals/LoginModal';
 import Navigations from './Misc/Navigations';
 import { BRAND_URL } from './Constants/misc';
 import SignupModal from './Modals/SignupModal';
+import PageNotFound from './Pages/PageNotFound';
+import Reconstruction from './Pages/Reconstruction';
 import ReconstructionDetails from './Pages/ReconstructionDetails';
 import {
   HOME_URL,
@@ -20,21 +21,24 @@ import {
   RECONSTRUCTION_URL,
   EXPLORE_URL,
   PROFILE_URL,
+  MY_PROFILE_URL,
+  RECONSTRUCTION_DETAILS_URL,
+  PAGE_NOT_FOUND,
 } from './Constants/appUrls';
 
 class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-        <div className='page-container'>
+        <div className="page-container">
           <header>
             <Navbar
               brand={
                 <img
                   src={BRAND_URL}
-                  height='30'
-                  alt='ThreeDify Logo'
-                  crossOrigin='anonymous'
+                  height="30"
+                  alt="ThreeDify Logo"
+                  crossOrigin="anonymous"
                 ></img>
               }
               navigation={<Navigations></Navigations>}
@@ -42,7 +46,7 @@ class App extends React.Component {
             ></Navbar>
           </header>
 
-          <main className='pb-5'>
+          <main className="pb-5">
             <Switch>
               <Route exact path={EXPLORE_URL}>
                 <Explore></Explore>
@@ -55,7 +59,7 @@ class App extends React.Component {
                 <Home></Home>
               </Route>
 
-              <Route exact path={PROFILE_URL}>
+              <Route exact path={MY_PROFILE_URL}>
                 <Profile></Profile>
               </Route>
 
@@ -66,10 +70,15 @@ class App extends React.Component {
               <Route
                 strict
                 exact
-                path='/reconstructions/:id'
+                path={RECONSTRUCTION_DETAILS_URL}
                 component={ReconstructionDetails}
               ></Route>
-              <Route path='/profile/:id' component={Profile}></Route>
+              <Route path={PROFILE_URL} component={Profile}></Route>
+
+              <Route path={PAGE_NOT_FOUND} component={PageNotFound}></Route>
+              <Route>
+                <Redirect to={PAGE_NOT_FOUND} />
+              </Route>
             </Switch>
           </main>
 
