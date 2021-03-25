@@ -4,7 +4,7 @@
 @import 'Explore';
 @import 'Profile';
 @import 'PlyPlayer';
-@import 'Reconstruction';
+@import 'ImagePreview';
 @import 'TeamMemberCard';
 @import 'ReconstructionCard';
 @import 'ReconstructionDetails';
@@ -19,7 +19,18 @@ body {
   background-color: map-get($map: $theme-colors, $key: 'bgColor');
 }
 
+.form {
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 24px;
+}
+
 .nav-link {
+  color: map-get($map: $theme-colors, $key: 'secondary');
+}
+
+.nav-item {
   color: map-get($map: $theme-colors, $key: 'secondary');
 }
 

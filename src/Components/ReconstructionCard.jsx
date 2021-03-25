@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
-import { PROFILE_URL } from '../Constants/appUrls';
+import { PROFILE_URL, RECONSTRUCTION_DETAILS_URL } from '../Constants/appUrls';
 
 class ReconstructionCard extends React.Component {
   constructor(props) {
@@ -21,27 +21,35 @@ class ReconstructionCard extends React.Component {
   render() {
     return (
       <div
-        className={`reconstruction-card ${this.props.small ? 'reconstruction-card--small' : ''
+        className={`reconstruction-card ${
+          this.props.small ? 'reconstruction-card--small' : ''
         }`}
       >
-        <img
-          src={IMAGE_URL.replace(
-            '{fileName}',
-            this.props.reconstruction.images[0].fileName
-          )}
-          className='reconstruction-card-image'
-          crossOrigin='anonymous'
-        ></img>
-        <div className='reconstruction-card-details'>
-          <div className='card-details'>
+        {this.props.reconstruction.images.length > 0 && (
+          <img
+            src={IMAGE_URL.replace(
+              '{fileName}',
+              this.props.reconstruction.images[0].fileName
+            )}
+            className="reconstruction-card-image"
+            crossOrigin="anonymous"
+          ></img>
+        )}
+        <div className="reconstruction-card-details">
+          <div className="card-details">
             <div>
               <h5
                 className={
                   !this.props.showCreator ? 'heading-creator-hidden' : ''
                 }
               >
-                <Link to={'/reconstructions/' + this.props.reconstruction.id}>
-                  <span className='reconstruction-card-title'>
+                <Link
+                  to={RECONSTRUCTION_DETAILS_URL.replace(
+                    ':id',
+                    this.props.reconstruction.id
+                  )}
+                >
+                  <span className="reconstruction-card-title">
                     {this.props.reconstruction.name}
                   </span>
                 </Link>
@@ -50,13 +58,12 @@ class ReconstructionCard extends React.Component {
                 <p>
                   Created by{' '}
                   <Link
-                    to={
-                      PROFILE_URL +
-                      '/' +
-                      `${this.props.reconstruction.createdByUser.id}`
-                    }
+                    to={PROFILE_URL.replace(
+                      ':id',
+                      this.props.reconstruction.createdByUser.id
+                    )}
                   >
-                    <span className='creator-user-name'>
+                    <span className="creator-user-name">
                       {this.props.reconstruction.createdByUser.username}
                     </span>
                   </Link>
@@ -66,7 +73,7 @@ class ReconstructionCard extends React.Component {
             <Icon
               className={this.state.liked ? 'icon-liked icon' : 'icon'}
               name={[this.state.liked ? 'fas' : 'far', 'heart']}
-              size='2x'
+              size="2x"
               onClick={this.likeToggle}
             />
           </div>

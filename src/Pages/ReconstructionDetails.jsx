@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link, withRouter } from 'react-router-dom';
 
 import {
   RECONSTRUCTION_DETAILS_FETCH_URL,
@@ -10,17 +11,21 @@ import Icon from '../Components/Icon';
 import { asPage } from '../Middlewares/asPage';
 import PlyPlayer from '../Components/PlyPlayer';
 import { IMAGE_URL } from '../Constants/apiUrls';
-import { getAuthenticatedInstance } from '../Utils/axios';
+import { getAxiosInstance } from '../Utils/axios';
+import Pagination from '../Components/Pagination';
+import { PAGE_NOT_FOUND, PROFILE_URL } from '../Constants/appUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
 const SORT_ORDER = 'AESC';
 const NUM_RECONSTRUCTIONS = 4;
 const FILTERS = 'orderByCreatedAt';
 
+const NUM_IMAGES = 12;
+
 const RECONSTRUCTION_STATE_MAP = {
-  'INQUEUE': 'in queue',
-  'INPROGRESS': 'in progress',
-  'COMPLETED': 'completed'
+  INQUEUE: 'in queue',
+  INPROGRESS: 'in progress',
+  COMPLETED: 'completed',
 };
 
 class ReconstructionDetails extends React.Component {
@@ -34,10 +39,14 @@ class ReconstructionDetails extends React.Component {
       projectTitle: '',
       loading: false,
       reconstructions: [],
+      imageCount: 0,
+      imagePage: 1,
       reconstructionState: 'INQUEUE',
       reconstructionId: this.props.match.params.id,
     };
+
     this.likeToggle = this.likeToggle.bind(this);
+    this.imagePageChange = this.imagePageChange.bind(this);
   }
 
   likeToggle() {
@@ -55,22 +64,30 @@ class ReconstructionDetails extends React.Component {
     }
   }
 
+  imagePageChange(page) {
+    this.setState({
+      imagePage: page,
+    });
+  }
+
   async fetchReconstruction(id) {
-    let axios = await getAuthenticatedInstance();
+    const axios = await getAxiosInstance();
     try {
-      let resp = await axios.get(
+      const resp = await axios.get(
         RECONSTRUCTION_DETAILS_FETCH_URL.replace('{reconstructionId}', id)
       );
       this.setState({
-        reconstructionId: id,
+        imagePage: 1,
         loading: false,
-        reconstructionState: resp.data.state,
-        userInfo: resp.data.createdByUser,
+        reconstructionId: id,
         images: resp.data.images,
         projectTitle: resp.data.name,
+        userInfo: resp.data.createdByUser,
+        reconstructionState: resp.data.state,
+        imageCount: resp.data.images.length,
       });
 
-      let userResp = await axios.get(
+      const userResp = await axios.get(
         USER_RECONSTRUCTIONS_API.replace(
           '{userId}',
           resp.data.createdByUser.id
@@ -91,6 +108,8 @@ class ReconstructionDetails extends React.Component {
       this.setState({
         loading: false,
       });
+
+      this.props.history.push(PAGE_NOT_FOUND);
     }
   }
 
@@ -108,7 +127,7 @@ class ReconstructionDetails extends React.Component {
           )
           .slice(0, 3)
           .map((reconstruction, index) => (
-            <div key={index} className='m-2'>
+            <div key={index} className="m-2">
               <ReconstructionCard
                 reconstruction={reconstruction}
                 small
@@ -117,82 +136,110 @@ class ReconstructionDetails extends React.Component {
             </div>
           ))
       ) : (
-        <p className='reconstruction-not-found'>
+        <p className="reconstruction-not-found">
           <i>
             <Icon
-              className='exclamation-circle'
+              className="exclamation-circle"
               name={['fas', 'exclamation-circle']}
-              size='1x'
+              size="1x"
             />
           </i>
           Reconstructions not found!
         </p>
       );
 
-    let reconstructionImage = this.state.images;
-    let images = reconstructionImage.map((image, index) => (
-      <div key={index} className='reconstruction-image-section'>
+    const reconstructionImage = this.state.images.slice(
+      (this.state.imagePage - 1) * NUM_IMAGES,
+      this.state.imagePage * NUM_IMAGES
+    );
+    const images = reconstructionImage.map((image, index) => (
+      <div key={index} className="reconstruction-image-section">
         <img
           src={IMAGE_URL.replace('{fileName}', image.fileName)}
-          alt='Reconstruction-image'
-          crossOrigin='anonymous'
+          alt="Reconstruction-image"
+          crossOrigin="anonymous"
         />
       </div>
     ));
 
-    const reconstructionState = RECONSTRUCTION_STATE_MAP[this.state.reconstructionState];
+    const reconstructionState =
+      RECONSTRUCTION_STATE_MAP[this.state.reconstructionState];
 
     return (
-      <div className='reconstruction-main-container'>
-        <div className='reconstruction-details-section'>
-          <div className='reconstruction-main-section'>
-            <div className='reconstruction-section'>
-              {this.state.reconstructionState === 'COMPLETED' ?
-                <PlyPlayer url={RECONSTRUCTION_OUTPUT_URL.replace('{reconstructionId}', this.state.reconstructionId)} width={700} height={400} animate></PlyPlayer>
-                :
-                <div className='reconstruction-output-info'>
-                  <div className='mb-2'><Icon name='exclamation-circle' size='3x'></Icon></div>
+      <div className="reconstruction-main-container">
+        <div className="reconstruction-details-section">
+          <div className="reconstruction-main-section">
+            <div className="reconstruction-section">
+              {this.state.reconstructionState === 'COMPLETED' ? (
+                <PlyPlayer
+                  url={RECONSTRUCTION_OUTPUT_URL.replace(
+                    '{reconstructionId}',
+                    this.state.reconstructionId
+                  )}
+                  width={700}
+                  height={400}
+                  animate
+                ></PlyPlayer>
+              ) : (
+                <div className="reconstruction-output-info">
+                  <div className="mb-2">
+                    <Icon name="exclamation-circle" size="3x"></Icon>
+                  </div>
                   <h5>This reconstruction is still {reconstructionState}.</h5>
                 </div>
-              }
+              )}
             </div>
-            <div className='alert alert-primary my-2'>
-              <Icon name='question-circle' size='1x'></Icon> Use WASD to move around. Click and drag model to rotate.
+            <div className="alert alert-primary my-2">
+              <Icon name="question-circle" size="1x"></Icon> Use WASD to move
+              around. Click and drag model to rotate.
             </div>
-            <div className='reconstruction-project-title-section'>
+            <div className="reconstruction-project-title-section">
               <h4>{this.state.projectTitle}</h4>
-              <div className='interaction-section'>
+              <div className="interaction-section">
                 <Icon
                   className={this.state.liked ? 'icon-liked icon' : 'icon'}
                   name={[this.state.liked ? 'fas' : 'far', 'heart']}
-                  size='lg'
+                  size="lg"
                   onClick={this.likeToggle}
                 />
-                <Icon className='' name='share' size='lg' />
-                <Icon className='' name='cloud-download-alt' size='lg' />
+                <Icon className="" name="share" size="lg" />
+                <Icon className="" name="cloud-download-alt" size="lg" />
               </div>
             </div>
-            <div className='reconstruction-creator-section'>
-              <div className='creator-info'>
-                <div className='creator-image'>{firstLetter}</div>
-                <div className='created-by'>
+            <div className="reconstruction-creator-section">
+              <div className="creator-info">
+                <div className="creator-image">{firstLetter}</div>
+                <div className="created-by">
                   <p>
-                    Created by <strong>{this.state.userInfo.username}</strong>
+                    Created by{' '}
+                    <Link
+                      to={PROFILE_URL.replace(':id', this.state.userInfo.id)}
+                    >
+                      {this.state.userInfo.username}
+                    </Link>
                   </p>
                 </div>
               </div>
-              <div className='follow-button'>
-                <button className='btn btn-primary'>Follow</button>
+              <div className="follow-button">
+                <button className="btn btn-primary">Follow</button>
               </div>
             </div>
-            <div className='reconstruction-used-image-section'>
+            <div className="reconstruction-used-image-section">
               <h3>Images used to create reconstruction</h3>
-              <div className='reconstruction-images'>{images}</div>
+              <div className="reconstruction-images">{images}</div>
+              {this.state.imageCount > NUM_IMAGES && (
+                <Pagination
+                  total={this.state.imageCount}
+                  page={this.state.imagePage}
+                  pageSize={NUM_IMAGES}
+                  onPageChange={this.imagePageChange}
+                ></Pagination>
+              )}
             </div>
           </div>
-          <div className='reconstruction-recommendation-section'>
+          <div className="reconstruction-recommendation-section">
             <h3>More from this user.</h3>
-            <div className='recommendation-reconstruction'>{cards}</div>
+            <div className="recommendation-reconstruction">{cards}</div>
           </div>
         </div>
       </div>
@@ -201,7 +248,9 @@ class ReconstructionDetails extends React.Component {
 }
 
 ReconstructionDetails.propTypes = {
-  match: PropTypes.object,
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
-export default asPage(ReconstructionDetails);
+export default withRouter(asPage(ReconstructionDetails));

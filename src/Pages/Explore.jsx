@@ -24,8 +24,6 @@ class Explore extends React.Component {
       reconstruction: [],
       total: 0,
       page: 1,
-      hasPrevious: false,
-      hasNext: false,
     };
 
     this.searchHandler = this.searchHandler.bind(this);
@@ -54,9 +52,7 @@ class Explore extends React.Component {
         this.setState({
           loading: false,
           reconstruction: reconstruction.data.data,
-          total: Math.ceil(reconstruction.data.total / NUM_RECONSTRUCTIONS),
-          hasPrevious: reconstruction.data.hasPrevPage,
-          hasNext: reconstruction.data.hasNextPage,
+          total: reconstruction.data.total,
         });
       }
     } catch (err) {
@@ -161,13 +157,12 @@ class Explore extends React.Component {
             )}
           </div>
           <div className='d-flex justify-content-center'>
-            {this.state.total > 1 && (
+            {this.state.total > NUM_RECONSTRUCTIONS && (
               <Pagination
-                disablePrevious={!this.state.hasPrevious}
-                disableNext={!this.state.hasNext}
                 total={this.state.total}
-                pageChangeHandler={this.pageChangeHandler}
+                onPageChange={this.pageChangeHandler}
                 page={this.state.page}
+                pageSize={NUM_RECONSTRUCTIONS}
               />
             )}
           </div>

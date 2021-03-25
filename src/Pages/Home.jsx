@@ -39,16 +39,16 @@ class Home extends React.Component {
   }
 
   async fetchReconstructions() {
-    let axios = getAxiosInstance();
-    let reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
-      params: {
-        filters: FILTERS,
-        order: SORT_ORDER,
-        size: NUM_RECONSTRUCTIONS,
-      },
-    });
-
     try {
+      const axios = getAxiosInstance();
+      const reconstruction = await axios.get(RECONSTRUCTION_FETCH_URL, {
+        params: {
+          filters: FILTERS,
+          order: SORT_ORDER,
+          size: NUM_RECONSTRUCTIONS,
+        },
+      });
+
       if (reconstruction.status === STATUS_OK) {
         this.setState({
           loading: false,
@@ -58,7 +58,7 @@ class Home extends React.Component {
     } catch (err) {
       if (err) {
         this.setState({
-          loading: true,
+          loading: false,
         });
       }
     }
@@ -72,7 +72,7 @@ class Home extends React.Component {
           return (
             <div
               key={index}
-              className='col-lg-4 col-md-6 col-sm-12 reconstruction-card-container'
+              className="col-lg-4 col-md-6 col-sm-12 reconstruction-card-container"
             >
               <ReconstructionCard
                 showCreator={true}
@@ -82,12 +82,12 @@ class Home extends React.Component {
           );
         })
       ) : (
-        <p className='reconstruction-not-found'>
+        <p className="reconstruction-not-found">
           <i>
             <Icon
-              className='exclamation-circle'
+              className="exclamation-circle"
               name={['fas', 'exclamation-circle']}
-              size='1x'
+              size="1x"
             />
           </i>
           Reconstructions not found!
@@ -95,9 +95,9 @@ class Home extends React.Component {
       );
     return (
       <React.Fragment>
-        <div className='container'>
-          <div className='hero-section'>
-            <div className='threedify-about-section'>
+        <div className="container">
+          <div className="hero-section">
+            <div className="threedify-about-section">
               <h1>Construct your 3D object</h1>
               <p>
                 ThreeDify gives a simple user-interface which allows any users
@@ -105,80 +105,80 @@ class Home extends React.Component {
               </p>
               {this.props.isLoggedIn ? (
                 <Link to={EXPLORE_URL}>
-                  <button type='button' className='btn btn-primary'>
+                  <button type="button" className="btn btn-primary">
                     Explore
                   </button>
                 </Link>
               ) : (
                 <button
-                  type='button'
-                  className='btn btn-primary'
+                  type="button"
+                  className="btn btn-primary"
                   onClick={this.props.signup}
                 >
                   Sign Up
                 </button>
               )}
             </div>
-            <div className='about-section-image'>
-              <img src='/public/images/kg.png' crossOrigin='anonymous' />
+            <div className="about-section-image">
+              <img src="/public/images/kg.png" crossOrigin="anonymous" />
             </div>
           </div>
-          <div className='discover-section'>
+          <div className="discover-section">
             <h1>Discover best from ThreeDify</h1>
-            <div className='reconstruction-image-section'>
+            <div className="reconstruction-image-section">
               {this.state.loading ? (
-                <div className='loading'>
-                  <Icon name='spinner' size='3x' spin={true} />
+                <div className="loading">
+                  <Icon name="spinner" size="3x" spin={true} />
                 </div>
               ) : (
-                <div className='row'>{reconstructionCard}</div>
+                <div className="row">{reconstructionCard}</div>
               )}
             </div>
           </div>
-          <div className='our-team-section'>
+          <div className="our-team-section">
             <h1>Our Team</h1>
-            <div className='team-member'>
+            <div className="team-member">
               <TeamMemberCard
                 imgLink={TEAM_MEMBER_ANISH_IMG_URL}
-                name='Anish Silwal Khatri'
-                description='Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
+                name="Anish Silwal Khatri"
+                description="Anish Sliwal Khatri is a Software Engineer at Leapfrog Technology. He is pursuing 
                   his bachelors degree in Bsc.CSIT. He has a huge
-                  interest in Game Development. He is a massive football fan (supports Chelsea Football Club).'
-                githubLink='https://www.github.com/silwalanish/'
-                instagramLink='https://www.instagram.com/silwal_anish/'
-                linkedinLink='https://www.linkedin.com/in/silwalanish/'
+                  interest in Game Development. He is a massive football fan (supports Chelsea Football Club)."
+                githubLink="https://www.github.com/silwalanish/"
+                instagramLink="https://www.instagram.com/silwal_anish/"
+                linkedinLink="https://www.linkedin.com/in/silwalanish/"
               />
               <TeamMemberCard
                 imgLink={TEAM_MEMBER_DANIEL_IMG_URL}
-                name='Daniel Thapa Magar'
-                description='Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing his
+                name="Daniel Thapa Magar"
+                description="Daniel Thapa Magar is a hard working Software Developer. He is currently pursuing his
                   bachelors degree in Bsc.CSIT at Bhaktapur Multiple Campus. He also has a creative knowlegde on video editing, graphic
-                  design, and many more. He loves to play music.'
-                githubLink='https://www.github.com/danny237/'
-                instagramLink='https://www.instagram.com/danielthapa23/'
-                linkedinLink='https://www.linkedin.com/in/thapadaniel/'
+                  design, and many more. He loves to play music."
+                githubLink="https://www.github.com/danny237/"
+                instagramLink="https://www.instagram.com/danielthapa23/"
+                linkedinLink="https://www.linkedin.com/in/thapadaniel/"
               />
 
               <TeamMemberCard
                 imgLink={TEAM_MEMBER_KISHOR_IMG_URL}
-                name='Kishor Ghising'
-                description='Kishor Ghising is a UI/UX Engineer at Prokura Innovations. He is currently 
+                name="Kishor Ghising"
+                description="Kishor Ghising is a UI/UX Engineer at Prokura Innovations. He is currently 
                   pursuing his bachelor’s degree in computer science and information 
-                  technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek.'
-                githubLink='https://www.github.com/KGhising/'
-                instagramLink='https://www.instagram.com/kghisinga/'
-                linkedinLink='https://www.linkedin.com/in/kghisiga/'
+                  technology from Bhaktapur Multiple Campus. He loves to describe himself as a design geek."
+                githubLink="https://www.github.com/KGhising/"
+                instagramLink="https://www.instagram.com/kghisinga/"
+                linkedinLink="https://www.linkedin.com/in/kghisiga/"
               />
 
               <TeamMemberCard
                 imgLink={TEAM_MEMBER_SHRAWAN_IMG_URL}
-                name='Shrawan Ghimire'
-                description='Shrawan Ghimire is a Web Developer and Technology Enthusiastic. He is pursuing his bachelors degree
+                name="Shrawan Ghimire"
+                description="Shrawan Ghimire is a Web Developer and Technology Enthusiastic. He is pursuing his bachelors degree
                   in computer science and information technology at Bhaktapur Multiple Campus. He is a huge football fan and supports 
-                  Football Club Real Madrid.'
-                githubLink='https://www.github.com/SG-coder/'
-                instagramLink='https://www.instagram.com/shrwan_ghimire/'
-                linkedinLink='https://www.linkedin.com/in/shrawan-ghimire-36536b145/'
+                  Football Club Real Madrid."
+                githubLink="https://www.github.com/SG-coder/"
+                instagramLink="https://www.instagram.com/shrwan_ghimire/"
+                linkedinLink="https://www.linkedin.com/in/shrawan-ghimire-36536b145/"
               />
             </div>
           </div>
