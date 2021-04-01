@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import NavLink from '../Components/NavLink';
-import { PROFILE_URL } from '../Constants/appUrls';
+import { MY_PROFILE_URL } from '../Constants/appUrls';
 import authenticate from '../Middlewares/authenticate';
 import withAuthenticatedUser from '../Middlewares/withAuthenticatedUser';
 
@@ -31,7 +31,7 @@ class AuthenticatedToolbarOptions extends React.Component {
             </a>
           </div>
         </li>
-        <NavLink url={PROFILE_URL}>
+        <NavLink url={MY_PROFILE_URL}>
           <div className='user-profile-icon border border-linkColor p-2 rounded-circle text-center font-weight-bold'>
             {this.props.user && this.props.user.first_name[0].toUpperCase()}
           </div>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Icon from './Icon';
 
-class InputField extends React.Component {
+export class InputField extends React.Component {
   getIconButton(icon, onClickHandle) {
     if (onClickHandle) {
       return (
