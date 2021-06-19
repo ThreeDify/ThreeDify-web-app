@@ -22,7 +22,7 @@ import {
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 6;
-const FILTERS = 'orderByCreatedAt';
+const FILTERS = 'orderByCreatedAt,completed';
 
 class Home extends React.Component {
   constructor(props) {
