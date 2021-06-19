@@ -29,19 +29,22 @@ export default class PlyPlayer extends Component {
     this.model = null;
     this.animation = null;
     this.camera = new Camera({
-      fov: 90,
+      fov: 45,
       aspect: this.props.width / this.props.height,
       zNear: 0.1,
-      zFar: 100.0,
+      zFar: 1000.0,
       position: vec3.fromValues(0, 0, 15),
       speed: 0.5,
     });
-    this.mouse = new Mouse();
+    this.mouse = new Mouse(0.5);
     this.keyboard = new Keyboard();
 
     this.mouse.mouseMoveListeners.push(
-      this.camera.onMouseMove.bind(this.camera)
+      this.onMouseMove.bind(this)
     );
+    this.canvas.addEventListener('dblclick', () => {
+      this.canvas.requestFullscreen();
+    });
     window.addEventListener(
       'keydown',
       this.keyboard.onKeyDown.bind(this.keyboard)
@@ -53,6 +56,13 @@ export default class PlyPlayer extends Component {
       loading: true,
       url: this.props.url,
     };
+  }
+
+  onMouseMove(delta) {
+    if (this.model) {
+      this.model.rotation[0] += delta[1];
+      this.model.rotation[1] += delta[0];
+    }
   }
 
   moveCamera() {
@@ -86,12 +96,19 @@ export default class PlyPlayer extends Component {
     this.gl.viewport(0, 0, this.props.width, this.props.height);
   }
 
+  update() {
+    this.moveCamera();
+    this.camera.calculateMatrix();
+    if (this.model) {
+      this.model.update();
+    }
+  }
+
   gameLoop() {
     cancelAnimationFrame(this.animation);
 
     const loop = () => {
-      this.moveCamera();
-      this.camera.calculateMatrix();
+      this.update();
       this.drawScene();
       this.animation = requestAnimationFrame(loop);
     };
@@ -103,7 +120,9 @@ export default class PlyPlayer extends Component {
     this.setState({
       loading: true
     });
+    
     this.model = await PlyModel.loadModel(this.gl, this.props.url);
+    
     this.setState({
       loading: false
     });

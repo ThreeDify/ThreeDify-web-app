@@ -9,11 +9,8 @@ export class PlyModel {
     this.vertexBuffer = vertexBuffer;
     this.colorBuffer = colorBuffer;
     this.vertexCount = vertexCount;
-
-    this.modelMatrix = createModelMatrix(
-      vec3.fromValues(0, 0, 0),
-      vec3.fromValues(-90, 0, 0)
-    );
+    this.position = vec3.fromValues(0, 0, 0);
+    this.rotation = vec3.fromValues(-90, 0, 0);
   }
 
   static async loadModel(gl, url) {
@@ -24,6 +21,13 @@ export class PlyModel {
       generateFloatBuffer(gl, gl.ARRAY_BUFFER, loader.vertexData.positions),
       generateFloatBuffer(gl, gl.ARRAY_BUFFER, loader.vertexData.colors),
       loader.vertexData.positions.length / 3
+    );
+  }
+
+  update() {
+    this.modelMatrix = createModelMatrix(
+      this.position,
+      this.rotation
     );
   }
 
