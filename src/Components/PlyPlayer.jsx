@@ -19,9 +19,7 @@ export default class PlyPlayer extends Component {
     this.gl = this.canvas.getContext('webgl');
 
     if (this.gl === null) {
-      alert(
-        'Unable to initialize WebGL. Your browser or machine may not support it.'
-      );
+      alert('Unable to initialize WebGL. Your browser or machine may not support it.');
       return;
     }
 
@@ -39,16 +37,18 @@ export default class PlyPlayer extends Component {
     this.mouse = new Mouse(0.5);
     this.keyboard = new Keyboard();
 
-    this.mouse.mouseMoveListeners.push(
-      this.onMouseMove.bind(this)
-    );
+    this.mouse.mouseMoveListeners.push(this.onMouseMove.bind(this));
     this.canvas.addEventListener('dblclick', () => {
       this.canvas.requestFullscreen();
     });
-    window.addEventListener(
-      'keydown',
-      this.keyboard.onKeyDown.bind(this.keyboard)
-    );
+    this.canvas.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        this.updateViewport(window.outerWidth, window.outerHeight);
+      } else {
+        this.updateViewport(this.props.width, this.props.height);
+      }
+    });
+    window.addEventListener('keydown', this.keyboard.onKeyDown.bind(this.keyboard));
     window.addEventListener('keyup', this.keyboard.onKeyUp.bind(this.keyboard));
 
     this.state = {
@@ -86,17 +86,23 @@ export default class PlyPlayer extends Component {
       this.shader.use();
       this.shader.setCamera(this.camera);
 
-      this.model.render(this.gl, this.shader);
+      this.model.render(this.shader);
     }
   }
 
-  updateViewport() {
-    this.canvas.width = this.props.width;
-    this.canvas.height = this.props.height;
-    this.gl.viewport(0, 0, this.props.width, this.props.height);
+  updateViewport(width, height) {
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.gl.viewport(0, 0, width, height);
   }
 
   update() {
+    if (this.state.loading && this.model && this.model.meshes[0]) {
+      this.setState({
+        loading: false,
+      });
+    }
+
     this.moveCamera();
     this.camera.calculateMatrix();
     if (this.model) {
@@ -116,35 +122,23 @@ export default class PlyPlayer extends Component {
     this.animation = requestAnimationFrame(loop);
   }
 
-  async loadModel() {
+  loadModel() {
     this.setState({
-      loading: true
+      loading: true,
+      url: this.props.url,
     });
-    
-    this.model = await PlyModel.loadModel(this.gl, this.props.url);
-    
-    this.setState({
-      loading: false
-    });
+
+    this.model = new PlyModel(this.gl, this.props.url);
   }
 
-  async componentDidMount() {
-    this.canvas.addEventListener(
-      'mousedown',
-      this.mouse.onMouseDown.bind(this.mouse)
-    );
-    this.canvas.addEventListener(
-      'mouseup',
-      this.mouse.onMouseUp.bind(this.mouse)
-    );
-    this.canvas.addEventListener(
-      'mousemove',
-      this.mouse.onMouseMove.bind(this.mouse)
-    );
+  componentDidMount() {
+    this.canvas.addEventListener('mousedown', this.mouse.onMouseDown.bind(this.mouse));
+    this.canvas.addEventListener('mouseup', this.mouse.onMouseUp.bind(this.mouse));
+    this.canvas.addEventListener('mousemove', this.mouse.onMouseMove.bind(this.mouse));
 
     requestAnimationFrame(this.loadModel.bind(this));
 
-    this.updateViewport();
+    this.updateViewport(this.props.width, this.props.height);
     this.gameLoop();
     this.mount.appendChild(this.canvas);
   }
@@ -154,23 +148,25 @@ export default class PlyPlayer extends Component {
       requestAnimationFrame(this.loadModel.bind(this));
     }
 
-    this.updateViewport();
+    this.updateViewport(this.props.width, this.props.height);
   }
 
   render() {
     return (
-      <div ref={ref => this.mount = ref} className='player'>
-        {(this.state.loading) &&
+      <div ref={(ref) => (this.mount = ref)} className='player'>
+        {(this.state.loading) && (
           <div className='loading'>
             <Icon name='spinner' size='3x' spin={true} />
           </div>
-        }
-        {(this.state.error) &&
+        )}
+        {(this.state.error) && (
           <div className='error'>
-            <div className='mb-2'><Icon name='exclamation-circle' size='3x'></Icon></div>
+            <div className='mb-2'>
+              <Icon name='exclamation-circle' size='3x'></Icon>
+            </div>
             <h5>Error occurred while loading.</h5>
           </div>
-        }
+        )}
       </div>
     );
   }

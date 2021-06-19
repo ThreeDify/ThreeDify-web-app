@@ -1,27 +1,31 @@
 import { vec3 } from 'gl-matrix';
 
-import PlyLoader from './plyloader';
+import { Mesh } from './mesh';
+import { PlyLoader } from './plyloader';
 import { createModelMatrix } from './maths';
 import { generateFloatBuffer } from './webgl';
 
 export class PlyModel {
-  constructor(vertexBuffer, colorBuffer, vertexCount) {
-    this.vertexBuffer = vertexBuffer;
-    this.colorBuffer = colorBuffer;
-    this.vertexCount = vertexCount;
+  constructor(gl, url) {
+    this.gl = gl;
+    this.url = url;
     this.position = vec3.fromValues(0, 0, 0);
     this.rotation = vec3.fromValues(-90, 0, 0);
+
+    this.meshes = [];
+
+    this.generateMesh();
   }
 
-  static async loadModel(gl, url) {
-    let loader = new PlyLoader(url);
-    await loader.parseFile();
-
-    return new PlyModel(
-      generateFloatBuffer(gl, gl.ARRAY_BUFFER, loader.vertexData.positions),
-      generateFloatBuffer(gl, gl.ARRAY_BUFFER, loader.vertexData.colors),
-      loader.vertexData.positions.length / 3
-    );
+  async generateMesh() {
+    let loader = new PlyLoader(this.url);
+    for await (let mesh of loader.parseFile()) {
+      this.meshes.push(new Mesh(
+        generateFloatBuffer(this.gl, this.gl.ARRAY_BUFFER, mesh.positions),
+        generateFloatBuffer(this.gl, this.gl.ARRAY_BUFFER, mesh.colors),
+        mesh.positions.length / 3
+      ));
+    }
   }
 
   update() {
@@ -31,21 +35,13 @@ export class PlyModel {
     );
   }
 
-  render(gl, shader) {
-    shader.enableBuffer(
-      shader.attribLocations.vertexPosition,
-      3,
-      this.vertexBuffer
-    );
-    shader.enableBuffer(
-      shader.attribLocations.vertexColor,
-      3,
-      this.colorBuffer
-    );
+  render(shader) {
 
     shader.setMatrix(shader.uniformLocations.modelMatrix, this.modelMatrix);
 
-    gl.drawArrays(gl.POINTS, 0, this.vertexCount);
+    for(let mesh of this.meshes) {
+      mesh.render(this.gl, shader);
+    }
   }
 }
 

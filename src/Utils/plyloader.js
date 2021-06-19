@@ -5,33 +5,35 @@ export class PlyLoader {
     this.streamReader = null;
     this.bodyReached = false;
     this.incompleteLines = '';
-    this.vertexData = {
-      positions: [],
-      colors: [],
-    };
     this.decoder = new TextDecoder('utf-8');
   }
 
-  parseLine(line) {
+  parseLine(meshData, line) {
     if (line === '') {
-      return;
+      return meshData;
     }
 
     const vertex = line.split(' ', 9);
 
-    this.vertexData.positions.push(
+    meshData.positions.push(
       parseFloat(vertex[0]),
       parseFloat(vertex[1]),
       parseFloat(vertex[2])
     );
-    this.vertexData.colors.push(
+    meshData.colors.push(
       parseFloat(vertex[6] / 255),
       parseFloat(vertex[7] / 255),
       parseFloat(vertex[8] / 255)
     );
+
+    return meshData;
   }
 
   parseChunk(chunk) {
+    const meshData = {
+      positions: [],
+      colors: [],
+    };
     const chunkText = this.incompleteLines + this.decoder.decode(chunk);
     const lastNewLinePos = chunkText.lastIndexOf('\n');
     let chunkLines = chunkText.substr(0, lastNewLinePos + 1).split('\n');
@@ -46,8 +48,10 @@ export class PlyLoader {
     }
 
     if (this.bodyReached) {
-      chunkLines.forEach(this.parseLine.bind(this));
+      chunkLines.reduce(this.parseLine.bind(this), meshData);
     }
+
+    return meshData;
   }
 
   async *chunks() {
@@ -61,16 +65,14 @@ export class PlyLoader {
     }
   }
 
-  async parseFile() {
+  async *parseFile() {
     try {
       const response = await fetch(this.url);
       this.streamReader = response.body.getReader();
 
       for await (let chunk of this.chunks()) {
-        this.parseChunk(chunk);
+        yield this.parseChunk(chunk);
       }
-
-      return this.vertexData;
     } catch (err) {
       console.log(err);
 
