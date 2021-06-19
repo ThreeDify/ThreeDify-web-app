@@ -12,7 +12,7 @@ import ReconstructionCard from '../Components/ReconstructionCard';
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
-const FILTERS = 'orderByCreatedAt';
+const FILTERS = 'orderByCreatedAt,completed';
 
 class Explore extends React.Component {
   constructor(props) {

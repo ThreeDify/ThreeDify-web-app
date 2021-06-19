@@ -1,10 +1,10 @@
 import { vec2 } from 'gl-matrix';
 
 class Mouse {
-  constructor() {
+  constructor(sensitivity) {
     this.down = false;
     this.first = true;
-    this.sensitivity = 0.05;
+    this.sensitivity = sensitivity || 0.05;
     this.position = vec2.fromValues(0, 0);
     this.oldPosition = vec2.fromValues(0, 0);
     this.mouseMoveListeners = [];
