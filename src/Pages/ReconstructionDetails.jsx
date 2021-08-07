@@ -88,10 +88,19 @@ class ReconstructionDetails extends React.Component {
         imageCount: resp.data.images.length,
       });
 
+    } catch (error) {
+      this.setState({
+        loading: false,
+      });
+
+      this.props.history.push(PAGE_NOT_FOUND);
+    }
+
+    try{
       const userResp = await axios.get(
         USER_RECONSTRUCTIONS_API.replace(
           '{userId}',
-          resp.data.createdByUser.id
+          this.state.userInfo.id
         ),
         {
           params: {
@@ -106,11 +115,7 @@ class ReconstructionDetails extends React.Component {
         reconstructions: userResp.data.data,
       });
     } catch (error) {
-      this.setState({
-        loading: false,
-      });
-
-      this.props.history.push(PAGE_NOT_FOUND);
+      // Left empty intensionally.
     }
   }
 
