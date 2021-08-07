@@ -12,7 +12,7 @@ import { USER_PROFILE_URL, USER_RECONSTRUCTIONS_API } from '../Constants/apiUrls
 
 const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 9;
-const FILTERS = 'orderByCreatedAt';
+const FILTERS = 'orderByCreatedAt,completed';
 
 export class Profile extends Component {
   constructor(props) {

@@ -92,13 +92,32 @@ class Dashboard extends React.Component {
     this.fetchModels();
   }
 
+  getTabContent(eventKey, title, cards) {
+    const isActive = this.state.key == eventKey;
+    return (
+      <Tab eventKey={eventKey} title={title}>
+        {this.state.loading ? (
+          <div className="loading">
+            <Icon name="spinner" size="3x" spin={true} />
+          </div>
+        ) : (
+          isActive && <div className="d-flex flex-wrap">{cards}</div>
+        )}
+      </Tab>
+    );
+  }
+
   render() {
     const selectedList = this.state.reconstructions;
     let cards =
       selectedList.length > 0 ? (
         selectedList.map((reconstruction, index) => (
           <div key={index} className="m-2">
-            <ReconstructionCard reconstruction={reconstruction} small />
+            <ReconstructionCard
+              reconstruction={reconstruction}
+              small
+              showState
+            />
           </div>
         ))
       ) : (
@@ -124,45 +143,11 @@ class Dashboard extends React.Component {
             activeKey={this.state.key}
             onSelect={this.tabChangeHandler}
           >
-            <Tab eventKey="all" title="All">
-              {this.state.loading ? (
-                <div className="loading">
-                  <Icon name="spinner" size="3x" spin={true} />
-                </div>
-              ) : (
-                <div className="d-flex flex-wrap">{cards}</div>
-              )}
-            </Tab>
-
-            <Tab eventKey="completed" title="Completed">
-              {this.state.loading ? (
-                <div className="loading">
-                  <Icon name="spinner" size="3x" spin={true} />
-                </div>
-              ) : (
-                <div className="d-flex flex-wrap">{cards}</div>
-              )}
-            </Tab>
-
-            <Tab eventKey="inProgress" title="In Process">
-              {this.state.loading ? (
-                <div className="loading">
-                  <Icon name="spinner" size="3x" spin={true} />
-                </div>
-              ) : (
-                <div className="d-flex flex-wrap">{cards}</div>
-              )}
-            </Tab>
-
-            <Tab eventKey="inQueue" title="In Queue">
-              {this.state.loading ? (
-                <div className="loading">
-                  <Icon name="spinner" size="3x" spin={true} />
-                </div>
-              ) : (
-                <div className="d-flex flex-wrap">{cards}</div>
-              )}
-            </Tab>
+            {this.getTabContent('all', 'All', cards)}
+            {this.getTabContent('completed', 'Completed', cards)}
+            {this.getTabContent('inProgress', 'In Process', cards)}
+            {this.getTabContent('inQueue', 'In Queue', cards)}
+            {this.getTabContent('failed', 'Failed', cards)}
           </Tabs>
 
           {this.state.total > NUM_RECONSTRUCTIONS && (
