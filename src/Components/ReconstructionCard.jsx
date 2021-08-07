@@ -15,11 +15,11 @@ const STATE_MAP = {
     icon: 'exclamation-circle',
     cssClass: 'card-state--error',
   },
-  'IN PROGRESS': {
+  INPROGRESS: {
     icon: 'bolt',
     cssClass: 'card-state--info',
   },
-  'IN QUEUE': {
+  INQUEUE: {
     icon: 'clock',
     cssClass: 'card-state--alternate',
   },
