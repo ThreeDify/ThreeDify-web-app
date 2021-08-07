@@ -6,6 +6,25 @@ import Icon from '../Components/Icon';
 import { IMAGE_URL } from '../Constants/apiUrls';
 import { PROFILE_URL, RECONSTRUCTION_DETAILS_URL } from '../Constants/appUrls';
 
+const STATE_MAP = {
+  COMPLETED: {
+    icon: 'check-circle',
+    cssClass: 'card-state--success',
+  },
+  FAILED: {
+    icon: 'exclamation-circle',
+    cssClass: 'card-state--error',
+  },
+  'IN PROGRESS': {
+    icon: 'bolt',
+    cssClass: 'card-state--info',
+  },
+  'IN QUEUE': {
+    icon: 'clock',
+    cssClass: 'card-state--alternate',
+  },
+};
+
 class ReconstructionCard extends React.Component {
   constructor(props) {
     super(props);
@@ -14,17 +33,29 @@ class ReconstructionCard extends React.Component {
     };
     this.likeToggle = this.likeToggle.bind(this);
   }
+
   likeToggle() {
     const currentState = this.state.liked;
     this.setState({ liked: !currentState });
   }
+
   render() {
+    let stateMap = STATE_MAP[this.props.reconstruction.state];
+
     return (
       <div
         className={`reconstruction-card ${
           this.props.small ? 'reconstruction-card--small' : ''
         }`}
       >
+        {this.props.showState && (
+          <div
+            className={`card-state ${stateMap.cssClass}`}
+            title={this.props.reconstruction.state}
+          >
+            <Icon name={stateMap.icon} size="2x" />
+          </div>
+        )}
         {this.props.reconstruction.images.length > 0 && (
           <img
             src={IMAGE_URL.replace(
@@ -86,6 +117,7 @@ class ReconstructionCard extends React.Component {
 ReconstructionCard.propTypes = {
   reconstruction: PropTypes.object,
   showCreator: PropTypes.bool,
+  showState: PropTypes.bool,
   small: PropTypes.bool,
 };
 
