@@ -18,6 +18,32 @@
     object-fit: cover;
   }
 
+  .card-state{
+    top: 10px;
+    z-index: 2;
+    right: 10px;
+    padding: 2px 5px;
+    border-radius: 5px;
+    position: absolute;
+    text-transform: uppercase;
+    
+    &--error{
+      color: map-get($map: $theme-colors, $key: 'error');
+    }
+
+    &--success{
+      color: map-get($map: $theme-colors, $key: 'success');
+    }
+
+    &--info{
+      color: map-get($map: $theme-colors, $key: 'info');
+    }
+
+    &--alternate{
+      color: map-get($map: $theme-colors, $key: 'alternate');
+    }
+  }
+
   .reconstruction-card-details {
     top: 0;
     left: 0;

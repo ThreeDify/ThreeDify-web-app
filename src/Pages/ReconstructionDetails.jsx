@@ -16,16 +16,17 @@ import Pagination from '../Components/Pagination';
 import { PAGE_NOT_FOUND, PROFILE_URL } from '../Constants/appUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
-const SORT_ORDER = 'AESC';
+const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 4;
-const FILTERS = 'orderByCreatedAt';
+const FILTERS = 'orderByCreatedAt,completed';
 
 const NUM_IMAGES = 12;
 
 const RECONSTRUCTION_STATE_MAP = {
-  INQUEUE: 'in queue',
-  INPROGRESS: 'in progress',
-  COMPLETED: 'completed',
+  FAILED: 'has failed',
+  INQUEUE: 'is in queue',
+  INPROGRESS: 'is in progress',
+  COMPLETED: 'has completed',
 };
 
 class ReconstructionDetails extends React.Component {
@@ -41,7 +42,7 @@ class ReconstructionDetails extends React.Component {
       reconstructions: [],
       imageCount: 0,
       imagePage: 1,
-      reconstructionState: 'INQUEUE',
+      reconstructionState: null,
       reconstructionId: this.props.match.params.id,
     };
 
@@ -185,7 +186,7 @@ class ReconstructionDetails extends React.Component {
                   <div className="mb-2">
                     <Icon name="exclamation-circle" size="3x"></Icon>
                   </div>
-                  <h5>This reconstruction is still {reconstructionState}.</h5>
+                  {reconstructionState && <h5>This reconstruction {reconstructionState}.</h5>}
                 </div>
               )}
             </div>

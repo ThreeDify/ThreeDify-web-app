@@ -25,6 +25,9 @@ import {
   faShare,
   faTrash,
   faCheck,
+  faClock,
+  faBolt,
+  faCheckCircle,
   faCloudDownloadAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -72,6 +75,9 @@ const ICONS = {
   faTrash,
   faCheck,
   faCloudDownloadAlt,
+  faClock,
+  faBolt,
+  faCheckCircle,
 };
 
 export default ICONS;
