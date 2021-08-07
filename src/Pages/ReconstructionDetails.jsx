@@ -16,9 +16,9 @@ import Pagination from '../Components/Pagination';
 import { PAGE_NOT_FOUND, PROFILE_URL } from '../Constants/appUrls';
 import ReconstructionCard from '../Components/ReconstructionCard';
 
-const SORT_ORDER = 'AESC';
+const SORT_ORDER = 'DESC';
 const NUM_RECONSTRUCTIONS = 4;
-const FILTERS = 'orderByCreatedAt';
+const FILTERS = 'orderByCreatedAt,completed';
 
 const NUM_IMAGES = 12;
 
