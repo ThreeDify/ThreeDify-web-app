@@ -60,6 +60,7 @@ class LoginModal extends React.Component {
                 onLoginSuccess={this.onLoginSuccess}
                 onLoginFailed={this.onLoginFailed}
                 onLoginError={this.onLoginFailed}
+                onLoginCancelled={this.onCancel}
               ></LoginForm>
             </div>
           </div>

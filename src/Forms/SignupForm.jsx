@@ -1,9 +1,12 @@
 import * as yup from 'yup';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import { signup } from '../Utils/auth';
 import InputField from '../Components/InputField';
 import AccountCreated from '../Misc/AccountCreated';
+import { requestAuth } from '../Store/Actions/auth';
 import PasswordField from '../Components/PasswordField';
 import { checkUniqueEmail, checkUniqueUsername } from '../Utils/user';
 
@@ -56,6 +59,7 @@ class SignupForm extends Component {
       errors: {},
     };
 
+    this.requestLogin = this.requestLogin.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -170,6 +174,11 @@ class SignupForm extends Component {
     });
   }
 
+  requestLogin() {
+    this.props.requestLogin();
+    this.props.onSignupCancelled && this.props.onSignupCancelled();
+  }
+
   render() {
     if (this.state.user.id) {
       return <AccountCreated {...this.state.user}></AccountCreated>;
@@ -274,7 +283,7 @@ class SignupForm extends Component {
           <hr className='w-75 mx-auto' />
 
           <div className='text-center form-optionLink'>
-            <a href='#'>Already have a account?</a>
+            <a href='#' onClick={this.requestLogin}>Already have an account?</a>
           </div>
         </form>
       </div>
@@ -282,4 +291,22 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm;
+SignupForm.propTypes = {
+  requestLogin: PropTypes.func,
+  onSignupCancelled: PropTypes.func,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isLoggedIn: state.auth.isLoggedIn,
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestLogin: () => dispatch(requestAuth()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm);

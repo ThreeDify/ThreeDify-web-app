@@ -44,7 +44,7 @@ class SignupModal extends React.Component {
               >
                 <span aria-hidden='true'>&times;</span>
               </button>
-              <SignupForm></SignupForm>
+              <SignupForm onSignupCancelled={this.props.closeModal}></SignupForm>
             </div>
           </div>
         </div>
