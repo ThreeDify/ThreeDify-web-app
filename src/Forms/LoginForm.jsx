@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
 import {
@@ -9,6 +10,7 @@ import {
 import { login } from '../Utils/auth';
 import InputField from '../Components/InputField';
 import { STATUS_OK } from '../Constants/httpStatus';
+import { requestSignup } from '../Store/Actions/auth';
 import PasswordField from '../Components/PasswordField';
 
 class LoginForm extends Component {
@@ -22,9 +24,10 @@ class LoginForm extends Component {
       loginError: '',
     };
 
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.requestSignup = this.requestSignup.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleUsernameChange(e) {
@@ -92,6 +95,11 @@ class LoginForm extends Component {
     this.setState({
       loginError: LOGIN_ERROR,
     });
+  }
+
+  requestSignup() {
+    this.props.requestSignup();
+    this.props.onLoginCancelled && this.props.onLoginCancelled();
   }
 
   disable() {
@@ -166,8 +174,9 @@ class LoginForm extends Component {
 
           <hr className='w-75 mx-auto'></hr>
 
-          <div className='text-center form-optionLink'>
+          <div className='text-center form-optionLink d-flex flex-column'>
             <a href='#'>Forgot Password?</a>
+            <a href='#' onClick={this.requestSignup}>Create a new account?</a>
           </div>
         </form>
       </div>
@@ -181,6 +190,14 @@ LoginForm.propTypes = {
   onLoginSuccess: PropTypes.func,
   onLoginFailed: PropTypes.func,
   onLoginError: PropTypes.func,
+  onLoginCancelled: PropTypes.func,
+  requestSignup: PropTypes.func,
 };
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    requestSignup: () => dispatch(requestSignup()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LoginForm);
