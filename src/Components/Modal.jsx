@@ -63,6 +63,7 @@ class Modal extends React.Component {
     });
 
     this.props.onClose && this.props.onClose(e);
+    this.props.show && this.props.onCancel && this.props.onCancel(e);
   }
 
   detachEvents() {
@@ -80,13 +81,13 @@ class Modal extends React.Component {
   }
 
   openModal() {
-    if (!this.isOpening && !this.isOpen) {
+    if (!this.state.isOpening && !this.state.isOpen) {
       jQuery(this.ref.current).modal('show');
     }
   }
 
   closeModal() {
-    if (!this.isClosing && !this.isClosed) {
+    if (!this.state.isClosing && !this.state.isClosed) {
       jQuery(this.ref.current).modal('hide');
     }
   }
@@ -191,6 +192,7 @@ Modal.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onClosing: PropTypes.func,
+  onCancel: PropTypes.func,
 };
 
 export default Modal;

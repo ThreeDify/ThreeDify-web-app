@@ -9,6 +9,7 @@ import {
   TOKEN_REFRESH_SUCCESS_ACTION,
   TOKEN_REFRESH_FAILED_ACTION,
   NOP_ACTION,
+  CLOSE_LOGIN_MODAL,
 } from '../actionTypes';
 import store from '../index';
 import { STATUS_OK } from '../../Constants/httpStatus';
@@ -23,6 +24,12 @@ export function requestAuth() {
 export function requestSignup() {
   return {
     type: REQUEST_SIGNUP_ACTION,
+  };
+}
+
+export function closeLoginModal() {
+  return {
+    type: CLOSE_LOGIN_MODAL,
   };
 }
 

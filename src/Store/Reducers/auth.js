@@ -10,6 +10,8 @@ import {
   TOKEN_REFRESH_SUCCESS_ACTION,
   TOKEN_REFRESH_BEGINS_ACTION,
   TOKEN_REFRESH_FAILED_ACTION,
+  CLOSE_LOGIN_MODAL,
+  FETCH_USER_FAILED_ACTION,
 } from '../actionTypes';
 
 function isAuthRequested(state = false, action) {
@@ -17,7 +19,7 @@ function isAuthRequested(state = false, action) {
     case REQUEST_AUTH_ACTION:
       return true;
     case LOGIN_ACTION:
-      return false;
+    case CLOSE_LOGIN_MODAL:
     case CANCEL_AUTH_ACTION:
       return false;
     default:
@@ -41,6 +43,8 @@ function isLoggedIn(state = false, action) {
     case LOGIN_ACTION:
       return true;
     case LOGOUT_ACTION:
+    case CANCEL_AUTH_ACTION:
+    case FETCH_USER_FAILED_ACTION:
       return false;
     default:
       return state;

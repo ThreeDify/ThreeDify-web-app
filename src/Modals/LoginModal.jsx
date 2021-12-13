@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Modal from '../Components/Modal';
 import LoginForm from '../Forms/LoginForm';
-import { login, cancelAuth } from '../Store/Actions/auth';
+import { login, cancelAuth, closeLoginModal } from '../Store/Actions/auth';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ class LoginModal extends React.Component {
     };
 
     this.onClose = this.onClose.bind(this);
+    this.onCancel = this.onCancel.bind(this);
     this.onLoginSuccess = this.onLoginSuccess.bind(this);
     this.onLoginFailed = this.onLoginFailed.bind(this);
   }
@@ -23,9 +24,12 @@ class LoginModal extends React.Component {
     this.props.closeModal();
   }
 
+  onCancel() {
+    this.props.cancelAuth();
+  }
+
   onLoginSuccess(success) {
     this.props.login(success.data);
-    this.props.closeModal();
   }
 
   onLoginFailed(error) {
@@ -39,6 +43,7 @@ class LoginModal extends React.Component {
       <Modal
         show={this.props.isAuthRequested}
         onClose={this.onClose}
+        onCancel={this.onCancel}
         parent='#root'
       >
         <div className='container-fluid'>
@@ -47,7 +52,7 @@ class LoginModal extends React.Component {
               <button
                 type='button'
                 className='close-modal'
-                onClick={this.props.closeModal}
+                onClick={this.onCancel}
               >
                 <span aria-hidden='true'>&times;</span>
               </button>
@@ -69,6 +74,7 @@ LoginModal.propTypes = {
   isAuthRequested: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   closeModal: PropTypes.func,
+  cancelAuth: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
@@ -80,7 +86,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    closeModal: () => dispatch(cancelAuth()),
+    closeModal: () => dispatch(closeLoginModal()),
+    cancelAuth: () => dispatch(cancelAuth()),
     login: (token) => dispatch(login(token)),
   };
 };
